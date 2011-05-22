@@ -1,0 +1,5 @@
+h1. AS3-DOM
+
+AS3-DOM is a attempt to provide the ability to facilitate a document object model for AS3.
+
+AS3-DOM uses the "MIT":http://en.wikipedia.org/wiki/MIT_License license.
