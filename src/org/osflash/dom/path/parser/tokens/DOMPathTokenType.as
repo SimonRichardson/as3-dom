@@ -45,6 +45,8 @@ package org.osflash.dom.path.parser.tokens
 		
 		public static const RIGHT_SQUARE : DOMPathTokenType = new DOMPathTokenType(0x19);
 		
+		public static const ATTRIBUTE : DOMPathTokenType = new DOMPathTokenType(0x20);
+		
 		/**
 		 * @private
 		 */
@@ -85,7 +87,8 @@ package org.osflash.dom.path.parser.tokens
 												QUESTION,
 												COLON,
 												LEFT_SQUARE,
-												RIGHT_SQUARE
+												RIGHT_SQUARE,
+												ATTRIBUTE
 											 ]);
 		}
 		
@@ -115,6 +118,7 @@ package org.osflash.dom.path.parser.tokens
 				case COLON.type: return ':';
 				case LEFT_SQUARE.type: return '[';
 				case RIGHT_SQUARE.type: return ']';
+				case ATTRIBUTE.type: return '@';
 				default:
 					DOMPathError.throwError(DOMPathError.UNEXPECTED_TOKEN_TYPE);
 			}
