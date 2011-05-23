@@ -121,7 +121,10 @@ package org.osflash.dom.path.parser.tokens
 				case ATTRIBUTE.type: return '@';
 				default:
 					DOMPathError.throwError(DOMPathError.UNEXPECTED_TOKEN_TYPE);
+					break;
 			}
+			
+			return null;
 		}
 		
 		/**
