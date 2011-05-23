@@ -141,35 +141,6 @@ package org.osflash.dom.path.parser
 					else return new DOMPathToken(DOMPathTokenType.INTEGER, buffer);
 				}
 				
-				// Work through index access
-				if(charCode == 91)
-				{
-					if(buffer != '') DOMPathError.throwError(DOMPathError.BUFFER_OVERFLOW);
-					
-					char = _source.charAt(_index);
-					charCode = char.charCodeAt(0);
-						
-					_index++;
-					
-					while(hasNext && (charCode >= 48 && charCode <= 57))
-					{
-						buffer += char;
-						
-						char = _source.charAt(_index);
-						charCode = char.charCodeAt(0);
-						
-						_index++;
-						
-						if(charCode == 93) 
-							return new DOMPathToken(DOMPathTokenType.INDEX_ACCESS, buffer);
-						else if(!(charCode >= 48 && charCode <= 57))
-						{
-							// We've found something...
-							DOMPathError.throwError(DOMPathError.UNEXPECTED_CHAR);
-						}
-					}
-				}
-				
 				// Work through the types
 				const type : DOMPathTokenType = _types[char];
 				if(null != type)

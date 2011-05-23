@@ -41,7 +41,9 @@ package org.osflash.dom.path.parser.tokens
 
 		public static const COLON : DOMPathTokenType = new DOMPathTokenType(0x17);
 
-		public static const INDEX_ACCESS : DOMPathTokenType = new DOMPathTokenType(0x18);
+		public static const LEFT_SQUARE : DOMPathTokenType = new DOMPathTokenType(0x18);
+		
+		public static const RIGHT_SQUARE : DOMPathTokenType = new DOMPathTokenType(0x19);
 		
 		/**
 		 * @private
@@ -81,7 +83,9 @@ package org.osflash.dom.path.parser.tokens
 												TILDE,
 												BANG,
 												QUESTION,
-												COLON
+												COLON,
+												LEFT_SQUARE,
+												RIGHT_SQUARE
 											 ]);
 		}
 		
@@ -109,7 +113,8 @@ package org.osflash.dom.path.parser.tokens
 				case BANG.type: return '!';
 				case QUESTION.type: return '?';
 				case COLON.type: return ':';
-				case INDEX_ACCESS.type: return '[]';
+				case LEFT_SQUARE.type: return '[';
+				case RIGHT_SQUARE.type: return ']';
 				default:
 					DOMPathError.throwError(DOMPathError.UNEXPECTED_TOKEN_TYPE);
 			}
