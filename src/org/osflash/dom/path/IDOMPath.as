@@ -5,5 +5,7 @@ package org.osflash.dom.path
 	 */
 	public interface IDOMPath
 	{
+		
+		
 	}
 }

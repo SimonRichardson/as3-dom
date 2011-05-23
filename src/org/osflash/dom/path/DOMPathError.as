@@ -6,6 +6,12 @@ package org.osflash.dom.path
 	public class DOMPathError extends Error
 	{
 		
+		public static const UNEXPECTED_CHAR : int = 0x01;
+
+		public static const LEXER_EXHAUSTED : int = 0x02;
+
+		public static const BUFFER_OVERFLOW : int = 0x03;
+		
 		
 		public function DOMPathError(message : String)
 		{
@@ -22,6 +28,12 @@ package org.osflash.dom.path
 		{
 			switch(type)
 			{
+				case UNEXPECTED_CHAR:
+					return 'Unexpected char';
+				case LEXER_EXHAUSTED:
+					return 'Lexer exhausted';
+				case BUFFER_OVERFLOW:
+					return 'Buffer overflow';
 				default:
 					throw new ArgumentError('Given argument is Unknown.');  
 			}
@@ -37,6 +49,12 @@ package org.osflash.dom.path
 		{
 			switch(type)
 			{
+				case UNEXPECTED_CHAR:
+					throw new DOMPathError('Unexpected character found when parsing');
+				case LEXER_EXHAUSTED:
+					throw new DOMPathError('Lexer has been exhausted');
+				case BUFFER_OVERFLOW:
+					throw new DOMPathError('Buffer overflow has occured');
 				default:
 					throw new ArgumentError('Given argument is Unknown.');
 			}

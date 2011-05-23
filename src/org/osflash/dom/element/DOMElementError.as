@@ -17,6 +17,8 @@ package org.osflash.dom.element
 		public static const NODE_NAME_UNDEFINED : int = 0x05;
 
 		public static const NODE_NAME_INVALID : int = 0x06;
+
+		public static const DOCUMENT_IS_IMMUTABLE : int = 0x07;
 		
 		public function DOMElementError(message : String)
 		{
@@ -45,6 +47,8 @@ package org.osflash.dom.element
 					return 'Node name undefined';
 				case NODE_NAME_INVALID:
 					return 'Node name is invalid';
+				case DOCUMENT_IS_IMMUTABLE:
+					return 'Document is immutable';
 				default:
 					throw new ArgumentError('Given argument is Unknown.');  
 			}
@@ -80,6 +84,9 @@ package org.osflash.dom.element
 				case NODE_NAME_INVALID:
 					throw new DOMElementError('Node name is invalid');
 					break;
+				case DOCUMENT_IS_IMMUTABLE:
+					throw new DOMElementError('Document value can not be changed as it is ' +
+																					'immutable');
 				default:
 					throw new ArgumentError('Given argument is Unknown.');
 			}
