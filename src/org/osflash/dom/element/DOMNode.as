@@ -13,6 +13,11 @@ package org.osflash.dom.element
 	{
 		
 		/**
+		 * Cache this here, because it's a lot faster at runtime.
+		 */
+		private static const NODE_NAME_REG_EXP : RegExp = /(\A[0-9])|([^a-zA-Z0-9\_])/;
+		
+		/**
 		 * Private backing variable for name property.
 		 * 
 		 * @private
@@ -88,7 +93,7 @@ package org.osflash.dom.element
 			// Check we have a valid name. It can not start with a number or contain characters
 			// that are not alphanumberic - underscores are allowed (we're following perl 
 			// conventions to determin this.)
-			const find : Array = value.match(/(\A[0-9])|([^a-zA-Z0-9\_])/);
+			const find : Array = value.match(NODE_NAME_REG_EXP);
 			if(null != find && find.length > 0)
 				DOMElementError.throwError(DOMElementError.NODE_NAME_INVALID);
 			
