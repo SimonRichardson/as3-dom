@@ -8,7 +8,7 @@ package org.osflash.dom.path.parser
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
-	public class DOMPathLexer implements IDOMPathLexer
+	public class DOMPathLexer implements IDOMPathTokenIterator
 	{
 		
 		/**

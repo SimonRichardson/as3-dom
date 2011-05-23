@@ -13,6 +13,18 @@ package org.osflash.dom.path
 		public static const BUFFER_OVERFLOW : int = 0x03;
 		
 		public static const UNEXPECTED_TOKEN_TYPE : int = 0x04;
+
+		public static const TOKEN_ASSIGNED_ALREADY : int = 0x05;
+		
+		public static const PARSER_EXHAUSTED : int = 0x06;
+		
+		public static const PARSER_EXHAUSTED_LEXER : int = 0x07;
+
+		public static const TOKEN_IS_NULL : int = 0x08;
+
+		public static const UNEXPECTED_TOKEN : int = 0x09;
+
+		public static const PARSER_ERROR : int = 0x10;
 		
 		public function DOMPathError(message : String)
 		{
@@ -37,6 +49,18 @@ package org.osflash.dom.path
 					return 'Buffer overflow';
 				case UNEXPECTED_TOKEN_TYPE:
 					return 'Unexpected token type';
+				case TOKEN_ASSIGNED_ALREADY:
+					return 'Token assigned already';
+				case PARSER_EXHAUSTED:
+					return 'Parser exhausted';
+				case PARSER_EXHAUSTED_LEXER:
+					return 'Parser exhausted lexer';
+				case TOKEN_IS_NULL:
+					return 'Token is null';
+				case UNEXPECTED_TOKEN:
+					return 'Unexpected token';
+				case PARSER_ERROR:
+					return 'Parser error';
 				default:
 					throw new ArgumentError('Given argument is Unknown');  
 			}
@@ -60,6 +84,19 @@ package org.osflash.dom.path
 					throw new DOMPathError('Buffer overflow has occured');
 				case UNEXPECTED_TOKEN_TYPE:
 					throw new DOMPathError('Unexpected token type found');
+				case TOKEN_ASSIGNED_ALREADY:
+					throw new DOMPathError('Token has already been assigned and can not be ' + 
+																				'assigned again');
+				case PARSER_EXHAUSTED:
+					throw new DOMPathError('Parser has been exhausted');
+				case PARSER_EXHAUSTED_LEXER:
+					throw new DOMPathError('Parser has exhausted the lexer');
+				case TOKEN_IS_NULL:
+					throw new DOMPathError('Token is null');
+				case UNEXPECTED_TOKEN:
+					throw new DOMPathError('Unexpected token');
+				case PARSER_ERROR:
+					throw new DOMPathError('Parser error');
 				default:
 					throw new ArgumentError('Given argument is Unknown');
 			}

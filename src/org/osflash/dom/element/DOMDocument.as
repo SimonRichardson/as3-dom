@@ -1,7 +1,9 @@
 package org.osflash.dom.element
 {
 	import org.osflash.dom.path.parser.DOMPathLexer;
-	import org.osflash.dom.path.parser.IDOMPathLexer;
+	import org.osflash.dom.path.parser.DOMPathParser;
+	import org.osflash.dom.path.parser.IDOMPathTokenIterator;
+	import org.osflash.dom.path.parser.IDOMPathParser;
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
@@ -23,7 +25,10 @@ package org.osflash.dom.element
 		{
 			if(null == path || path.length < 1) throw new ArgumentError('Given value can not be ' + 
 																							'null');
-			const lexer : IDOMPathLexer = new DOMPathLexer(path);
+			const lexer : IDOMPathTokenIterator = new DOMPathLexer(path);
+			const parser : IDOMPathParser = new DOMPathParser(lexer);
+			parser.parseExpression();
+			
 			return null;
 		}
 		
