@@ -25,6 +25,8 @@ package org.osflash.dom.path
 		public static const UNEXPECTED_TOKEN : int = 0x09;
 
 		public static const PARSER_ERROR : int = 0x10;
+
+		public static const INVALID_EQUALITY : int = 0x11;
 		
 		public function DOMPathError(message : String)
 		{
@@ -61,6 +63,8 @@ package org.osflash.dom.path
 					return 'Unexpected token';
 				case PARSER_ERROR:
 					return 'Parser error';
+				case INVALID_EQUALITY:
+					return 'Invalid equality';
 				default:
 					throw new ArgumentError('Given argument is Unknown');  
 			}
@@ -97,6 +101,8 @@ package org.osflash.dom.path
 					throw new DOMPathError('Unexpected token');
 				case PARSER_ERROR:
 					throw new DOMPathError('Parser error');
+				case INVALID_EQUALITY:
+					throw new DOMPathError('The left-hand side of an assignment must be a string');
 				default:
 					throw new ArgumentError('Given argument is Unknown');
 			}

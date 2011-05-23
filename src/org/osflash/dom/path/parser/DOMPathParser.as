@@ -1,7 +1,10 @@
 package org.osflash.dom.path.parser
 {
+	import org.osflash.dom.path.parser.parselets.DOMPathCallMethodParselet;
 	import org.osflash.dom.path.DOMPathError;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
+	import org.osflash.dom.path.parser.parselets.DOMPathEqualityParselet;
+	import org.osflash.dom.path.parser.parselets.DOMPathStringParselet;
 	import org.osflash.dom.path.parser.parselets.IDOMPathInfixParselet;
 	import org.osflash.dom.path.parser.parselets.IDOMPathPrefixParselet;
 	import org.osflash.dom.path.parser.tokens.DOMPathToken;
@@ -34,6 +37,11 @@ package org.osflash.dom.path.parser
 		 */
 		private var _infix : Dictionary;
 		
+		/**
+		 * Constructor for the DOMPathParser, which requires a iterator to iterate through.
+		 * 
+		 * @param iterator IDOMPathTokenIterator
+		 */
 		public function DOMPathParser(iterator : IDOMPathTokenIterator)
 		{
 			_tokens = iterator;
@@ -42,6 +50,11 @@ package org.osflash.dom.path.parser
 			
 			_prefix = new Dictionary();
 			_infix = new Dictionary();
+			
+			registerPrefix(DOMPathTokenType.STRING, new DOMPathStringParselet());
+			
+			registerInfix(DOMPathTokenType.EQUALITY, new DOMPathEqualityParselet());
+			registerInfix(DOMPathTokenType.LEFT_PAREN, new DOMPathCallMethodParselet());
 		}
 		
 		/**
@@ -115,7 +128,7 @@ package org.osflash.dom.path.parser
 		}
 				
 		/**
-		 * @private
+		 * @inheritDoc
 		 */
 		public function match(expected : DOMPathTokenType) : Boolean
 		{
@@ -127,7 +140,7 @@ package org.osflash.dom.path.parser
 		}
 		
 		/**
-		 * @private
+		 * @inheritDoc
 		 */
 		public function consume() : DOMPathToken
 		{
@@ -138,7 +151,7 @@ package org.osflash.dom.path.parser
 		}
 		
 		/**
-		 * @private
+		 * @inheritDoc
 		 */
 		public function consumeToken(expected : DOMPathTokenType) : DOMPathToken
 		{
@@ -149,7 +162,7 @@ package org.osflash.dom.path.parser
 		}
 		
 		/**
-		 * @private
+		 * @inheritDoc
 		 */
 		public function advance(distance : int) : DOMPathToken
 		{
@@ -168,7 +181,7 @@ package org.osflash.dom.path.parser
 		}
 		
 		/**
-		 * @private
+		 * @inheritDoc
 		 */
 		public function get precedence() : int
 		{
