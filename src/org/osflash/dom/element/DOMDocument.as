@@ -25,8 +25,8 @@ package org.osflash.dom.element
 		{
 			if(null == path || path.length < 1) throw new ArgumentError('Given value can not be ' + 
 																							'null');
-			const lexer : IDOMPathTokenIterator = new DOMPathLexer(path);
-			const parser : IDOMPathParser = new DOMPathParser(lexer);
+			const tokens : IDOMPathTokenIterator = new DOMPathLexer(path);
+			const parser : IDOMPathParser = new DOMPathParser(tokens);
 			parser.parseExpression();
 			
 			return null;
