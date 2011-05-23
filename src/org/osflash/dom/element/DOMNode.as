@@ -88,7 +88,8 @@ package org.osflash.dom.element
 			// Check we have a valid name. It can not start with a number or contain characters
 			// that are not alphanumberic - underscores are allowed (we're following perl 
 			// conventions to determin this.)
-			if(value.match(/(\A[0-9])|([^a-zA-Z0-9\_])/g).length > 0)
+			const find : Array = value.match(/(\A[0-9])|([^a-zA-Z0-9\_])/);
+			if(null != find && find.length > 0)
 				DOMElementError.throwError(DOMElementError.NODE_NAME_INVALID);
 			
 			if(name == value) return;
