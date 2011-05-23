@@ -37,8 +37,55 @@ package org.osflash.dom.element
 		 */
 		public function addAt(node : IDOMNode, index : int) : IDOMNode
 		{
-			// TODO: Auto-generated method stub
-			return null;
+			if(index < 0) throw new RangeError('Given index is out of range (index=' + index + ')');
+			if(index > numChildren) throw new RangeError('Given index is outside of dense length');
+			
+			// Create the children if it was set to null.			
+			if(null == _children) _children = new Vector.<IDOMNode>();
+			
+			// If it already exists, throw an error to prevent re-adding.
+			if(contains(node)) DOMElementError.throwError(DOMElementError.NODE_ALREADY_EXISTS);
+			
+			// Reparent the node which you are trying to add.
+			if(node.parent) node.parent.remove(node);
+			
+			var i : int;
+			if(index == 0)
+			{
+				// Adding to the front
+				_children.unshift(node);
+				
+				i = _children.length;
+				while(--i > -1)
+				{
+					_children[i].index = i;
+				}
+			}
+			else if(index == numChildren)
+			{
+				// Adding to the rear
+				node.index = numChildren;
+				
+				_children.push(node);
+			} 
+			else
+			{
+				_children.splice(index, 1, node);
+				
+				i = _children.length;
+				while(--i > -1)
+				{
+					const child : IDOMNode = _children[i];
+					// We don't actually need to reset all the index, because we assume that they
+					// should be correct.
+					if(child == node) break;
+					child.index = i;
+				}
+			}
+			
+			node.parent = this;
+			
+			return node;
 		}
 
 		/**
@@ -47,7 +94,7 @@ package org.osflash.dom.element
 		public function getAt(index : int) : IDOMNode
 		{
 			if(index < 0 || index >= numChildren) throw new RangeError('Given index is out of ' + 
-									'Range (index=' + index + ', numChildren=' + numChildren + ')');
+									'range (index=' + index + ', numChildren=' + numChildren + ')');
 			return _children[index];
 		}
 		
@@ -57,7 +104,7 @@ package org.osflash.dom.element
 		public function getIndex(node : IDOMNode) : int
 		{
 			if(numChildren == 0 || !contains(node)) 
-				DOMError.throwError(DOMError.NODE_DOES_NOT_EXIST);
+				DOMElementError.throwError(DOMElementError.NODE_DOES_NOT_EXIST);
 			
 			return _children.indexOf(node);
 		}
@@ -78,13 +125,13 @@ package org.osflash.dom.element
 			if(null == _children) return null;
 			
 			if(index < 0 || index >= numChildren) throw new RangeError('Given index is out of ' + 
-									'Range (index=' + index + ', numChildren=' + numChildren + ')');
+									'range (index=' + index + ', numChildren=' + numChildren + ')');
 			
 			const nodes : Vector.<IDOMNode> = _children.splice(index, 1);
-			if(nodes.length == 0) DOMError.throwError(DOMError.REMOVE_NODE_LENGTH_ZERO);
+			if(nodes.length == 0) DOMElementError.throwError(DOMElementError.REMOVE_NODE_LENGTH_ZERO);
 			
 			const domNode : IDOMNode = nodes[0];
-			if(domNode != node) DOMError.throwError(DOMError.REMOVE_NODE_MISMATCH);
+			if(domNode != node) DOMElementError.throwError(DOMElementError.REMOVE_NODE_MISMATCH);
 			
 			domNode.index = -1;
 			domNode.parent = null;
@@ -139,5 +186,10 @@ package org.osflash.dom.element
 		 */
 		public function get id() : String { return _id; }
 		public function set id(value : String) : void { _id = value; }
+		
+		/**
+		 * @private
+		 */
+		protected function get children() : Vector.<IDOMNode> { return _children; }
 	}
 }

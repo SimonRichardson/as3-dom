@@ -6,8 +6,6 @@ package org.osflash.dom.element
 	public interface IDOMDocument extends IDOMElement
 	{
 		
-		function getElementsById(id : String) : Vector.<IDOMNode>;
-		
 		function select(path : String) : Vector.<IDOMNode>;
 	}
 }
