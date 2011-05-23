@@ -1,6 +1,5 @@
 package org.osflash.dom.element
 {
-	import org.osflash.dom.IDOMUniqueIdentifier;
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */

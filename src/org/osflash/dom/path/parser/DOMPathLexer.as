@@ -41,7 +41,16 @@ package org.osflash.dom.path.parser
 			
 			_types = new Dictionary();
 			
-			
+			// Fill the items to test
+			const types : Vector.<DOMPathTokenType> = DOMPathTokenType.getTypes();
+			const total : int = types.length;
+			for(var i : int = 0; i<total; i++)
+			{
+				 const type : DOMPathTokenType = types[i];
+				 const value : String = type.value;
+				 if(null == value) DOMPathError.throwError(DOMPathError.UNEXPECTED_TOKEN_TYPE);
+				 _types[value] = type;
+			}
 		}
 		
 		/**
@@ -119,12 +128,12 @@ package org.osflash.dom.path.parser
 							}
 						}
 						
-						// append to the buffer
 						char = _source.charAt(_index);
 						charCode = char.charCodeAt(0);
 						
 						_index++;
 						
+						// append to the buffer
 						buffer += char;
 					}
 					
@@ -132,11 +141,41 @@ package org.osflash.dom.path.parser
 					else return new DOMPathToken(DOMPathTokenType.INTEGER, buffer);
 				}
 				
+				// Work through index access
+				if(charCode == 91)
+				{
+					if(buffer != '') DOMPathError.throwError(DOMPathError.BUFFER_OVERFLOW);
+					
+					char = _source.charAt(_index);
+					charCode = char.charCodeAt(0);
+						
+					_index++;
+					
+					while(hasNext && (charCode >= 48 && charCode <= 57))
+					{
+						buffer += char;
+						
+						char = _source.charAt(_index);
+						charCode = char.charCodeAt(0);
+						
+						_index++;
+						
+						if(charCode == 93) 
+							return new DOMPathToken(DOMPathTokenType.INDEX_ACCESS, buffer);
+						else if(!(charCode >= 48 && charCode <= 57))
+						{
+							// We've found something...
+							DOMPathError.throwError(DOMPathError.UNEXPECTED_CHAR);
+						}
+					}
+				}
+				
 				// Work through the types
 				const type : DOMPathTokenType = _types[char];
 				if(null != type)
 				{
-					// Use a bantam lexer here
+					// Use a pratt lexer here
+					// @see
 					// http://journal.stuffwithstuff.com/2011/03/19/pratt-parsers-expression-parsing-made-easy/
 					return new DOMPathToken(type, char);
 				}

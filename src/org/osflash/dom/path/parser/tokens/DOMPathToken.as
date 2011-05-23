@@ -5,6 +5,8 @@ package org.osflash.dom.path.parser.tokens
 	 */
 	public class DOMPathToken
 	{
+		
+		
 
 		public function DOMPathToken(type : DOMPathTokenType, buffer : String)
 		{

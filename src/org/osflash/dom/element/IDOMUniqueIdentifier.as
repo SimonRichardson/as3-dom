@@ -1,4 +1,4 @@
-package org.osflash.dom
+package org.osflash.dom.element
 {
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info

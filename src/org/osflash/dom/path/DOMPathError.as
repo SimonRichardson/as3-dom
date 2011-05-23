@@ -12,6 +12,7 @@ package org.osflash.dom.path
 
 		public static const BUFFER_OVERFLOW : int = 0x03;
 		
+		public static const UNEXPECTED_TOKEN_TYPE : int = 0x04;
 		
 		public function DOMPathError(message : String)
 		{
@@ -34,8 +35,10 @@ package org.osflash.dom.path
 					return 'Lexer exhausted';
 				case BUFFER_OVERFLOW:
 					return 'Buffer overflow';
+				case UNEXPECTED_TOKEN_TYPE:
+					return 'Unexpected token type';
 				default:
-					throw new ArgumentError('Given argument is Unknown.');  
+					throw new ArgumentError('Given argument is Unknown');  
 			}
 		}
 		
@@ -50,13 +53,15 @@ package org.osflash.dom.path
 			switch(type)
 			{
 				case UNEXPECTED_CHAR:
-					throw new DOMPathError('Unexpected character found when parsing');
+					throw new DOMPathError('Unexpected character found');
 				case LEXER_EXHAUSTED:
 					throw new DOMPathError('Lexer has been exhausted');
 				case BUFFER_OVERFLOW:
 					throw new DOMPathError('Buffer overflow has occured');
+				case UNEXPECTED_TOKEN_TYPE:
+					throw new DOMPathError('Unexpected token type found');
 				default:
-					throw new ArgumentError('Given argument is Unknown.');
+					throw new ArgumentError('Given argument is Unknown');
 			}
 		}
 	}
