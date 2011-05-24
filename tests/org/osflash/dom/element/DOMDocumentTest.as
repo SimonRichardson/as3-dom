@@ -24,7 +24,7 @@ package org.osflash.dom.element
 		[Test]
 		public function add_elements_and_path_select_all_element_nodes() : void
 		{
-			const node : DOMNode = new DOMNode();
+			const node : DOMNode = new DOMNode('node');
 			
 			document.add(node);
 			
@@ -36,15 +36,15 @@ package org.osflash.dom.element
 		[Test]
 		public function add_elements_and_path_select_all_documents_nodes() : void
 		{
-			const node0 : DOMNode = new DOMNode();
-			const node1 : DOMNode = new DOMNode();
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
 			
-			const subnode0 : DOMNode = new DOMNode();
-			const subnode1 : DOMNode = new DOMNode();
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
 			
-			const subsubnode0 : DOMNode = new DOMNode();
-			const subsubnode1 : DOMNode = new DOMNode();
-			const subsubnode2 : DOMNode = new DOMNode();
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			const subsubnode1 : DOMNode = new DOMNode('subsubnode1');
+			const subsubnode2 : DOMNode = new DOMNode('subsubnode2');
 			
 			document.add(node0);
 			document.add(node1);
@@ -58,8 +58,8 @@ package org.osflash.dom.element
 			subnode1.add(subsubnode2);
 			
 			const result : Vector.<IDOMNode> = document.select('//*');
-			assertEquals('Result length should be 2', 2, result.length);
-			assertEquals('Result item at 0 index should be same as initial node', node0, result[0]);
+			
+			assertEquals('Result length should be 7', 7, result.length);
 		}
 	}
 }

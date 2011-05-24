@@ -12,12 +12,14 @@ package org.osflash.dom.element
 	public class DOMDocument extends DOMNode implements IDOMDocument
 	{
 		
+		private static const NAME : String = 'DOMDocument';
+		
 		/**
 		 * 
 		 */
 		public function DOMDocument()
 		{
-			super();
+			super(NAME);
 		}
 
 		/**
@@ -42,6 +44,11 @@ package org.osflash.dom.element
 			DOMElementError.throwError(DOMElementError.DOCUMENT_IS_IMMUTABLE);
 			
 			value;
+		}
+		
+		override public function toString() : String 
+		{
+			return "[DOMDocument]";
 		}
 	}
 }

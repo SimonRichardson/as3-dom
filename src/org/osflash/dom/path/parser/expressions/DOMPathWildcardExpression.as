@@ -1,5 +1,6 @@
 package org.osflash.dom.path.parser.expressions
 {
+	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
 	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
@@ -17,7 +18,9 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		override public function describe(stream : IDOMPathOutputStream) : void
 		{
-			stream.writeUTF('*');
+			stream.writeUTF('(');
+			stream.writeUTF(DOMPathTokenType.getType(DOMPathTokenType.ASTERISK.type));
+			stream.writeUTF(')');
 		}
 		
 		/**

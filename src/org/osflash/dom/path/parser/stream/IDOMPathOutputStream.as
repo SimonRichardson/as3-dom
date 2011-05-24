@@ -7,5 +7,7 @@ package org.osflash.dom.path.parser.stream
 	{
 		
 		function writeUTF(value : String) : void;
+		
+		function toString() : String;
 	}
 }

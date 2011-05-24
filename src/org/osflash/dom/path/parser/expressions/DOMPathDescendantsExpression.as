@@ -1,6 +1,7 @@
 package org.osflash.dom.path.parser.expressions
 {
 	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
+	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
@@ -16,9 +17,15 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		private var _type : int;
 		
-		public function DOMPathDescendantsExpression(type : int)
+		/**
+		 * @private
+		 */
+		private var _descendants : IDOMPathExpression;
+		
+		public function DOMPathDescendantsExpression(type : int, descendants : IDOMPathExpression)
 		{
 			_type = type;
+			_descendants = descendants;
 		}
 		
 		/**
@@ -28,7 +35,15 @@ package org.osflash.dom.path.parser.expressions
 		{
 			stream.writeUTF("(");
 			
-			// TODO : workout how to write descendants here
+			const slash : String = DOMPathTokenType.getType(DOMPathTokenType.FORWARD_SLASH.type);
+			if(_type == ALL)
+			{
+				stream.writeUTF(slash);
+				stream.writeUTF(slash);
+			}
+			else stream.writeUTF(slash);
+			
+			_descendants.describe(stream);
 			
 			stream.writeUTF(")");
 		}
@@ -40,6 +55,11 @@ package org.osflash.dom.path.parser.expressions
 		{
 			if(_type == ALL) return DOMPathExpressionType.ALL_DESCENDANTS;
 			else return DOMPathExpressionType.DESCENDANTS;
+		}
+
+		public function get descendants() : IDOMPathExpression
+		{
+			return _descendants;
 		}
 	}
 }

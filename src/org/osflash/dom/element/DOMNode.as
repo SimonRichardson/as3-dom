@@ -49,9 +49,11 @@ package org.osflash.dom.element
 		/**
 		 * 
 		 */
-		public function DOMNode()
+		public function DOMNode(name : String)
 		{
 			super();
+			
+			this.name = name;
 		}
 		
 		/**
@@ -158,6 +160,11 @@ package org.osflash.dom.element
 		override public function get type() : IDOMElementType
 		{
 			return DOMElementType.NODE;
+		}
+		
+		public function toString() : String 
+		{
+			return "[DOMNode (name=" + name + ")]";
 		}
 	}
 }

@@ -5,7 +5,7 @@ package org.osflash.dom.path.parser.stream
 	 */
 	public class DOMPathOutputStream implements IDOMPathOutputStream
 	{
-		
+
 		/**
 		 * @private
 		 */
@@ -22,6 +22,14 @@ package org.osflash.dom.path.parser.stream
 		public function writeUTF(value : String) : void
 		{
 			_buffer += value;
+		}
+		
+		/**
+		 * Return the stream as a string
+		 */
+		public function toString() : String
+		{
+			return _buffer;
 		}
 	}
 }

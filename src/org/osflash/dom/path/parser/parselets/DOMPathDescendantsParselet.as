@@ -21,7 +21,10 @@ package org.osflash.dom.path.parser.parselets
 			{
 				type = DOMPathDescendantsExpression.ALL;
 			}
-			return new DOMPathDescendantsExpression(type);
+			
+			const right : IDOMPathExpression = parser.parseExpression();
+			
+			return new DOMPathDescendantsExpression(type, right);
 		}
 	}
 }

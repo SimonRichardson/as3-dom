@@ -1,34 +1,34 @@
 package org.osflash.dom.path
 {
-	import org.osflash.dom.dom_namespace;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
 	import org.osflash.dom.element.utils.getDOMElementChildrenNormalised;
+	import org.osflash.dom.path.parser.expressions.DOMPathDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 
 	import flash.utils.getDefinitionByName;
-		
+
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
 	public class DOMPath implements IDOMPath
 	{
-		
+
 		public static const log : * = getDefinitionByName('trace');
-		
+
 		/**
 		 * @private
 		 */
 		private var _expression : IDOMPathExpression;
-		
+
 		public function DOMPath(expression : IDOMPathExpression)
 		{
-			if(null == expression) throw new ArgumentError('Given value can not be null');
-			
+			if (null == expression) throw new ArgumentError('Given value can not be null');
+
 			_expression = expression;
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
@@ -36,50 +36,57 @@ package org.osflash.dom.path
 		{
 			var nodes : Vector.<IDOMNode> = new Vector.<IDOMNode>();
 			var elements : Vector.<IDOMElement> = Vector.<IDOMElement>([element]);
-			
+
 			var i : int;
-			var index : int;
+			var j : int;
 			var total : int;
 			var domElement : IDOMElement;
+			var domChild : IDOMNode;
 			var domChildren : Vector.<IDOMNode>;
-			
+			var numChildren : int;
+
 			var expression : IDOMPathExpression = _expression;
-			
-			switch(expression.type)
+			while (expression)
 			{
-				case DOMPathExpressionType.WILDCARD:
-				case DOMPathExpressionType.DESCENDANTS:
-					total = elements.length;
-					for(i=0; i<total; i++)
-					{
-						domElement = elements[i];
-						if(domElement.numChildren > 0)
+				switch(expression.type)
+				{
+					case DOMPathExpressionType.WILDCARD:
+						total = elements.length;
+						for (i = 0; i < total; i++)
 						{
-							domChildren = domElement.dom_namespace::children;
-							nodes = nodes.concat(domChildren);
+							domElement = elements[i];
+							numChildren = domElement.numChildren;
+
+							for (j = 0; j < numChildren; j++)
+							{
+								domChild = domElement.getAt(j);
+								if (nodes.indexOf(domChild) == -1) nodes.push(domChild);
+							}
 						}
-					}
-					// TODO : check that descendants isn't the last expression, otherwise throw an syntax error
-					break;
-					
-				case DOMPathExpressionType.ALL_DESCENDANTS:
-					total = elements.length;
-					for(i=0; i<total; i++)
-					{
-						domElement = elements[i];
-						domChildren = getDOMElementChildrenNormalised(domElement);
-						if(domChildren.length > 0) elements = elements.concat(domChildren);
-					}
-					// remove the element from elements.
-					index = elements.indexOf(element);
-					elements.splice(index, 1);
-					break;
-										
-				default:
-					DOMPathError.throwError(DOMPathError.INVALID_EXPRESSION);
-					break;
+						break;
+						
+					case DOMPathExpressionType.ALL_DESCENDANTS:
+						total = elements.length;
+						for (i = 0; i < total; i++)
+						{
+							domElement = elements[i];
+							domChildren = getDOMElementChildrenNormalised(domElement);
+							if (domChildren.length > 0) elements = elements.concat(domChildren);
+						}
+						// move to the next expression
+						const descendantsExpression : DOMPathDescendantsExpression = expression 
+																	as DOMPathDescendantsExpression;
+						if (null == descendantsExpression)
+							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+						expression = descendantsExpression.descendants;
+						break;
+						
+					default:
+						DOMPathError.throwError(DOMPathError.INVALID_EXPRESSION);
+						break;
+				}
 			}
-				
+
 			return nodes;
 		}
 	}

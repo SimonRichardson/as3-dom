@@ -1,4 +1,4 @@
-<project name="as3-mixins" basedir="." default="swc">
+<project name="as3-dom" basedir="." default="swc">
 
 	<!-- Set up a prefix for all environment variables. -->
 	<property environment="env."/>

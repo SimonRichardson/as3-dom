@@ -31,6 +31,8 @@ package org.osflash.dom.path
 		public static const INVALID_EXPRESSION : int = 0x12;
 
 		public static const ABSTRACT_METHOD : int = 0x13;
+
+		public static const SYNTAX_ERROR : int = 0x14;
 		
 		public function DOMPathError(message : String)
 		{
@@ -73,6 +75,8 @@ package org.osflash.dom.path
 					return 'Invalid expression';
 				case ABSTRACT_METHOD:
 					return 'Abstract method';
+				case SYNTAX_ERROR:
+					return 'Syntax error';
 				default:
 					throw new ArgumentError('Given argument is Unknown');  
 			}
@@ -115,6 +119,8 @@ package org.osflash.dom.path
 					throw new DOMPathError('Unknown expression');
 				case ABSTRACT_METHOD:
 					throw new DOMPathError('Abstract method');
+				case SYNTAX_ERROR:
+					throw new DOMPathError('Syntax error');
 				default:
 					throw new ArgumentError('Given argument is Unknown');
 			}
