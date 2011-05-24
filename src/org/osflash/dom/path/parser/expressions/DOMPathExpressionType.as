@@ -8,9 +8,17 @@ package org.osflash.dom.path.parser.expressions
 
 		public static const WILDCARD : DOMPathExpressionType = new DOMPathExpressionType(0x01);
 		
-		public static const ALL_DESCENDANTS : DOMPathExpressionType = new DOMPathExpressionType(0x02);
+		public static const ALL_DESCENDANTS : DOMPathExpressionType = 
+																	new DOMPathExpressionType(0x02);
 		
 		public static const DESCENDANTS : DOMPathExpressionType = new DOMPathExpressionType(0x03);
+		
+		public static const FILTER_DESCENDANTS : DOMPathExpressionType = 
+																	new DOMPathExpressionType(0x04);
+
+		public static const STRING : DOMPathExpressionType = new DOMPathExpressionType(0x05);
+		
+		public static const NAME : DOMPathExpressionType = new DOMPathExpressionType(0x06);
 
 		/**
 		 * @private

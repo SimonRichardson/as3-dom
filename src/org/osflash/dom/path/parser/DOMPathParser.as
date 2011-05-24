@@ -5,7 +5,9 @@ package org.osflash.dom.path.parser
 	import org.osflash.dom.path.parser.parselets.DOMPathCallMethodParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathDescendantsParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathEqualityParselet;
+	import org.osflash.dom.path.parser.parselets.DOMPathFilterDescendantsParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathGroupParselet;
+	import org.osflash.dom.path.parser.parselets.DOMPathNameParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathPostfixOperatorParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathPrefixOperatorParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathStringParselet;
@@ -57,12 +59,14 @@ package org.osflash.dom.path.parser
 			_infix = new Dictionary();
 			
 			registerPrefix(DOMPathTokenType.STRING, new DOMPathStringParselet());
+			registerPrefix(DOMPathTokenType.NAME, new DOMPathNameParselet());
 			registerPrefix(DOMPathTokenType.ASTERISK, new DOMPathWildcardParselet());
 			registerPrefix(DOMPathTokenType.FORWARD_SLASH, new DOMPathDescendantsParselet());
 			registerPrefix(DOMPathTokenType.LEFT_PAREN, new DOMPathGroupParselet());
 			
 			registerInfix(DOMPathTokenType.EQUALITY, new DOMPathEqualityParselet());
 			registerInfix(DOMPathTokenType.LEFT_PAREN, new DOMPathCallMethodParselet());
+			registerInfix(DOMPathTokenType.FORWARD_SLASH, new DOMPathFilterDescendantsParselet());
 		}
 		
 		/**

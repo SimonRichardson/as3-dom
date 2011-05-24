@@ -1,5 +1,8 @@
 package org.osflash.dom.path
 {
+	import org.osflash.dom.path.parser.stream.DOMPathOutputStream;
+	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
+	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
 	import org.osflash.dom.element.utils.getDOMElementChildren;
@@ -45,9 +48,14 @@ package org.osflash.dom.path
 			var domChild : IDOMNode;
 			var domChildren : Vector.<IDOMNode>;
 			var numChildren : int;
-
+			
 			var valid : Boolean = true;
 			var expression : IDOMPathExpression = _expression;
+			
+			const stream : IDOMPathOutputStream = new DOMPathOutputStream();
+			expression.describe(stream);
+			log(stream.toString());
+			
 			while (valid)
 			{
 				switch(expression.type)
@@ -66,6 +74,33 @@ package org.osflash.dom.path
 							}
 						}
 						
+						domChild = null;
+						domElement = null;
+						numChildren = 0;
+						
+						// we've finished the expression tree
+						valid = false;
+						break;
+						
+					case DOMPathExpressionType.NAME:
+						// filter the elements by the name
+						const nameExpression : DOMPathNameExpression = expression 
+																		as DOMPathNameExpression;
+						if (null == nameExpression)
+							DOMPathError.throwError(DOMPathError.INVALID_EXPRESSION);
+							
+						total = nodes.length;
+						domChildren = new Vector.<IDOMNode>();
+						for(i = 0; i < total; i++)
+						{
+							domChild = nodes[i];
+							if(domChild.name == nameExpression.name) domChildren.push(domChild);
+						}
+						
+						nodes = domChildren.concat();
+						
+						domChildren = null;
+						
 						// we've finished the expression tree
 						valid = false;
 						break;
@@ -78,6 +113,9 @@ package org.osflash.dom.path
 							domChildren = getDOMElementChildrenNormalised(domElement);
 							if (domChildren.length > 0) elements = elements.concat(domChildren);
 						}
+						
+						domElement = null;
+						domChildren = null;
 						
 						// move to the next expression
 						const allDescendantsExpression : DOMPathDescendantsExpression = expression 
@@ -96,6 +134,9 @@ package org.osflash.dom.path
 							if (domChildren.length > 0) elements = elements.concat(domChildren);
 						}
 						
+						domElement = null;
+						domChildren = null;
+						
 						// move to the next expression
 						const descendantsExpression : DOMPathDescendantsExpression = expression 
 																	as DOMPathDescendantsExpression;
@@ -104,6 +145,12 @@ package org.osflash.dom.path
 						expression = descendantsExpression.descendants;
 						break;
 					
+					case DOMPathExpressionType.FILTER_DESCENDANTS:
+						
+						getDefinitionByName('trace')("filter");
+						
+						break;
+						
 					default:
 						DOMPathError.throwError(DOMPathError.INVALID_EXPRESSION);
 						break;

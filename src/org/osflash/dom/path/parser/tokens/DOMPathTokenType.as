@@ -48,6 +48,8 @@ package org.osflash.dom.path.parser.tokens
 		public static const RIGHT_SQUARE : DOMPathTokenType = new DOMPathTokenType(0x20);
 		
 		public static const ATTRIBUTE : DOMPathTokenType = new DOMPathTokenType(0x21);
+
+		public static const NAME : DOMPathTokenType = new DOMPathTokenType(0x22);
 		
 		/**
 		 * @private
@@ -122,6 +124,7 @@ package org.osflash.dom.path.parser.tokens
 				case LEFT_SQUARE.type: return '[';
 				case RIGHT_SQUARE.type: return ']';
 				case ATTRIBUTE.type: return '@';
+				case NAME.type: return 'Name';
 				default:
 					DOMPathError.throwError(DOMPathError.UNEXPECTED_TOKEN_TYPE);
 					break;

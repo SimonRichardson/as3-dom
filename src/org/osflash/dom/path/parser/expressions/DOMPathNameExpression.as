@@ -2,19 +2,19 @@ package org.osflash.dom.path.parser.expressions
 {
 	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
 	/**
-	 * @author Simon Richardson - me@simonrichardson.info
+	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public final class DOMPathStringExpression extends DOMPathExpression
+	public final class DOMPathNameExpression extends DOMPathExpression
 	{
 		
 		/**
 		 * @private
 		 */
-		private var _value : String;
+		private var _name : String;
 		
-		public function DOMPathStringExpression(value : String)
+		public function DOMPathNameExpression(value : String)
 		{
-			_value = value;
+			_name = value;
 		}
 		
 		/**
@@ -22,7 +22,7 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		override public function describe(stream : IDOMPathOutputStream) : void
 		{
-			stream.writeUTF(_value);
+			stream.writeUTF(_name);
 		}
 		
 		/**
@@ -30,12 +30,12 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		override public function get type() : DOMPathExpressionType
 		{
-			return DOMPathExpressionType.STRING;
+			return DOMPathExpressionType.NAME;
 		}
 
-		public function get value() : String
+		public function get name() : String
 		{
-			return _value;
+			return _name;
 		}
 	}
 }

@@ -68,10 +68,8 @@ package org.osflash.dom.path.parser
 		{
 			while(hasNext)
 			{	
-				var char : String = _source.charAt(_index);
+				var char : String = _source.charAt(_index++);
 				var charCode : int = char.charCodeAt(0);
-				
-				_index++;
 				
 				// Try and grab the number or integer
 				var buffer : String = '';
@@ -84,10 +82,8 @@ package org.osflash.dom.path.parser
 						
 						if(hasNext)
 						{
-							char = _source.charAt(_index);
+							char = _source.charAt(_index++);
 							charCode = char.charCodeAt(0);
-							
-							_index++;
 						}
 						else DOMPathError.throwError(DOMPathError.LEXER_EXHAUSTED);
 						
@@ -101,10 +97,8 @@ package org.osflash.dom.path.parser
 						
 						if(hasNext)
 						{
-							char = _source.charAt(_index);
+							char = _source.charAt(_index++);
 							charCode = char.charCodeAt(0);
-							
-							_index++;
 						}
 						else DOMPathError.throwError(DOMPathError.LEXER_EXHAUSTED);
 						
@@ -128,10 +122,8 @@ package org.osflash.dom.path.parser
 							}
 						}
 						
-						char = _source.charAt(_index);
+						char = _source.charAt(_index++);
 						charCode = char.charCodeAt(0);
-						
-						_index++;
 						
 						// append to the buffer
 						buffer += char;
@@ -150,15 +142,39 @@ package org.osflash.dom.path.parser
 					// http://journal.stuffwithstuff.com/2011/03/19/pratt-parsers-expression-parsing-made-easy/
 					return new DOMPathToken(type, char);
 				}
+				else if((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122))
+				{
+					// we're a name here
+					if(buffer != '') DOMPathError.throwError(DOMPathError.BUFFER_OVERFLOW);
+					
+					buffer += char;
+					
+					while(hasNext)
+					{
+						char = _source.charAt(_index++);
+						charCode = char.charCodeAt(0);
+						
+						buffer += char;
+						
+						if(	!((charCode >= 48 && charCode <= 57) ||
+							(charCode >= 65 && charCode <= 90) ||
+							charCode == 95 || 
+							(charCode >= 97 && charCode <= 122) 
+							))
+						{
+							break;
+						}
+					}
+					
+					return new DOMPathToken(DOMPathTokenType.NAME, buffer);
+				}
 				else if(charCode == 34)
 				{
 					// we're a string here
 					if(buffer != '') DOMPathError.throwError(DOMPathError.BUFFER_OVERFLOW);
 					
-					char = _source.charAt(_index);
+					char = _source.charAt(_index++);
 					charCode = char.charCodeAt(0);
-					
-					_index++;
 					
 					// grab upper and lower case letters
 					while(hasNext && charCode != 34)
@@ -166,10 +182,8 @@ package org.osflash.dom.path.parser
 						if(charCode == 92)
 						{
 							// trying to escape the string
-							char = _source.charAt(_index);
+							char = _source.charAt(_index++);
 							charCode = char.charCodeAt(0);
-						
-							_index++;
 							
 							if(charCode == 34 || charCode == 92) buffer += char;
 							else
@@ -181,10 +195,8 @@ package org.osflash.dom.path.parser
 						}
 						else buffer += char;
 						
-						char = _source.charAt(_index);
+						char = _source.charAt(_index++);
 						charCode = char.charCodeAt(0);
-						
-						_index++;
 					}
 					
 					return new DOMPathToken(DOMPathTokenType.STRING, buffer);
