@@ -35,7 +35,6 @@ package org.osflash.dom.path.parser.parselets
 				parser.consumeToken(DOMPathTokenType.RIGHT_PAREN);
 			}
 			
-			
 			return new DOMPathCallMethodExpression(expression, parameters);
 		}
 		

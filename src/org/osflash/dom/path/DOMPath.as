@@ -2,6 +2,7 @@ package org.osflash.dom.path
 {
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
+	import org.osflash.dom.element.utils.getDOMElementChildren;
 	import org.osflash.dom.element.utils.getDOMElementChildrenNormalised;
 	import org.osflash.dom.path.parser.expressions.DOMPathDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
@@ -45,8 +46,9 @@ package org.osflash.dom.path
 			var domChildren : Vector.<IDOMNode>;
 			var numChildren : int;
 
+			var valid : Boolean = true;
 			var expression : IDOMPathExpression = _expression;
-			while (expression)
+			while (valid)
 			{
 				switch(expression.type)
 				{
@@ -63,6 +65,9 @@ package org.osflash.dom.path
 								if (nodes.indexOf(domChild) == -1) nodes.push(domChild);
 							}
 						}
+						
+						// we've finished the expression tree
+						valid = false;
 						break;
 						
 					case DOMPathExpressionType.ALL_DESCENDANTS:
@@ -73,6 +78,24 @@ package org.osflash.dom.path
 							domChildren = getDOMElementChildrenNormalised(domElement);
 							if (domChildren.length > 0) elements = elements.concat(domChildren);
 						}
+						
+						// move to the next expression
+						const allDescendantsExpression : DOMPathDescendantsExpression = expression 
+																	as DOMPathDescendantsExpression;
+						if (null == allDescendantsExpression)
+							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+						expression = allDescendantsExpression.descendants;
+						break;
+					
+					case DOMPathExpressionType.DESCENDANTS:
+						total = elements.length;
+						for (i = 0; i < total; i++)
+						{
+							domElement = elements[i];
+							domChildren = getDOMElementChildren(domElement);
+							if (domChildren.length > 0) elements = elements.concat(domChildren);
+						}
+						
 						// move to the next expression
 						const descendantsExpression : DOMPathDescendantsExpression = expression 
 																	as DOMPathDescendantsExpression;
@@ -80,7 +103,7 @@ package org.osflash.dom.path
 							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
 						expression = descendantsExpression.descendants;
 						break;
-						
+					
 					default:
 						DOMPathError.throwError(DOMPathError.INVALID_EXPRESSION);
 						break;

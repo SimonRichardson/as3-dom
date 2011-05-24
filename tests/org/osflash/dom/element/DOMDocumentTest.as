@@ -61,5 +61,29 @@ package org.osflash.dom.element
 			
 			assertEquals('Result length should be 7', 7, result.length);
 		}
+		
+		[Test]
+		public function add_elements_and_path_select_documents_nodes() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('/*');
+			
+			assertEquals('Result length should be 5', 5, result.length);
+		}
 	}
 }
