@@ -1,5 +1,6 @@
 package org.osflash.dom.element
 {
+	import org.osflash.dom.dom_namespace;
 
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
@@ -190,6 +191,6 @@ package org.osflash.dom.element
 		/**
 		 * @private
 		 */
-		protected function get children() : Vector.<IDOMNode> { return _children; }
+		dom_namespace function get children() : Vector.<IDOMNode> { return _children; }
 	}
 }

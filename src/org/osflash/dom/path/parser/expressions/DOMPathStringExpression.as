@@ -19,7 +19,7 @@ package org.osflash.dom.path.parser.expressions
 		/**
 		 * @inheritDoc
 		 */
-		public function get type() : IDOMPathExpressionType
+		public function get type() : DOMPathExpressionType
 		{
 			return null;
 		}

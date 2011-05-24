@@ -1,5 +1,6 @@
 package org.osflash.dom.element
 {
+	import org.osflash.dom.dom_namespace;
 	import org.osflash.dom.element.DOMElement;
 	import org.osflash.dom.element.IDOMNode;
 	import org.osflash.dom.element.IDOMDocument;
@@ -142,10 +143,11 @@ package org.osflash.dom.element
 			
 			if(numChildren > 0)
 			{
-				var index : int = children.length;
+				const nodes : Vector.<IDOMNode> = dom_namespace::children;
+				var index : int = nodes.length;
 				while(--index > -1)
 				{
-					children[index].document = _document;
+					nodes[index].document = _document;
 				}
 			}
 		}

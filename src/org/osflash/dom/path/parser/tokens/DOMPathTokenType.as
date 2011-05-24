@@ -63,7 +63,6 @@ package org.osflash.dom.path.parser.tokens
 		public function DOMPathTokenType(type : int)
 		{
 			_type = type;
-			_value = getType(type);
 		}
 		
 		/**
@@ -144,7 +143,9 @@ package org.osflash.dom.path.parser.tokens
 		 */
 		public function get value() : String
 		{
-			return _value;
+			// Create a lazy initialiser because not all types are know at constructor time.
+			if(null != _value) return _value;
+			return (_value = getType(type));
 		}
 	}
 }

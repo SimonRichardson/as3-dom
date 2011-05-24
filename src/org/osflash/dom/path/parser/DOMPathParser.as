@@ -1,10 +1,12 @@
 package org.osflash.dom.path.parser
 {
-	import org.osflash.dom.path.parser.parselets.DOMPathCallMethodParselet;
 	import org.osflash.dom.path.DOMPathError;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
+	import org.osflash.dom.path.parser.parselets.DOMPathCallMethodParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathEqualityParselet;
+	import org.osflash.dom.path.parser.parselets.DOMPathPrefixOperatorParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathStringParselet;
+	import org.osflash.dom.path.parser.parselets.DOMPathWildcardParselet;
 	import org.osflash.dom.path.parser.parselets.IDOMPathInfixParselet;
 	import org.osflash.dom.path.parser.parselets.IDOMPathPrefixParselet;
 	import org.osflash.dom.path.parser.tokens.DOMPathToken;
@@ -52,6 +54,7 @@ package org.osflash.dom.path.parser
 			_infix = new Dictionary();
 			
 			registerPrefix(DOMPathTokenType.STRING, new DOMPathStringParselet());
+			registerPrefix(DOMPathTokenType.ASTERISK, new DOMPathWildcardParselet());
 			
 			registerInfix(DOMPathTokenType.EQUALITY, new DOMPathEqualityParselet());
 			registerInfix(DOMPathTokenType.LEFT_PAREN, new DOMPathCallMethodParselet());
@@ -170,7 +173,6 @@ package org.osflash.dom.path.parser
 			
 			while(distance >= _stream.length)
 			{
-				if(!_tokens.hasNext) DOMPathError.throwError(DOMPathError.PARSER_EXHAUSTED_LEXER);
 				_stream.push(_tokens.next);
 			}
 			
@@ -178,6 +180,17 @@ package org.osflash.dom.path.parser
 													' than stream length (distance=' + distance + 
 													', length=' + _stream.length + ')');
 			return _stream[distance];
+		}
+		
+		/**
+		 * Registers a prefix unary operator parselet for the given token and
+		 * precedence.
+		 * 
+		 * @private
+		 */
+		protected function prefix(token : DOMPathTokenType, precedence : int) : void
+		{
+			registerPrefix(token, new DOMPathPrefixOperatorParselet(token, precedence));
 		}
 		
 		/**

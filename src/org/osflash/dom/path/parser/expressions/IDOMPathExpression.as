@@ -6,6 +6,6 @@ package org.osflash.dom.path.parser.expressions
 	public interface IDOMPathExpression
 	{
 		
-		function get type() : IDOMPathExpressionType;
+		function get type() : DOMPathExpressionType;
 	}
 }

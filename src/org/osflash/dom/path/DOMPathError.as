@@ -28,6 +28,8 @@ package org.osflash.dom.path
 
 		public static const INVALID_EQUALITY : int = 0x11;
 		
+		public static const INVALID_EXPRESSION : int = 0x12;
+		
 		public function DOMPathError(message : String)
 		{
 			super(message);
@@ -65,6 +67,8 @@ package org.osflash.dom.path
 					return 'Parser error';
 				case INVALID_EQUALITY:
 					return 'Invalid equality';
+				case INVALID_EXPRESSION:
+					return 'Invalid expression';
 				default:
 					throw new ArgumentError('Given argument is Unknown');  
 			}
@@ -103,6 +107,8 @@ package org.osflash.dom.path
 					throw new DOMPathError('Parser error');
 				case INVALID_EQUALITY:
 					throw new DOMPathError('The left-hand side of an assignment must be a string');
+				case INVALID_EXPRESSION:
+					throw new DOMPathError('Unknown expression');
 				default:
 					throw new ArgumentError('Given argument is Unknown');
 			}
