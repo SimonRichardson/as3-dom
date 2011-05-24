@@ -135,5 +135,29 @@ package org.osflash.dom.element
 			assertEquals('Result length should be 1', 1, result.length);
 			assertEquals('Result item at 0 index should be same as node1', node1, result[0]);
 		}
+		
+		[Test]
+		public function add_elements_and_path_select_multiple_nodes_in_document() : void
+		{
+			const node0 : DOMNode = new DOMNode('node');
+			const node1 : DOMNode = new DOMNode('node');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode');
+			const subnode1 : DOMNode = new DOMNode('node');
+			
+			const subsubnode0 : DOMNode = new DOMNode('node');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('//node');
+			
+			assertEquals('Result length should be 4', 4, result.length);
+		}
 	}
 }
