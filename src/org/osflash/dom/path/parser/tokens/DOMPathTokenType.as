@@ -28,24 +28,26 @@ package org.osflash.dom.path.parser.tokens
 		public static const MINUS : DOMPathTokenType = new DOMPathTokenType(0x10);
 
 		public static const ASTERISK : DOMPathTokenType = new DOMPathTokenType(0x11);
-
-		public static const SLASH : DOMPathTokenType = new DOMPathTokenType(0x12);
-
-		public static const CARET : DOMPathTokenType = new DOMPathTokenType(0x13);
-
-		public static const TILDE : DOMPathTokenType = new DOMPathTokenType(0x14);
-
-		public static const BANG : DOMPathTokenType = new DOMPathTokenType(0x15);
-
-		public static const QUESTION : DOMPathTokenType = new DOMPathTokenType(0x16);
-
-		public static const COLON : DOMPathTokenType = new DOMPathTokenType(0x17);
-
-		public static const LEFT_SQUARE : DOMPathTokenType = new DOMPathTokenType(0x18);
 		
-		public static const RIGHT_SQUARE : DOMPathTokenType = new DOMPathTokenType(0x19);
+		public static const BACK_SLASH : DOMPathTokenType = new DOMPathTokenType(0x12);
+
+		public static const FORWARD_SLASH : DOMPathTokenType = new DOMPathTokenType(0x13);
+
+		public static const CARET : DOMPathTokenType = new DOMPathTokenType(0x14);
+
+		public static const TILDE : DOMPathTokenType = new DOMPathTokenType(0x15);
+
+		public static const BANG : DOMPathTokenType = new DOMPathTokenType(0x16);
+
+		public static const QUESTION : DOMPathTokenType = new DOMPathTokenType(0x17);
+
+		public static const COLON : DOMPathTokenType = new DOMPathTokenType(0x18);
+
+		public static const LEFT_SQUARE : DOMPathTokenType = new DOMPathTokenType(0x19);
 		
-		public static const ATTRIBUTE : DOMPathTokenType = new DOMPathTokenType(0x20);
+		public static const RIGHT_SQUARE : DOMPathTokenType = new DOMPathTokenType(0x20);
+		
+		public static const ATTRIBUTE : DOMPathTokenType = new DOMPathTokenType(0x21);
 		
 		/**
 		 * @private
@@ -79,7 +81,8 @@ package org.osflash.dom.path.parser.tokens
 												PLUS,
 												MINUS,
 												ASTERISK,
-												SLASH,
+												BACK_SLASH,
+												FORWARD_SLASH,
 												CARET,
 												TILDE,
 												BANG,
@@ -109,7 +112,8 @@ package org.osflash.dom.path.parser.tokens
 				case PLUS.type: return '+';
 				case MINUS.type: return '-';
 				case ASTERISK.type: return '*';
-				case SLASH.type: return '/';
+				case BACK_SLASH.type: return '\\';
+				case FORWARD_SLASH.type: return '/';
 				case CARET.type: return '^';
 				case TILDE.type: return '~';
 				case BANG.type: return '!';

@@ -7,6 +7,10 @@ package org.osflash.dom.path.parser.expressions
 	{
 
 		public static const WILDCARD : DOMPathExpressionType = new DOMPathExpressionType(0x01);
+		
+		public static const ALL_DESCENDANTS : DOMPathExpressionType = new DOMPathExpressionType(0x02);
+		
+		public static const DESCENDANTS : DOMPathExpressionType = new DOMPathExpressionType(0x03);
 
 		/**
 		 * @private

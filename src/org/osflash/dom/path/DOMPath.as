@@ -3,14 +3,19 @@ package org.osflash.dom.path
 	import org.osflash.dom.dom_namespace;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
+	import org.osflash.dom.element.utils.getDOMElementChildrenNormalised;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
+
+	import flash.utils.getDefinitionByName;
 		
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
 	public class DOMPath implements IDOMPath
 	{
+		
+		public static const log : * = getDefinitionByName('trace');
 		
 		/**
 		 * @private
@@ -29,18 +34,21 @@ package org.osflash.dom.path
 		 */
 		public function execute(element : IDOMElement) : Vector.<IDOMNode>
 		{
-			const elements : Vector.<IDOMElement> = Vector.<IDOMElement>([element]);
-			
 			var nodes : Vector.<IDOMNode> = new Vector.<IDOMNode>();
+			var elements : Vector.<IDOMElement> = Vector.<IDOMElement>([element]);
 			
 			var i : int;
+			var index : int;
 			var total : int;
 			var domElement : IDOMElement;
 			var domChildren : Vector.<IDOMNode>;
 			
-			switch(_expression.type)
+			var expression : IDOMPathExpression = _expression;
+			
+			switch(expression.type)
 			{
 				case DOMPathExpressionType.WILDCARD:
+				case DOMPathExpressionType.DESCENDANTS:
 					total = elements.length;
 					for(i=0; i<total; i++)
 					{
@@ -51,12 +59,27 @@ package org.osflash.dom.path
 							nodes = nodes.concat(domChildren);
 						}
 					}
+					// TODO : check that descendants isn't the last expression, otherwise throw an syntax error
 					break;
+					
+				case DOMPathExpressionType.ALL_DESCENDANTS:
+					total = elements.length;
+					for(i=0; i<total; i++)
+					{
+						domElement = elements[i];
+						domChildren = getDOMElementChildrenNormalised(domElement);
+						if(domChildren.length > 0) elements = elements.concat(domChildren);
+					}
+					// remove the element from elements.
+					index = elements.indexOf(element);
+					elements.splice(index, 1);
+					break;
+										
 				default:
 					DOMPathError.throwError(DOMPathError.INVALID_EXPRESSION);
 					break;
 			}
-			
+				
 			return nodes;
 		}
 	}

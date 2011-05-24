@@ -1,9 +1,10 @@
 package org.osflash.dom.path.parser.expressions
 {
+	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
-	public final class DOMPathConditionalExpression implements IDOMPathExpression
+	public final class DOMPathConditionalExpression extends DOMPathExpression
 	{
 
 		/**
@@ -30,12 +31,27 @@ package org.osflash.dom.path.parser.expressions
 			_thenArm = thenArm;
 			_elseArm = elseArm;
 		}
-
 		
 		/**
 		 * @inheritDoc
 		 */
-		public function get type() : DOMPathExpressionType
+		override public function describe(stream : IDOMPathOutputStream) : void
+		{
+			stream.writeUTF("(");
+			
+			_condition.describe(stream);
+			stream.writeUTF(" ? ");
+			_thenArm.describe(stream);
+			stream.writeUTF(" : ");
+			_elseArm.describe(stream);
+			
+			stream.writeUTF(")");
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override public function get type() : DOMPathExpressionType
 		{
 			return null;
 		}

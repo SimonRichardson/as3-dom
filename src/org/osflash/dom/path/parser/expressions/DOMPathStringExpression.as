@@ -1,9 +1,10 @@
 package org.osflash.dom.path.parser.expressions
 {
+	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
-	public final class DOMPathStringExpression implements IDOMPathExpression
+	public final class DOMPathStringExpression extends DOMPathExpression
 	{
 		
 		/**
@@ -19,7 +20,15 @@ package org.osflash.dom.path.parser.expressions
 		/**
 		 * @inheritDoc
 		 */
-		public function get type() : DOMPathExpressionType
+		override public function describe(stream : IDOMPathOutputStream) : void
+		{
+			stream.writeUTF(_value);
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override public function get type() : DOMPathExpressionType
 		{
 			return null;
 		}

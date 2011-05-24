@@ -3,7 +3,10 @@ package org.osflash.dom.path.parser
 	import org.osflash.dom.path.DOMPathError;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 	import org.osflash.dom.path.parser.parselets.DOMPathCallMethodParselet;
+	import org.osflash.dom.path.parser.parselets.DOMPathDescendantsParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathEqualityParselet;
+	import org.osflash.dom.path.parser.parselets.DOMPathGroupParselet;
+	import org.osflash.dom.path.parser.parselets.DOMPathPostfixOperatorParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathPrefixOperatorParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathStringParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathWildcardParselet;
@@ -55,6 +58,8 @@ package org.osflash.dom.path.parser
 			
 			registerPrefix(DOMPathTokenType.STRING, new DOMPathStringParselet());
 			registerPrefix(DOMPathTokenType.ASTERISK, new DOMPathWildcardParselet());
+			registerPrefix(DOMPathTokenType.FORWARD_SLASH, new DOMPathDescendantsParselet());
+			registerPrefix(DOMPathTokenType.LEFT_PAREN, new DOMPathGroupParselet());
 			
 			registerInfix(DOMPathTokenType.EQUALITY, new DOMPathEqualityParselet());
 			registerInfix(DOMPathTokenType.LEFT_PAREN, new DOMPathCallMethodParselet());
@@ -91,7 +96,7 @@ package org.osflash.dom.path.parser
 			
 			_infix[token] = parselet;	
 		}
-		
+				
 		/**
 		 * Parse an expression
 		 * 
@@ -124,7 +129,7 @@ package org.osflash.dom.path.parser
 				const infix : IDOMPathInfixParselet = _infix[token.type];
 				if(null == infix) DOMPathError.throwError(DOMPathError.PARSER_ERROR);
 				
-				expression = infix.parse(this, expression, token);
+				expression = infix.parse(this, expression, token); 
 			}
 			
 			return expression;
@@ -191,6 +196,17 @@ package org.osflash.dom.path.parser
 		protected function prefix(token : DOMPathTokenType, precedence : int) : void
 		{
 			registerPrefix(token, new DOMPathPrefixOperatorParselet(token, precedence));
+		}
+		
+		/**
+		 * Registers a postfix unary operator parselet for the given token and
+		 * precedence.
+		 * 
+		 * @private
+		 */
+		protected function postfix(token : DOMPathTokenType, precedence : int) : void
+		{
+			registerInfix(token, new DOMPathPostfixOperatorParselet(token, precedence));
 		}
 		
 		/**

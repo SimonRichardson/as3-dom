@@ -29,6 +29,8 @@ package org.osflash.dom.path
 		public static const INVALID_EQUALITY : int = 0x11;
 		
 		public static const INVALID_EXPRESSION : int = 0x12;
+
+		public static const ABSTRACT_METHOD : int = 0x13;
 		
 		public function DOMPathError(message : String)
 		{
@@ -69,6 +71,8 @@ package org.osflash.dom.path
 					return 'Invalid equality';
 				case INVALID_EXPRESSION:
 					return 'Invalid expression';
+				case ABSTRACT_METHOD:
+					return 'Abstract method';
 				default:
 					throw new ArgumentError('Given argument is Unknown');  
 			}
@@ -109,6 +113,8 @@ package org.osflash.dom.path
 					throw new DOMPathError('The left-hand side of an assignment must be a string');
 				case INVALID_EXPRESSION:
 					throw new DOMPathError('Unknown expression');
+				case ABSTRACT_METHOD:
+					throw new DOMPathError('Abstract method');
 				default:
 					throw new ArgumentError('Given argument is Unknown');
 			}

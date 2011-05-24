@@ -1,9 +1,10 @@
 package org.osflash.dom.path.parser.expressions
 {
+	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
-	public final class DOMPathCallMethodExpression implements IDOMPathExpression
+	public final class DOMPathCallMethodExpression extends DOMPathExpression
 	{
 		
 		/**
@@ -23,15 +24,32 @@ package org.osflash.dom.path.parser.expressions
 			_method = method;
 			_parameters = parameters;
 		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override public function describe(stream : IDOMPathOutputStream) : void
+		{
+			_method.describe(stream);
+			
+			stream.writeUTF("(");
+			const total : int = _parameters.length;
+			for (var i : int = 0; i < total; i++)
+			{
+				_parameters[i].describe(stream);
+				if (i < total - 1) stream.writeUTF(", ");
+			}
+			stream.writeUTF(")");
+		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function get type() : DOMPathExpressionType
+		override public function get type() : DOMPathExpressionType
 		{
 			return null;
 		}
-
+		
 		public function get method() : IDOMPathExpression
 		{
 			return _method;

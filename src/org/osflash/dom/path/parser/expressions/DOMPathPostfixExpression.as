@@ -5,19 +5,25 @@ package org.osflash.dom.path.parser.expressions
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public final class DOMPathPrefixExpression extends DOMPathExpression
+	public class DOMPathPostfixExpression extends DOMPathExpression
 	{
-
+		
+		/**
+		 * @private
+		 */
+		private var _left : IDOMPathExpression;
+		
+		/**
+		 * @private
+		 */
 		private var _operator : DOMPathTokenType;
 
-		private var _right : IDOMPathExpression;
-
-		public function DOMPathPrefixExpression(	operator : DOMPathTokenType, 
-													right : IDOMPathExpression
+		public function DOMPathPostfixExpression(	left : IDOMPathExpression, 
+													operator : DOMPathTokenType
 													)
 		{
+			_left = left;
 			_operator = operator;
-			_right = right;
 		}
 		
 		/**
@@ -26,10 +32,10 @@ package org.osflash.dom.path.parser.expressions
 		override public function describe(stream : IDOMPathOutputStream) : void
 		{
 			stream.writeUTF("(");
+			
+			_left.describe(stream);
+			
 			stream.writeUTF(DOMPathTokenType.getType(_operator.type));
-			
-			_right.describe(stream);
-			
 			stream.writeUTF(")");
 		}
 		
