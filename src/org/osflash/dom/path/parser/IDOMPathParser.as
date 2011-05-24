@@ -15,6 +15,8 @@ package org.osflash.dom.path.parser
 		
 		function match(expected : DOMPathTokenType) : Boolean;
 		
+		function consume() : DOMPathToken;
+		
 		function consumeToken(expected : DOMPathTokenType) : DOMPathToken;
 	}
 }

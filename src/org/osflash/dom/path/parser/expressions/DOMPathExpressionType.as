@@ -33,6 +33,27 @@ package org.osflash.dom.path.parser.expressions
 			_type = type;
 		}
 		
+		public static function getType(type : int) : String
+		{
+			switch(type)
+			{
+				case WILDCARD.type: 
+					return 'wildcard';
+				case ALL_DESCENDANTS.type: 
+					return 'allDescendants';
+				case DESCENDANTS.type: 
+					return 'descendants';
+				case FILTER_DESCENDANTS.type:
+					return 'filterDiscendants';
+				case STRING.type:
+					return 'string';
+				case NAME.type:
+					return 'name';
+				default:
+					throw new ArgumentError('Given argument is Unknown'); 
+			}
+		}
+		
 		/**
 		 * 
 		 */

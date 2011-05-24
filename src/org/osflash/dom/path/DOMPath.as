@@ -1,14 +1,13 @@
 package org.osflash.dom.path
 {
-	import org.osflash.dom.path.parser.stream.DOMPathOutputStream;
-	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
-	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
+	import org.osflash.dom.element.IDOMDocument;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
 	import org.osflash.dom.element.utils.getDOMElementChildren;
 	import org.osflash.dom.element.utils.getDOMElementChildrenNormalised;
 	import org.osflash.dom.path.parser.expressions.DOMPathDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
+	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 
 	import flash.utils.getDefinitionByName;
@@ -18,7 +17,7 @@ package org.osflash.dom.path
 	 */
 	public class DOMPath implements IDOMPath
 	{
-
+		// DEBUG for asunit which hides trace.
 		public static const log : * = getDefinitionByName('trace');
 
 		/**
@@ -42,19 +41,41 @@ package org.osflash.dom.path
 			var elements : Vector.<IDOMElement> = Vector.<IDOMElement>([element]);
 
 			var i : int;
-			var j : int;
 			var total : int;
 			var domElement : IDOMElement;
+			var domElements : Vector.<IDOMElement>;
 			var domChild : IDOMNode;
 			var domChildren : Vector.<IDOMNode>;
-			var numChildren : int;
 			
 			var valid : Boolean = true;
 			var expression : IDOMPathExpression = _expression;
 			
-			const stream : IDOMPathOutputStream = new DOMPathOutputStream();
-			expression.describe(stream);
-			log(stream.toString());
+			// If it's just trying to access the document directly, make sure we know 
+			// element[0] is a document
+			if( expression.type == DOMPathExpressionType.DESCENDANTS ||
+				expression.type == DOMPathExpressionType.ALL_DESCENDANTS
+				)
+			{
+				if(!(element is IDOMDocument)) 
+				{
+					if(element is IDOMNode && null != IDOMNode(element).document)
+					{
+						// Remove what ever element we pass in, because we know we need the document
+						// node and not the context one.
+						elements.splice(0, 1, IDOMNode(element).document);
+					}
+					else DOMPathError.throwError(DOMPathError.DOMDOCUMENT_NOT_AVAILABLE);
+				}
+			}
+			
+			// If it's just trying to access the context, add a context descendants expression
+			if(	expression.type == DOMPathExpressionType.WILDCARD ||
+				expression.type == DOMPathExpressionType.NAME
+				)
+			{
+				const type : int = DOMPathDescendantsExpression.CONTEXT;
+				expression = new DOMPathDescendantsExpression(type, expression);
+			}
 			
 			while (valid)
 			{
@@ -65,18 +86,14 @@ package org.osflash.dom.path
 						for (i = 0; i < total; i++)
 						{
 							domElement = elements[i];
-							numChildren = domElement.numChildren;
-
-							for (j = 0; j < numChildren; j++)
+							if(domElement is IDOMNode)
 							{
-								domChild = domElement.getAt(j);
-								if (nodes.indexOf(domChild) == -1) nodes.push(domChild);
+								if(nodes.indexOf(domElement) == -1) nodes.push(domElement);
 							}
+							else DOMPathError.throwError(DOMPathError.INVALID_ELEMENT);
 						}
 						
-						domChild = null;
 						domElement = null;
-						numChildren = 0;
 						
 						// we've finished the expression tree
 						valid = false;
@@ -89,16 +106,27 @@ package org.osflash.dom.path
 						if (null == nameExpression)
 							DOMPathError.throwError(DOMPathError.INVALID_EXPRESSION);
 							
-						total = nodes.length;
+						total = elements.length;
 						domChildren = new Vector.<IDOMNode>();
 						for(i = 0; i < total; i++)
 						{
-							domChild = nodes[i];
-							if(domChild.name == nameExpression.name) domChildren.push(domChild);
+							domElement = elements[i];
+							if(domElement is IDOMNode)
+							{
+								domChild = IDOMNode(domElement);
+								if(domChild.name == nameExpression.name) domChildren.push(domChild);
+							}
+							else DOMPathError.throwError(DOMPathError.INVALID_ELEMENT);
 						}
 						
-						nodes = domChildren.concat();
+						total = domChildren.length;
+						for(i = 0; i < total; i++)
+						{
+							domChild = domChildren[i];
+							if(nodes.indexOf(domChild) == -1) nodes.push(domChild);
+						}
 						
+						domChild = null;
 						domChildren = null;
 						
 						// we've finished the expression tree
@@ -106,10 +134,14 @@ package org.osflash.dom.path
 						break;
 						
 					case DOMPathExpressionType.ALL_DESCENDANTS:
-						total = elements.length;
+						// clone the current items, we're going remove them on the next pass
+						domElements = elements.concat();
+						elements.length = 0;
+						
+						total = domElements.length;
 						for (i = 0; i < total; i++)
 						{
-							domElement = elements[i];
+							domElement = domElements[i];
 							domChildren = getDOMElementChildrenNormalised(domElement);
 							if (domChildren.length > 0) elements = elements.concat(domChildren);
 						}
@@ -126,10 +158,14 @@ package org.osflash.dom.path
 						break;
 					
 					case DOMPathExpressionType.DESCENDANTS:
-						total = elements.length;
+						// clone the current items, we're going remove them on the next pass
+						domElements = elements.concat();
+						elements.length = 0;
+						
+						total = domElements.length;
 						for (i = 0; i < total; i++)
 						{
-							domElement = elements[i];
+							domElement = domElements[i];
 							domChildren = getDOMElementChildren(domElement);
 							if (domChildren.length > 0) elements = elements.concat(domChildren);
 						}

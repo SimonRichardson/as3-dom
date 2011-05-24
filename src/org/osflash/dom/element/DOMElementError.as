@@ -36,19 +36,19 @@ package org.osflash.dom.element
 			switch(type)
 			{
 				case REMOVE_NODE_MISMATCH:
-					return 'Remove node mismatch';
+					return 'removeNodeMismatch';
 				case REMOVE_NODE_LENGTH_ZERO:
-					return 'Remove node length zero';
+					return 'removeNodeLengthZero';
 				case NODE_DOES_NOT_EXIST:
-					return 'Node does not exist';
+					return 'nodeDoesNotExist';
 				case NODE_ALREADY_EXISTS:
-					return 'Node already exists';
+					return 'nodeAlreadyExists';
 				case NODE_NAME_UNDEFINED:
-					return 'Node name undefined';
+					return 'nodeNameUndefined';
 				case NODE_NAME_INVALID:
-					return 'Node name is invalid';
+					return 'nodeNameIsInvalid';
 				case DOCUMENT_IS_IMMUTABLE:
-					return 'Document is immutable';
+					return 'documentIsImmutable';
 				default:
 					throw new ArgumentError('Given argument is Unknown.');  
 			}

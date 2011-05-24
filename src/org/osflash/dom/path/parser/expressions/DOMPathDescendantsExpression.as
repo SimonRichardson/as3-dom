@@ -10,7 +10,7 @@ package org.osflash.dom.path.parser.expressions
 
 		public static const CONTEXT : int = 0x01;
 
-		public static const ALL : int = 0x01;
+		public static const ALL : int = 0x02;
 		
 		/**
 		 * @private

@@ -34,6 +34,12 @@ package org.osflash.dom.path
 
 		public static const SYNTAX_ERROR : int = 0x14;
 		
+		public static const BUFFER_UNDERFLOW : int = 0x15;
+		
+		public static const INVALID_ELEMENT : int = 0x16;
+
+		public static const DOMDOCUMENT_NOT_AVAILABLE : int = 0x17;
+		
 		public function DOMPathError(message : String)
 		{
 			super(message);
@@ -50,33 +56,39 @@ package org.osflash.dom.path
 			switch(type)
 			{
 				case UNEXPECTED_CHAR:
-					return 'Unexpected char';
+					return 'unexpectedChar';
 				case LEXER_EXHAUSTED:
-					return 'Lexer exhausted';
+					return 'lexerExhausted';
 				case BUFFER_OVERFLOW:
-					return 'Buffer overflow';
+					return 'bufferOverflow';
 				case UNEXPECTED_TOKEN_TYPE:
-					return 'Unexpected token type';
+					return 'unexpectedTokenType';
 				case TOKEN_ASSIGNED_ALREADY:
-					return 'Token assigned already';
+					return 'tokenAssignedAlready';
 				case PARSER_EXHAUSTED:
-					return 'Parser exhausted';
+					return 'parserExhausted';
 				case PARSER_EXHAUSTED_LEXER:
-					return 'Parser exhausted lexer';
+					return 'parserExhaustedLexer';
 				case TOKEN_IS_NULL:
-					return 'Token is null';
+					return 'tokenIsNull';
 				case UNEXPECTED_TOKEN:
-					return 'Unexpected token';
+					return 'unexpectedToken';
 				case PARSER_ERROR:
-					return 'Parser error';
+					return 'parserError';
 				case INVALID_EQUALITY:
-					return 'Invalid equality';
+					return 'invalidEquality';
 				case INVALID_EXPRESSION:
-					return 'Invalid expression';
+					return 'invalidExpression';
 				case ABSTRACT_METHOD:
-					return 'Abstract method';
+					return 'abstractMethod';
 				case SYNTAX_ERROR:
-					return 'Syntax error';
+					return 'syntaxError';
+				case BUFFER_UNDERFLOW:
+					return 'bufferUnderflow';
+				case INVALID_ELEMENT:
+					return 'invalidElement';
+				case DOMDOCUMENT_NOT_AVAILABLE:
+					return 'domdocumentNotAvailable';
 				default:
 					throw new ArgumentError('Given argument is Unknown');  
 			}
@@ -121,6 +133,12 @@ package org.osflash.dom.path
 					throw new DOMPathError('Abstract method');
 				case SYNTAX_ERROR:
 					throw new DOMPathError('Syntax error');
+				case BUFFER_UNDERFLOW:
+					throw new DOMPathError('Buffer underflow has occured');
+				case INVALID_ELEMENT:
+					throw new DOMPathError('Invalid DOMElement found');
+				case DOMDOCUMENT_NOT_AVAILABLE:
+					throw new DOMPathError('Unable to locate the DOMDocument');
 				default:
 					throw new ArgumentError('Given argument is Unknown');
 			}
