@@ -1,18 +1,19 @@
 package org.osflash.dom.path
 {
-	import org.osflash.dom.path.parser.stream.DOMPathByteArrayOutputStream;
-	import org.osflash.dom.path.parser.expressions.DOMPathNameDescendantsExpression;
-	import org.osflash.dom.path.parser.stream.DOMPathStringOutputStream;
-	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
+	import org.osflash.dom.path.parser.expressions.DOMPathUnsignedIntegerExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathNameIndexAccessExpression;
 	import org.osflash.dom.element.IDOMDocument;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
-	import org.osflash.dom.element.utils.getDOMElementChildren;
 	import org.osflash.dom.element.utils.getAllDOMElementChildren;
+	import org.osflash.dom.element.utils.getDOMElementChildren;
 	import org.osflash.dom.path.parser.expressions.DOMPathDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
+	import org.osflash.dom.path.parser.expressions.DOMPathNameDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
+	import org.osflash.dom.path.parser.stream.DOMPathByteArrayOutputStream;
+	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
 
 	import flash.utils.getDefinitionByName;
 
@@ -127,8 +128,44 @@ package org.osflash.dom.path
 						break;
 					
 					case DOMPathExpressionType.NAME_INDEX_ACCESS:
+						// move to the next expression
+						const nameIndexAccessExpression : DOMPathNameIndexAccessExpression = 
+													expression as DOMPathNameIndexAccessExpression;
+						if (null == nameIndexAccessExpression)
+							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
 						
-						log('FUCKING FINISHED');
+						// check that the name is valid
+						const nameIndexAccessNameExpression : DOMPathNameExpression = 
+										nameIndexAccessExpression.name as DOMPathNameExpression;
+						if (null == nameIndexAccessNameExpression)
+							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+							
+						// check that the internal part is a unsigned integer.
+						const unsignedIntegerExpression : DOMPathUnsignedIntegerExpression = 
+							nameIndexAccessExpression.parameter as DOMPathUnsignedIntegerExpression;
+						if (null == unsignedIntegerExpression)
+							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+						if(isNaN(unsignedIntegerExpression.value))
+							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+						
+						// actually filter the name.
+						domChildren = filterByName(elements, nameIndexAccessNameExpression);
+						
+						total = domChildren.length;
+						for(i = 0; i < total; i++)
+						{
+							domChild = domChildren[i];
+							if(nodes.indexOf(domChild) == -1) nodes.push(domChild);
+						}
+						
+						// now bring back the index
+						domChild = nodes[unsignedIntegerExpression.value];
+						nodes.length = 0;
+						nodes[0] = domChild;
+						
+						// reset everything
+						domChild = null;
+						domChildren = null;
 											
 						// we've finished the expression tree
 						valid = false;

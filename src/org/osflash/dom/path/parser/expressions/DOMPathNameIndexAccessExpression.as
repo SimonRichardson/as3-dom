@@ -10,18 +10,18 @@ package org.osflash.dom.path.parser.expressions
 		/**
 		 * @private
 		 */
-		private var _method : IDOMPathExpression;
+		private var _name : IDOMPathExpression;
 		
 		/**
 		 * @private
 		 */
 		private var _parameter : IDOMPathExpression;
 
-		public function DOMPathNameIndexAccessExpression(	method : IDOMPathExpression, 
+		public function DOMPathNameIndexAccessExpression(	name : IDOMPathExpression, 
 															parameter : IDOMPathExpression
 															)
 		{
-			_method = method;
+			_name = name;
 			_parameter = parameter;
 		}
 		
@@ -30,7 +30,7 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		override public function describe(stream : IDOMPathOutputStream) : void
 		{
-			_method.describe(stream);
+			_name.describe(stream);
 			
 			stream.writeUTF("[");
 			_parameter.describe(stream);
@@ -45,9 +45,9 @@ package org.osflash.dom.path.parser.expressions
 			return DOMPathExpressionType.NAME_INDEX_ACCESS;
 		}
 		
-		public function get method() : IDOMPathExpression
+		public function get name() : IDOMPathExpression
 		{
-			return _method;
+			return _name;
 		}
 
 		public function get parameter() : IDOMPathExpression
