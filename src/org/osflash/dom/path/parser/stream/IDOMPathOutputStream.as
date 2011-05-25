@@ -8,7 +8,9 @@ package org.osflash.dom.path.parser.stream
 		
 		function writeInt(value : int) : void;
 		
-		function writeDouble(value : Number) : void;
+		function writeUnsignedInt(value : uint) : void;
+		
+		function writeFloat(value : Number) : void;
 		
 		function writeUTF(value : String) : void;
 		

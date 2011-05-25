@@ -35,7 +35,15 @@ package org.osflash.dom.path.parser.stream
 		/**
 		 * @inheritDoc
 		 */
-		public function writeDouble(value : Number) : void
+		public function writeUnsignedInt(value : uint) : void
+		{
+			_buffer += value;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function writeFloat(value : Number) : void
 		{
 			_buffer += value;
 		}

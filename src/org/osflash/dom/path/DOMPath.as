@@ -1,5 +1,6 @@
 package org.osflash.dom.path
 {
+	import org.osflash.dom.path.parser.stream.DOMPathByteArrayOutputStream;
 	import org.osflash.dom.path.parser.expressions.DOMPathNameDescendantsExpression;
 	import org.osflash.dom.path.parser.stream.DOMPathStringOutputStream;
 	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
@@ -82,7 +83,7 @@ package org.osflash.dom.path
 				expression = new DOMPathDescendantsExpression(type, expression);
 			}
 			
-			const stream : IDOMPathOutputStream = new DOMPathStringOutputStream();
+			const stream : IDOMPathOutputStream = new DOMPathByteArrayOutputStream();
 			expression.describe(stream);
 			log('RAW >', stream.toString());
 			

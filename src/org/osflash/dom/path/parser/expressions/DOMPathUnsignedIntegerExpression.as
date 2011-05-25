@@ -22,7 +22,7 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		override public function describe(stream : IDOMPathOutputStream) : void
 		{
-			stream.writeInt(_value);
+			stream.writeUnsignedInt(_value);
 		}
 		
 		/**
