@@ -211,6 +211,7 @@ package org.osflash.dom.element
 			const result : Vector.<IDOMNode> = document.select('node1/subnode0');
 			
 			assertEquals('Result length should be 1', 1, result.length);
+			assertEquals('Result item at 0 index should be same as subnode0', subnode0, result[0]);
 		}
 	}
 }
