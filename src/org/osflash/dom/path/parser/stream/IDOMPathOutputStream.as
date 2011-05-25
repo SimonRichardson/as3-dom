@@ -6,6 +6,10 @@ package org.osflash.dom.path.parser.stream
 	public interface IDOMPathOutputStream
 	{
 		
+		function writeInt(value : int) : void;
+		
+		function writeDouble(value : Number) : void;
+		
 		function writeUTF(value : String) : void;
 		
 		function toString() : String;

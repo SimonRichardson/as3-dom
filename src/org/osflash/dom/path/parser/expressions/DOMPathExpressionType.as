@@ -13,12 +13,22 @@ package org.osflash.dom.path.parser.expressions
 		
 		public static const DESCENDANTS : DOMPathExpressionType = new DOMPathExpressionType(0x03);
 		
-		public static const FILTER_DESCENDANTS : DOMPathExpressionType = 
+		public static const NAME_DESCENDANTS : DOMPathExpressionType = 
 																	new DOMPathExpressionType(0x04);
 
 		public static const STRING : DOMPathExpressionType = new DOMPathExpressionType(0x05);
 		
 		public static const NAME : DOMPathExpressionType = new DOMPathExpressionType(0x06);
+
+		public static const NAME_INDEX_ACCESS : DOMPathExpressionType = 
+																	new DOMPathExpressionType(0x07);
+
+		public static const INTEGER : DOMPathExpressionType = new DOMPathExpressionType(0x08);
+
+		public static const NUMBER : DOMPathExpressionType = new DOMPathExpressionType(0x09);
+
+		public static const UNSIGNED_INTEGER : DOMPathExpressionType = 
+																	new DOMPathExpressionType(0x10);
 
 		/**
 		 * @private
@@ -43,12 +53,20 @@ package org.osflash.dom.path.parser.expressions
 					return 'allDescendants';
 				case DESCENDANTS.type: 
 					return 'descendants';
-				case FILTER_DESCENDANTS.type:
-					return 'filterDiscendants';
+				case NAME_DESCENDANTS.type:
+					return 'nameDiscendants';
 				case STRING.type:
 					return 'string';
 				case NAME.type:
 					return 'name';
+				case NAME_INDEX_ACCESS.type:
+					return 'nameIndexAccess';
+				case INTEGER.type:
+					return 'integer';
+				case NUMBER.type:
+					return 'number';
+				case UNSIGNED_INTEGER.type:
+					return 'unsignedInteger';
 				default:
 					throw new ArgumentError('Given argument is Unknown'); 
 			}

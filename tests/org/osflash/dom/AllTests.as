@@ -1,6 +1,7 @@
 package org.osflash.dom
 {
 	import org.osflash.dom.element.DOMDocumentTest;
+	import org.osflash.dom.path.DOMPathNameIndexAccessTest;
 	import org.osflash.dom.path.DOMPathNameTest;
 	import org.osflash.dom.path.DOMPathWildcardTest;
 	[Suite]
@@ -8,10 +9,11 @@ package org.osflash.dom
 	{
 		
 		// Document
-		public var _DOMDocumentTest:DOMDocumentTest;
+		//public var _DOMDocumentTest:DOMDocumentTest;
 		
 		// Path
-		public var _DOMPathNameTest:DOMPathNameTest;
-		public var _DOMPathWildcardTest:DOMPathWildcardTest;
+		public var _DOMPathNameIndexAccessTest:DOMPathNameIndexAccessTest;
+		//public var _DOMPathNameTest:DOMPathNameTest;
+		//public var _DOMPathWildcardTest:DOMPathWildcardTest;
 	}
 }

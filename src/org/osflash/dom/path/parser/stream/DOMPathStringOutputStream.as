@@ -3,7 +3,7 @@ package org.osflash.dom.path.parser.stream
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public class DOMPathOutputStream implements IDOMPathOutputStream
+	public class DOMPathStringOutputStream implements IDOMPathOutputStream
 	{
 
 		/**
@@ -11,7 +11,7 @@ package org.osflash.dom.path.parser.stream
 		 */
 		private var _buffer : String;
 
-		public function DOMPathOutputStream()
+		public function DOMPathStringOutputStream()
 		{
 			_buffer = '';
 		}
@@ -20,6 +20,22 @@ package org.osflash.dom.path.parser.stream
 		 * @inheritDoc
 		 */
 		public function writeUTF(value : String) : void
+		{
+			_buffer += value;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function writeInt(value : int) : void
+		{
+			_buffer += value;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function writeDouble(value : Number) : void
 		{
 			_buffer += value;
 		}

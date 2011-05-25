@@ -73,15 +73,18 @@ package org.osflash.dom.path.parser
 				
 				// Try and grab the number or integer
 				var buffer : String = '';
-				if((charCode >= 48 && charCode <= 57) || charCode == 45 || charCode == 46)
+				if((charCode >= 48 && charCode <= 57) || (charCode >= 45 && charCode <= 46))
 				{
 					var decimal : Boolean = false;
+					var negative : Boolean = false; 
 					if(charCode == 45)
 					{
 						buffer += '-';
+						negative = true;
 						
 						if(hasNext)
 						{
+							// look forward to check we have a valid char
 							char = _source.charAt(_index++);
 							charCode = char.charCodeAt(0);
 						}
@@ -97,6 +100,7 @@ package org.osflash.dom.path.parser
 						
 						if(hasNext)
 						{
+							// look forward to check we have a valid char
 							char = _source.charAt(_index++);
 							charCode = char.charCodeAt(0);
 						}
@@ -105,32 +109,68 @@ package org.osflash.dom.path.parser
 						if(!(charCode >= 48 && charCode <= 57))
 							DOMPathError.throwError(DOMPathError.UNEXPECTED_CHAR);
 					}
-					
-					while(	hasNext && 
-							charCode == 46 || 
-							(charCode >= 48 && charCode <= 57)
-							)
+					else
 					{
-						// Find out if we've got a decimal or not
-						if(charCode == 46)
-						{
-							if(!decimal) decimal = true;
-							else 
-							{
-								// We've found another decimal...
-								DOMPathError.throwError(DOMPathError.UNEXPECTED_CHAR);
-							}
-						}
-						
-						char = _source.charAt(_index++);
-						charCode = char.charCodeAt(0);
-						
-						// append to the buffer
 						buffer += char;
+						
+						if(hasNext)
+						{
+							char = _source.charAt(_index++);
+							charCode = char.charCodeAt(0);
+						}	
+						else DOMPathError.throwError(DOMPathError.LEXER_EXHAUSTED);
 					}
 					
-					if(decimal) return new DOMPathToken(DOMPathTokenType.NUMBER, buffer);
-					else return new DOMPathToken(DOMPathTokenType.INTEGER, buffer);
+					if(!(charCode == 46 || (charCode >= 48 && charCode <= 57)))
+					{
+						// rewind as it's only one char 
+						_index--;
+					}
+					else
+					{
+						// append to the buffer
+						buffer += char;
+						
+						while(	hasNext && 
+								(charCode == 46 || 
+								(charCode >= 48 && charCode <= 57))
+								)
+						{
+							// Find out if we've got a decimal or not
+							if(charCode == 46)
+							{
+								if(!decimal) decimal = true;
+								else 
+								{
+									// We've found another decimal...
+									DOMPathError.throwError(DOMPathError.UNEXPECTED_CHAR);
+								}
+							}
+							
+							char = _source.charAt(_index++);
+							charCode = char.charCodeAt(0);
+							
+							if(	!(charCode == 46 || 
+								 (charCode >= 48 && charCode <= 57)))
+							{
+								// TODO: we should validate what this item it!
+								// we've gone to far, roll back 1.
+								_index--;
+									
+								break;
+							}
+							
+							// append to the buffer
+							buffer += char;
+						}
+					}
+					
+					if(decimal) 
+						return new DOMPathToken(DOMPathTokenType.NUMBER, buffer);
+					else if(negative) 
+						return new DOMPathToken(DOMPathTokenType.INTEGER, buffer);
+					else 
+						return new DOMPathToken(DOMPathTokenType.UNSIGNED_INTEGER, buffer);
 				}
 				
 				// Work through the types

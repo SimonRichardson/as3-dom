@@ -3,14 +3,14 @@ package org.osflash.dom.path.parser.parselets
 	import org.osflash.dom.path.DOMPathError;
 	import org.osflash.dom.path.parser.DOMPathPrecedence;
 	import org.osflash.dom.path.parser.IDOMPathParser;
-	import org.osflash.dom.path.parser.expressions.DOMPathFilterDescendantsExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathNameIndexAccessExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 	import org.osflash.dom.path.parser.tokens.DOMPathToken;
 	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public final class DOMPathFilterDescendantsParselet implements IDOMPathInfixParselet
+	public class DOMPathNameIndexAccessParselet implements IDOMPathInfixParselet
 	{
 		
 		
@@ -22,11 +22,19 @@ package org.osflash.dom.path.parser.parselets
 								token : DOMPathToken
 								) : IDOMPathExpression
 		{
-			if(parser.match(DOMPathTokenType.EOF))
-				DOMPathError.throwError(DOMPathError.UNEXPECTED_EOF_TOKEN);
+			var parameter : IDOMPathExpression;
+
+			if (!parser.match(DOMPathTokenType.RIGHT_SQUARE))
+			{
+				parameter = parser.parseExpression();
+				
+				parser.consumeToken(DOMPathTokenType.RIGHT_SQUARE);
+			}
+			else DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+						
+			if(null == parameter) DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
 			
-			const right : IDOMPathExpression = parser.parseExpression();
-			return new DOMPathFilterDescendantsExpression(expression, right);
+			return new DOMPathNameIndexAccessExpression(expression, parameter);
 		}
 		
 		/**
@@ -34,7 +42,7 @@ package org.osflash.dom.path.parser.parselets
 		 */
 		public function get precedence() : int
 		{
-			return DOMPathPrecedence.POSTFIX;
+			return DOMPathPrecedence.CALL;
 		}
 	}
 }

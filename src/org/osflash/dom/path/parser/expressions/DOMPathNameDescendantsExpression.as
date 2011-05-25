@@ -4,7 +4,7 @@ package org.osflash.dom.path.parser.expressions
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public class DOMPathFilterDescendantsExpression extends DOMPathExpression
+	public class DOMPathNameDescendantsExpression extends DOMPathExpression
 	{
 		
 		/**
@@ -17,7 +17,7 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		private var _descendants : IDOMPathExpression;
 		
-		public function DOMPathFilterDescendantsExpression(	method : IDOMPathExpression,
+		public function DOMPathNameDescendantsExpression(	method : IDOMPathExpression,
 															descendants : IDOMPathExpression
 															)
 		{
@@ -42,7 +42,7 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		override public function get type() : DOMPathExpressionType
 		{
-			return DOMPathExpressionType.FILTER_DESCENDANTS;
+			return DOMPathExpressionType.NAME_DESCENDANTS;
 		}
 		
 		public function get name() : IDOMPathExpression

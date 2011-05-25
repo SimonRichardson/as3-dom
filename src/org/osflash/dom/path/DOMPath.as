@@ -1,7 +1,7 @@
 package org.osflash.dom.path
 {
-	import org.osflash.dom.path.parser.expressions.DOMPathFilterDescendantsExpression;
-	import org.osflash.dom.path.parser.stream.DOMPathOutputStream;
+	import org.osflash.dom.path.parser.expressions.DOMPathNameDescendantsExpression;
+	import org.osflash.dom.path.parser.stream.DOMPathStringOutputStream;
 	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
 	import org.osflash.dom.element.IDOMDocument;
 	import org.osflash.dom.element.IDOMElement;
@@ -74,14 +74,15 @@ package org.osflash.dom.path
 			// If it's just trying to access the context, add a context descendants expression
 			if(	expression.type == DOMPathExpressionType.WILDCARD ||
 				expression.type == DOMPathExpressionType.NAME ||
-				expression.type == DOMPathExpressionType.FILTER_DESCENDANTS
+				expression.type == DOMPathExpressionType.NAME_DESCENDANTS ||
+				expression.type == DOMPathExpressionType.NAME_INDEX_ACCESS
 				)
 			{
 				const type : int = DOMPathDescendantsExpression.CONTEXT;
 				expression = new DOMPathDescendantsExpression(type, expression);
 			}
 			
-			const stream : IDOMPathOutputStream = new DOMPathOutputStream();
+			const stream : IDOMPathOutputStream = new DOMPathStringOutputStream();
 			expression.describe(stream);
 			log('RAW >', stream.toString());
 			
@@ -120,6 +121,14 @@ package org.osflash.dom.path
 						domChild = null;
 						domChildren = null;
 						
+						// we've finished the expression tree
+						valid = false;
+						break;
+					
+					case DOMPathExpressionType.NAME_INDEX_ACCESS:
+						
+						log('FUCKING FINISHED');
+											
 						// we've finished the expression tree
 						valid = false;
 						break;
@@ -165,9 +174,9 @@ package org.osflash.dom.path
 						expression = descendantsExpression.descendants;
 						break;
 					
-					case DOMPathExpressionType.FILTER_DESCENDANTS:
-						const filterDescendantsExpression : DOMPathFilterDescendantsExpression = 
-												expression as DOMPathFilterDescendantsExpression;
+					case DOMPathExpressionType.NAME_DESCENDANTS:
+						const filterDescendantsExpression : DOMPathNameDescendantsExpression = 
+												expression as DOMPathNameDescendantsExpression;
 												
 						if (null == filterDescendantsExpression)
 							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
