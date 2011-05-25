@@ -1,5 +1,6 @@
 package org.osflash.dom.path
 {
+	import org.osflash.dom.path.parser.expressions.DOMPathFilterDescendantsExpression;
 	import org.osflash.dom.path.parser.stream.DOMPathOutputStream;
 	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
 	import org.osflash.dom.element.IDOMDocument;
@@ -72,7 +73,8 @@ package org.osflash.dom.path
 			
 			// If it's just trying to access the context, add a context descendants expression
 			if(	expression.type == DOMPathExpressionType.WILDCARD ||
-				expression.type == DOMPathExpressionType.NAME
+				expression.type == DOMPathExpressionType.NAME ||
+				expression.type == DOMPathExpressionType.FILTER_DESCENDANTS
 				)
 			{
 				const type : int = DOMPathDescendantsExpression.CONTEXT;
@@ -106,24 +108,7 @@ package org.osflash.dom.path
 						break;
 						
 					case DOMPathExpressionType.NAME:
-						// filter the elements by the name
-						const nameExpression : DOMPathNameExpression = expression 
-																		as DOMPathNameExpression;
-						if (null == nameExpression)
-							DOMPathError.throwError(DOMPathError.INVALID_EXPRESSION);
-							
-						total = elements.length;
-						domChildren = new Vector.<IDOMNode>();
-						for(i = 0; i < total; i++)
-						{
-							domElement = elements[i];
-							if(domElement is IDOMNode)
-							{
-								domChild = IDOMNode(domElement);
-								if(domChild.name == nameExpression.name) domChildren.push(domChild);
-							}
-							else DOMPathError.throwError(DOMPathError.INVALID_ELEMENT);
-						}
+						domChildren = filterByName(elements, expression);
 						
 						total = domChildren.length;
 						for(i = 0; i < total; i++)
@@ -168,16 +153,9 @@ package org.osflash.dom.path
 						domElements = elements.concat();
 						elements.length = 0;
 						
-						total = domElements.length;
-						for (i = 0; i < total; i++)
-						{
-							domElement = domElements[i];
-							domChildren = getDOMElementChildren(domElement);
-							if (domChildren.length > 0) elements = elements.concat(domChildren);
-						}
+						elements = filterDescendants(domElements);
 						
-						domElement = null;
-						domChildren = null;
+						domElements = null;
 						
 						// move to the next expression
 						const descendantsExpression : DOMPathDescendantsExpression = expression 
@@ -188,9 +166,40 @@ package org.osflash.dom.path
 						break;
 					
 					case DOMPathExpressionType.FILTER_DESCENDANTS:
+						const filterDescendantsExpression : DOMPathFilterDescendantsExpression = 
+												expression as DOMPathFilterDescendantsExpression;
+												
+						if (null == filterDescendantsExpression)
+							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+							
+						const filterNameExpression : DOMPathNameExpression = 
+										filterDescendantsExpression.name as DOMPathNameExpression;
+										
+						// filter name	
+						domElements = elements.concat();
+						elements.length = 0;
 						
+						domChildren = filterByName(domElements, filterNameExpression);
 						
+						total = domChildren.length;
+						for(i = 0; i < total; i++)
+						{
+							domChild = domChildren[i];
+							if(elements.indexOf(domChild) == -1) elements.push(domChild);
+						}
 						
+						// filter children
+						domElements = elements.concat();
+						elements.length = 0;
+						
+						elements = filterDescendants(domElements);
+						
+						domChild = null;
+						domChildren = null;
+						domElements = null;
+						
+						// move to the next expression
+						expression = filterDescendantsExpression.descendants;
 						break;
 						
 					default:
@@ -200,6 +209,52 @@ package org.osflash.dom.path
 			}
 
 			return nodes;
+		}
+		
+		/**
+		 * @private
+		 */
+		private function filterDescendants(elements : Vector.<IDOMElement>) : Vector.<IDOMElement>
+		{
+			var children : Vector.<IDOMElement> = new Vector.<IDOMElement>();
+			
+			const total : int = elements.length;
+			for (var i : int = 0; i < total; i++)
+			{
+				const domElement : IDOMElement = elements[i];
+				const domChildren : Vector.<IDOMNode> = getDOMElementChildren(domElement);
+				if (domChildren.length > 0) children = children.concat(domChildren);
+			}
+			
+			return children;
+		}
+		
+		/**
+		 * @private
+		 */
+		private function filterByName(	elements : Vector.<IDOMElement>, 
+										expression : IDOMPathExpression
+										) :  Vector.<IDOMNode>
+		{
+			// filter the elements by the name
+			const nameExpression : DOMPathNameExpression = expression as DOMPathNameExpression;
+			if (null == nameExpression)
+				DOMPathError.throwError(DOMPathError.INVALID_EXPRESSION);
+				
+			const total : int = elements.length;
+			const domChildren : Vector.<IDOMNode> = new Vector.<IDOMNode>();
+			for(var i : int = 0; i < total; i++)
+			{
+				const domElement : IDOMElement = elements[i];
+				if(domElement is IDOMNode)
+				{
+					const domChild : IDOMNode = IDOMNode(domElement);
+					if(domChild.name == nameExpression.name) domChildren.push(domChild);
+				}
+				else DOMPathError.throwError(DOMPathError.INVALID_ELEMENT);
+			}
+			
+			return domChildren;
 		}
 	}
 }
