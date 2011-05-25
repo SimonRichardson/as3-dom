@@ -8,9 +8,11 @@ package org.osflash.dom.element.utils
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public function getDOMElementChildrenNormalised(element : IDOMElement) : Vector.<IDOMNode>
+	public function getAllDOMElementChildren(element : IDOMElement) : Vector.<IDOMNode>
 	{
 		var result : Vector.<IDOMNode> = new Vector.<IDOMNode>();
+		
+		// TODO : Make sure that we only add items that exist once i.e. no duplications
 		
 		var i : int;
 		var total : int;
@@ -29,7 +31,7 @@ package org.osflash.dom.element.utils
 					node = element.getAt(i);
 					result.push(node);
 					
-					children = getDOMElementChildrenNormalised(node);
+					children = getAllDOMElementChildren(node);
 					if(children.length > 0) result = result.concat(children);
 				}
 			}
@@ -43,7 +45,7 @@ package org.osflash.dom.element.utils
 					node = nodes[i];
 					result.push(node);
 					
-					children = getDOMElementChildrenNormalised(node);
+					children = getAllDOMElementChildren(node);
 					if(children.length > 0) result = result.concat(children);
 				}
 			}

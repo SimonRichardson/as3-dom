@@ -7,7 +7,7 @@ package org.osflash.dom.path
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
 	import org.osflash.dom.element.utils.getDOMElementChildren;
-	import org.osflash.dom.element.utils.getDOMElementChildrenNormalised;
+	import org.osflash.dom.element.utils.getAllDOMElementChildren;
 	import org.osflash.dom.path.parser.expressions.DOMPathDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
 	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
@@ -133,7 +133,7 @@ package org.osflash.dom.path
 						for (i = 0; i < total; i++)
 						{
 							domElement = domElements[i];
-							domChildren = getDOMElementChildrenNormalised(domElement);
+							domChildren = getAllDOMElementChildren(domElement);
 							if (domChildren.length > 0) elements = elements.concat(domChildren);
 						}
 						

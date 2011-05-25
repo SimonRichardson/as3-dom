@@ -10,6 +10,8 @@ package org.osflash.dom.element.utils
 	 */
 	public function getDOMElementChildren(element : IDOMElement) : Vector.<IDOMNode>
 	{
+		// TODO : Make sure that we only add items that exist once i.e. no duplications
+		
 		var result : Vector.<IDOMNode> = new Vector.<IDOMNode>();
 		if (element.numChildren > 0)
 		{
