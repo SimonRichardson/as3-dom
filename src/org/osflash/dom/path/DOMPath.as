@@ -1,5 +1,7 @@
 package org.osflash.dom.path
 {
+	import org.osflash.dom.path.parser.stream.DOMPathOutputStream;
+	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
 	import org.osflash.dom.element.IDOMDocument;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
@@ -76,6 +78,10 @@ package org.osflash.dom.path
 				const type : int = DOMPathDescendantsExpression.CONTEXT;
 				expression = new DOMPathDescendantsExpression(type, expression);
 			}
+			
+			const stream : IDOMPathOutputStream = new DOMPathOutputStream();
+			expression.describe(stream);
+			log('RAW >', stream.toString());
 			
 			while (valid)
 			{
@@ -183,7 +189,7 @@ package org.osflash.dom.path
 					
 					case DOMPathExpressionType.FILTER_DESCENDANTS:
 						
-						getDefinitionByName('trace')("filter");
+						
 						
 						break;
 						

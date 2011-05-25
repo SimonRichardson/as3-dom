@@ -21,7 +21,7 @@ package org.osflash.dom.element
 			document = null;
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_all_element_nodes() : void
 		{
 			const node : DOMNode = new DOMNode('node');
@@ -33,7 +33,7 @@ package org.osflash.dom.element
 			assertEquals('Result item at 0 index should be same as initial node', node, result[0]);
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_all_documents_nodes() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
@@ -62,7 +62,7 @@ package org.osflash.dom.element
 			assertEquals('Result length should be 7', 7, result.length);
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_documents_nodes() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
@@ -86,7 +86,7 @@ package org.osflash.dom.element
 			assertEquals('Result length should be 2', 2, result.length);
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_node1_in_document() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
@@ -111,7 +111,7 @@ package org.osflash.dom.element
 			assertEquals('Result item at 0 index should be same as node1', node1, result[0]);
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_node1_in_context() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
@@ -136,7 +136,7 @@ package org.osflash.dom.element
 			assertEquals('Result item at 0 index should be same as node1', node1, result[0]);
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_multiple_nodes_in_document() : void
 		{
 			const node0 : DOMNode = new DOMNode('node');
@@ -158,6 +158,30 @@ package org.osflash.dom.element
 			const result : Vector.<IDOMNode> = document.select('//node');
 			
 			assertEquals('Result length should be 4', 4, result.length);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_node1_children() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('node1/*');
+			
+			assertEquals('Result length should be 2', 2, result.length);
 		}
 	}
 }

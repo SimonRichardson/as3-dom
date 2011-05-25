@@ -12,9 +12,17 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		private var _name : IDOMPathExpression;
 		
-		public function DOMPathFilterDescendantsExpression(method : IDOMPathExpression)
+		/**
+		 * @private
+		 */
+		private var _descendants : IDOMPathExpression;
+		
+		public function DOMPathFilterDescendantsExpression(	method : IDOMPathExpression,
+															descendants : IDOMPathExpression
+															)
 		{
 			_name = method;
+			_descendants = descendants;
 		}
 		
 		/**
@@ -23,6 +31,10 @@ package org.osflash.dom.path.parser.expressions
 		override public function describe(stream : IDOMPathOutputStream) : void
 		{
 			_name.describe(stream);
+			
+			stream.writeUTF("(");
+			_descendants.describe(stream);
+			stream.writeUTF(")");
 		}
 
 		/**
@@ -36,6 +48,11 @@ package org.osflash.dom.path.parser.expressions
 		public function get name() : IDOMPathExpression
 		{
 			return _name;
+		}
+
+		public function get descendants() : IDOMPathExpression
+		{
+			return _descendants;
 		}
 	}
 }

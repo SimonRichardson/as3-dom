@@ -40,6 +40,8 @@ package org.osflash.dom.path
 
 		public static const DOMDOCUMENT_NOT_AVAILABLE : int = 0x17;
 		
+		public static const UNEXPECTED_EOF_TOKEN : int = 0x18;
+		
 		public function DOMPathError(message : String)
 		{
 			super(message);
@@ -89,6 +91,8 @@ package org.osflash.dom.path
 					return 'invalidElement';
 				case DOMDOCUMENT_NOT_AVAILABLE:
 					return 'domdocumentNotAvailable';
+				case UNEXPECTED_EOF_TOKEN:
+					return 'unexpectedEofToken';
 				default:
 					throw new ArgumentError('Given argument is Unknown');  
 			}
@@ -139,6 +143,8 @@ package org.osflash.dom.path
 					throw new DOMPathError('Invalid DOMElement found');
 				case DOMDOCUMENT_NOT_AVAILABLE:
 					throw new DOMPathError('Unable to locate the DOMDocument');
+				case UNEXPECTED_EOF_TOKEN:
+					throw new DOMPathError('Unexpected EoF token type found');
 				default:
 					throw new ArgumentError('Given argument is Unknown');
 			}

@@ -123,7 +123,7 @@ package org.osflash.dom.path.parser
 			
 			var expression : IDOMPathExpression = prefix.parse(this, token);
 			
-			while(precedence < this.precedence)
+			while(precedence < nextTokenPrecedence)
 			{
 				token = consume();
 				
@@ -132,7 +132,7 @@ package org.osflash.dom.path.parser
 				
 				expression = infix.parse(this, expression, token); 
 			}
-			
+						
 			return expression;
 		}
 				
@@ -213,14 +213,14 @@ package org.osflash.dom.path.parser
 		/**
 		 * @inheritDoc
 		 */
-		public function get precedence() : int
+		protected function get nextTokenPrecedence() : int
 		{
 			const token : DOMPathToken = advance(0);
 			if(null == token) DOMPathError.throwError(DOMPathError.TOKEN_IS_NULL);
 			
 			const tokenType : DOMPathTokenType = token.type;
-			const parser : IDOMPathInfixParselet = _infix[tokenType];
-			return (null != parser) ? parser.precedence : 0;
+			const parselet : IDOMPathInfixParselet = _infix[tokenType];
+			return (null != parselet) ? parselet.precedence : 0;
 		}
 	}
 }

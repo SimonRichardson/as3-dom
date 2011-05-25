@@ -154,16 +154,19 @@ package org.osflash.dom.path.parser
 						char = _source.charAt(_index++);
 						charCode = char.charCodeAt(0);
 						
-						buffer += char;
-						
 						if(	!((charCode >= 48 && charCode <= 57) ||
 							(charCode >= 65 && charCode <= 90) ||
 							charCode == 95 || 
 							(charCode >= 97 && charCode <= 122) 
 							))
 						{
+							// we've gone to far, roll back 1.
+							_index--;
+							
 							break;
 						}
+						
+						buffer += char;
 					}
 					
 					return new DOMPathToken(DOMPathTokenType.NAME, buffer);
