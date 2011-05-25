@@ -21,6 +21,9 @@ package org.osflash.dom.path.parser.expressions
 														parameters : Vector.<IDOMPathExpression>
 														)
 		{
+			if(null == method) throw new ArgumentError('Given method can not be null');
+			if(null == parameters) throw new ArgumentError('Given parameters can not be null');
+			
 			_method = method;
 			_parameters = parameters;
 		}

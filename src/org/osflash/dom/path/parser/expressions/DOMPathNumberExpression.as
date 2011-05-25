@@ -14,6 +14,8 @@ package org.osflash.dom.path.parser.expressions
 		
 		public function DOMPathNumberExpression(value : Number)
 		{
+			if(isNaN(value)) throw new ArgumentError('Given value can not be NaN');
+			
 			_value = value;
 		}
 		

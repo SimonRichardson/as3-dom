@@ -24,6 +24,9 @@ package org.osflash.dom.path.parser.expressions
 		
 		public function DOMPathDescendantsExpression(type : int, descendants : IDOMPathExpression)
 		{
+			if(isNaN(type)) throw new ArgumentError('Given type can not be NaN');
+			if(null == descendants) throw new ArgumentError('Given descendants can not be null');
+			
 			_type = type;
 			_descendants = descendants;
 		}

@@ -1,7 +1,5 @@
 package org.osflash.dom.path.parser
 {
-	import org.osflash.dom.path.parser.parselets.DOMPathUnsignedIntegerParselet;
-	import flash.utils.getDefinitionByName;
 	import org.osflash.dom.path.DOMPathError;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 	import org.osflash.dom.path.parser.parselets.DOMPathDescendantsParselet;
@@ -13,6 +11,7 @@ package org.osflash.dom.path.parser
 	import org.osflash.dom.path.parser.parselets.DOMPathPostfixOperatorParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathPrefixOperatorParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathStringParselet;
+	import org.osflash.dom.path.parser.parselets.DOMPathUnsignedIntegerParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathWildcardParselet;
 	import org.osflash.dom.path.parser.parselets.IDOMPathInfixParselet;
 	import org.osflash.dom.path.parser.parselets.IDOMPathPrefixParselet;
@@ -123,8 +122,6 @@ package org.osflash.dom.path.parser
 		{
 			var token : DOMPathToken = consume();
 			if(null == token) DOMPathError.throwError(DOMPathError.TOKEN_IS_NULL);
-			
-			getDefinitionByName('trace')('>>', DOMPathTokenType.getType(token.type.type));
 			
 			const prefix : IDOMPathPrefixParselet = _prefix[token.type];
 			if(null == prefix) DOMPathError.throwError(DOMPathError.PARSER_ERROR);

@@ -12,8 +12,10 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		private var _value : uint;
 		
-		public function DOMPathUnsignedIntegerExpression(value : int)
+		public function DOMPathUnsignedIntegerExpression(value : uint)
 		{
+			if(isNaN(value)) throw new ArgumentError('Given value can not be NaN');
+			
 			_value = value;
 		}
 		

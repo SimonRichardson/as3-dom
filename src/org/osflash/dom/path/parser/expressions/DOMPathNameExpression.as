@@ -12,9 +12,11 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		private var _name : String;
 		
-		public function DOMPathNameExpression(value : String)
+		public function DOMPathNameExpression(name : String)
 		{
-			_name = value;
+			if(null == name) throw new ArgumentError('Given name can not be null');
+			
+			_name = name;
 		}
 		
 		/**

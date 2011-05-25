@@ -1,7 +1,5 @@
 package org.osflash.dom.path
 {
-	import org.osflash.dom.path.parser.expressions.DOMPathUnsignedIntegerExpression;
-	import org.osflash.dom.path.parser.expressions.DOMPathNameIndexAccessExpression;
 	import org.osflash.dom.element.IDOMDocument;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
@@ -11,9 +9,9 @@ package org.osflash.dom.path
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
 	import org.osflash.dom.path.parser.expressions.DOMPathNameDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathNameIndexAccessExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathUnsignedIntegerExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
-	import org.osflash.dom.path.parser.stream.DOMPathByteArrayOutputStream;
-	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
 
 	import flash.utils.getDefinitionByName;
 
@@ -84,9 +82,9 @@ package org.osflash.dom.path
 				expression = new DOMPathDescendantsExpression(type, expression);
 			}
 			
-			const stream : IDOMPathOutputStream = new DOMPathByteArrayOutputStream();
-			expression.describe(stream);
-			log('RAW >', stream.toString());
+			// const stream : IDOMPathOutputStream = new DOMPathByteArrayOutputStream();
+			// expression.describe(stream);
+			// log('RAW >', stream.toString());
 			
 			while (valid)
 			{

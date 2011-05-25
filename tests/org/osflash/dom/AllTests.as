@@ -9,11 +9,11 @@ package org.osflash.dom
 	{
 		
 		// Document
-		//public var _DOMDocumentTest:DOMDocumentTest;
+		public var _DOMDocumentTest:DOMDocumentTest;
 		
 		// Path
 		public var _DOMPathNameIndexAccessTest:DOMPathNameIndexAccessTest;
-		//public var _DOMPathNameTest:DOMPathNameTest;
-		//public var _DOMPathWildcardTest:DOMPathWildcardTest;
+		public var _DOMPathNameTest:DOMPathNameTest;
+		public var _DOMPathWildcardTest:DOMPathWildcardTest;
 	}
 }

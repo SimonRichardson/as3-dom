@@ -20,6 +20,9 @@ package org.osflash.dom.path.parser.expressions
 		
 		public function DOMPathEqualityExpression(value : String, expression : IDOMPathExpression)
 		{
+			if(null == value) throw new ArgumentError('Given value can not be null');
+			if(null == expression) throw new ArgumentError('Given expression can not be null');
+			
 			_value = value;
 			_expression = expression;
 		}

@@ -14,6 +14,8 @@ package org.osflash.dom.path.parser.expressions
 		
 		public function DOMPathStringExpression(value : String)
 		{
+			if(null == value) throw new ArgumentError('Given value can not be null');
+			
 			_value = value;
 		}
 		

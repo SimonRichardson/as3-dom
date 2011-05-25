@@ -27,6 +27,10 @@ package org.osflash.dom.path.parser.expressions
 														elseArm : IDOMPathExpression
 														)
 		{
+			if(null == condition) throw new ArgumentError('Given condition can not be null');
+			if(null == thenArm) throw new ArgumentError('Given thenArm can not be null');
+			if(null == elseArm) throw new ArgumentError('Given elseArm can not be null');
+			
 			_condition = condition;
 			_thenArm = thenArm;
 			_elseArm = elseArm;

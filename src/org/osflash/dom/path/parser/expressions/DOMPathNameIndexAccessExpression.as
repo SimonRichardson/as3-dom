@@ -21,6 +21,9 @@ package org.osflash.dom.path.parser.expressions
 															parameter : IDOMPathExpression
 															)
 		{
+			if(null == name) throw new ArgumentError('Given name can not be null');
+			if(null == parameter) throw new ArgumentError('Given parameter can not be null');
+			
 			_name = name;
 			_parameter = parameter;
 		}

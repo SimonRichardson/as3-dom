@@ -17,11 +17,14 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		private var _descendants : IDOMPathExpression;
 		
-		public function DOMPathNameDescendantsExpression(	method : IDOMPathExpression,
+		public function DOMPathNameDescendantsExpression(	name : IDOMPathExpression,
 															descendants : IDOMPathExpression
 															)
 		{
-			_name = method;
+			if(null == name) throw new ArgumentError('Given name can not be null');
+			if(null == descendants) throw new ArgumentError('Given descendants can not be null');
+			
+			_name = name;
 			_descendants = descendants;
 		}
 		
