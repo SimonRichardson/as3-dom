@@ -86,6 +86,9 @@ package org.osflash.dom.path
 			// expression.describe(stream);
 			// log('RAW >', stream.toString());
 			
+			// common expr.
+			var nameIndexAccessExpr : DOMPathNameIndexAccessExpression;
+			
 			while (valid)
 			{
 				switch(expression.type)
@@ -127,27 +130,26 @@ package org.osflash.dom.path
 					
 					case DOMPathExpressionType.NAME_INDEX_ACCESS:
 						// move to the next expression
-						const nameIndexAccessExpression : DOMPathNameIndexAccessExpression = 
-													expression as DOMPathNameIndexAccessExpression;
-						if (null == nameIndexAccessExpression)
+						nameIndexAccessExpr = expression as DOMPathNameIndexAccessExpression;
+						if (null == nameIndexAccessExpr)
 							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
 						
 						// check that the name is valid
-						const nameIndexAccessNameExpression : DOMPathNameExpression = 
-										nameIndexAccessExpression.name as DOMPathNameExpression;
-						if (null == nameIndexAccessNameExpression)
+						const nameIndexAccessNameExpr : DOMPathNameExpression = 
+										nameIndexAccessExpr.name as DOMPathNameExpression;
+						if (null == nameIndexAccessNameExpr)
 							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
 							
 						// check that the internal part is a unsigned integer.
-						const unsignedIntegerExpression : DOMPathUnsignedIntegerExpression = 
-							nameIndexAccessExpression.parameter as DOMPathUnsignedIntegerExpression;
-						if (null == unsignedIntegerExpression)
+						const unsignedIntegerExpr : DOMPathUnsignedIntegerExpression = 
+							nameIndexAccessExpr.parameter as DOMPathUnsignedIntegerExpression;
+						if (null == unsignedIntegerExpr)
 							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
-						if(isNaN(unsignedIntegerExpression.value))
+						if(isNaN(unsignedIntegerExpr.value))
 							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
 						
 						// actually filter the name.
-						domChildren = filterByName(elements, nameIndexAccessNameExpression);
+						domChildren = filterByName(elements, nameIndexAccessNameExpr);
 						
 						total = domChildren.length;
 						for(i = 0; i < total; i++)
@@ -157,7 +159,7 @@ package org.osflash.dom.path
 						}
 						
 						// now bring back the index
-						domChild = nodes[unsignedIntegerExpression.value];
+						domChild = nodes[unsignedIntegerExpr.value];
 						nodes.length = 0;
 						nodes[0] = domChild;
 						
@@ -186,11 +188,11 @@ package org.osflash.dom.path
 						domChildren = null;
 						
 						// move to the next expression
-						const allDescendantsExpression : DOMPathDescendantsExpression = expression 
+						const allDescendantsExpr : DOMPathDescendantsExpression = expression 
 																	as DOMPathDescendantsExpression;
-						if (null == allDescendantsExpression)
+						if (null == allDescendantsExpr)
 							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
-						expression = allDescendantsExpression.descendants;
+						expression = allDescendantsExpr.descendants;
 						break;
 					
 					case DOMPathExpressionType.DESCENDANTS:
@@ -203,28 +205,42 @@ package org.osflash.dom.path
 						domElements = null;
 						
 						// move to the next expression
-						const descendantsExpression : DOMPathDescendantsExpression = expression 
+						const descendantsExpr : DOMPathDescendantsExpression = expression 
 																	as DOMPathDescendantsExpression;
-						if (null == descendantsExpression)
+						if (null == descendantsExpr)
 							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
-						expression = descendantsExpression.descendants;
+						expression = descendantsExpr.descendants;
 						break;
 					
 					case DOMPathExpressionType.NAME_DESCENDANTS:
-						const filterDescendantsExpression : DOMPathNameDescendantsExpression = 
+						const filterDescExpr : DOMPathNameDescendantsExpression = 
 												expression as DOMPathNameDescendantsExpression;
 												
-						if (null == filterDescendantsExpression)
+						if (null == filterDescExpr)
 							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
-							
-						const filterNameExpression : DOMPathNameExpression = 
-										filterDescendantsExpression.name as DOMPathNameExpression;
-										
+						
 						// filter name	
 						domElements = elements.concat();
 						elements.length = 0;
 						
-						domChildren = filterByName(domElements, filterNameExpression);
+						var filterNameExpr : DOMPathNameExpression;
+						if(filterDescExpr.name is DOMPathNameExpression)
+						{
+							filterNameExpr = filterDescExpr.name as DOMPathNameExpression;
+							domChildren = filterByName(domElements, filterNameExpr);
+						}
+						else if(filterDescExpr.name is DOMPathNameIndexAccessExpression)
+						{
+							nameIndexAccessExpr = filterDescExpr.name as 
+																DOMPathNameIndexAccessExpression;
+							
+							filterNameExpr = nameIndexAccessExpr.name as DOMPathNameExpression;
+							domChildren = filterByName(domElements, filterNameExpr);	
+						}
+						else
+						{
+							DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
+						}
 						
 						total = domChildren.length;
 						for(i = 0; i < total; i++)
@@ -244,7 +260,7 @@ package org.osflash.dom.path
 						domElements = null;
 						
 						// move to the next expression
-						expression = filterDescendantsExpression.descendants;
+						expression = filterDescExpr.descendants;
 						break;
 						
 					default:

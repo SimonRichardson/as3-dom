@@ -219,7 +219,6 @@ package org.osflash.dom.path
 																				);
 		}
 		
-		
 		[Test]
 		public function add_elements_and_path_select_node1_index1_then_subnode1() : void
 		{
@@ -237,8 +236,126 @@ package org.osflash.dom.path
 			
 			const result : Vector.<IDOMNode> = document.select('node1[1]/subnode1');
 			
+			assertEquals('Result length should be 2', 2, result.length);
+			assertEquals('Result item at 0 index should be same as subnode0', subnode0, result[0]);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_node1_index1_then_subnode1_in_context() : void
+		{
+			const node0 : DOMNode = new DOMNode('node1');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode1');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			const result : Vector.<IDOMNode> = document.select('/node1[1]/subnode1');
+			
+			assertEquals('Result length should be 2', 2, result.length);
+			assertEquals('Result item at 0 index should be same as subnode0', subnode0, result[0]);
+		}
+		
+		
+		[Test]
+		public function add_elements_and_path_select_node1_index1_then_subnode1_in_document() : void
+		{
+			const node0 : DOMNode = new DOMNode('node1');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode1');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			const result : Vector.<IDOMNode> = document.select('//node1[1]/subnode1');
+			
+			assertEquals('Result length should be 2', 2, result.length);
+			assertEquals('Result item at 0 index should be same as subnode0', subnode0, result[0]);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_node1_index1_then_subnode1_index0_then_subsubnode0() : void
+		{
+			const node0 : DOMNode = new DOMNode('node1');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode1');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+			
+			const result : Vector.<IDOMNode> = document.select('node1[1]/subnode1[0]/subsubnode0');
+			
 			assertEquals('Result length should be 1', 1, result.length);
-			assertEquals('Result item at 0 index should be same as subnode1', subnode1, result[0]);
+			assertEquals('Result item at 0 index should be same as subsubnode0', subsubnode0, result[0]);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_node1_index1_then_subnode1_index0_then_subsubnode0_in_context() : void
+		{
+			const node0 : DOMNode = new DOMNode('node1');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode1');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+			
+			const result : Vector.<IDOMNode> = document.select('/node1[1]/subnode1[0]/subsubnode0');
+			
+			assertEquals('Result length should be 1', 1, result.length);
+			assertEquals('Result item at 0 index should be same as subsubnode0', subsubnode0, result[0]);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_node1_index1_then_subnode1_index0_then_subsubnode0_in_document() : void
+		{
+			const node0 : DOMNode = new DOMNode('node1');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode1');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+			
+			const result : Vector.<IDOMNode> = document.select('//node1[1]/subnode1[0]/subsubnode0');
+			
+			assertEquals('Result length should be 1', 1, result.length);
+			assertEquals('Result item at 0 index should be same as subsubnode0', subsubnode0, result[0]);
 		}
 	}
 }
