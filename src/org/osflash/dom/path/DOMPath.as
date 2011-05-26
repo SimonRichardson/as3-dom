@@ -159,9 +159,14 @@ package org.osflash.dom.path
 									DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
 																
 								// now bring back the index
-								domChild = nodes[unsignedIntegerExpr.value];
-								nodes.length = 0;
-								nodes[0] = domChild;
+								
+								if(unsignedIntegerExpr.value >= nodes.length) nodes.length = 0;
+								else
+								{
+									domChild = nodes[unsignedIntegerExpr.value];
+									nodes.length = 0;
+									nodes[0] = domChild;
+								}
 							}
 							else if(attribExpr.attribute is DOMPathNameExpression)
 							{
@@ -465,9 +470,13 @@ package org.osflash.dom.path
 								DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
 								
 							// now bring back the index
-							domElement = elements[unsignedIntegerExpr.value];
-							elements.length = 0;
-							elements[0] = domElement;
+							if(unsignedIntegerExpr.value >= elements.length) elements.length = 0;
+							else 
+							{
+								domElement = elements[unsignedIntegerExpr.value];
+								elements.length = 0;
+								elements[0] = domElement;
+							}
 							
 							domChild = null;
 							domElement = null;

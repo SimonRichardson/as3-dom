@@ -28,6 +28,45 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
+		public function path_select_invalid_index_with_attribute_name() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			document.add(node0);
+			document.add(node1);
+									
+			const result : Vector.<IDOMNode> = document.select('@name[2]');
+			assertEquals('Result length should be 0', 0, result.length);
+		}
+		
+		[Test]
+		public function path_select_invalid_index_with_attribute_name_in_context() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			document.add(node0);
+			document.add(node1);
+									
+			const result : Vector.<IDOMNode> = document.select('/@name[2]');
+			assertEquals('Result length should be 0', 0, result.length);
+		}
+		
+		[Test]
+		public function path_select_invalid_index_with_attribute_name_in_document() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			document.add(node0);
+			document.add(node1);
+									
+			const result : Vector.<IDOMNode> = document.select('//@name[2]');
+			assertEquals('Result length should be 0', 0, result.length);
+		}
+		
+		[Test]
 		public function path_select_all_with_attribute_name() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
@@ -67,6 +106,78 @@ package org.osflash.dom.path
 			const result : Vector.<IDOMNode> = document.select('//@name[1]');
 			assertEquals('Result length should be 1', 1, result.length);
 			assertEquals('Result should contain node1', node1, result[0]);
+		}
+		
+		[Test]
+		public function path_select_invalid_index_for_subnode1_with_attribute_name() : void
+		{
+			const node0 : DOMNode = new DOMNode('node1');
+			const node1 : DOMSpecialAttributeNode = new DOMSpecialAttributeNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('node1@name[3]/subnode1');
+			
+			assertEquals('Result length should be 0', 0, result.length);
+		}
+		
+		[Test]
+		public function path_select_invalid_index_for_subnode1_with_attribute_name_in_context() : void
+		{
+			const node0 : DOMNode = new DOMNode('node1');
+			const node1 : DOMSpecialAttributeNode = new DOMSpecialAttributeNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('/node1@name[3]/subnode1');
+			
+			assertEquals('Result length should be 0', 0, result.length);
+		}
+		
+		[Test]
+		public function path_select_invalid_index_for_subnode1_with_attribute_name_in_document() : void
+		{
+			const node0 : DOMNode = new DOMNode('node1');
+			const node1 : DOMSpecialAttributeNode = new DOMSpecialAttributeNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('//node1@name[3]/subnode1');
+			
+			assertEquals('Result length should be 0', 0, result.length);
 		}
 		
 		[Test]
