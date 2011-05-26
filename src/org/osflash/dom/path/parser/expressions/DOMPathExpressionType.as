@@ -31,6 +31,9 @@ package org.osflash.dom.path.parser.expressions
 
 		public static const ATTRIBUTE : DOMPathExpressionType = new DOMPathExpressionType(0x11);
 
+		public static const ATTRIBUTE_DESCENDANTS : DOMPathExpressionType = 
+																new DOMPathExpressionType(0x12);
+
 		/**
 		 * @private
 		 */
@@ -70,6 +73,8 @@ package org.osflash.dom.path.parser.expressions
 					return 'unsignedInteger';
 				case ATTRIBUTE.type:
 					return 'attribute';
+				case ATTRIBUTE_DESCENDANTS.type:
+					return 'attribute_descendants';
 				default:
 					throw new ArgumentError('Given argument is Unknown'); 
 			}

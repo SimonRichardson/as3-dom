@@ -2,6 +2,7 @@ package org.osflash.dom
 {
 	import org.osflash.dom.element.DOMDocumentTest;
 	import org.osflash.dom.element.utils.CloneFromDisplayObjectsTest;
+	import org.osflash.dom.path.DOMPathAttributeIndexAccessTest;
 	import org.osflash.dom.path.DOMPathAttributeTest;
 	import org.osflash.dom.path.DOMPathNameIndexAccessTest;
 	import org.osflash.dom.path.DOMPathNameTest;
@@ -16,6 +17,7 @@ package org.osflash.dom
 		public var _DOMDocumentTest:DOMDocumentTest;
 		
 		// Path
+		//public var _DOMPathAttributeIndexAccessTest:DOMPathAttributeIndexAccessTest;
 		public var _DOMPathAttributeTest:DOMPathAttributeTest;
 		public var _DOMPathNameIndexAccessTest:DOMPathNameIndexAccessTest;
 		public var _DOMPathNameTest:DOMPathNameTest;

@@ -7,6 +7,7 @@ package org.osflash.dom.path
 	import org.osflash.dom.element.DOMNode;
 	import org.osflash.dom.element.IDOMDocument;
 	import org.osflash.dom.element.IDOMNode;
+	import org.osflash.dom.support.DOMSpecialAttributeNode;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
@@ -60,6 +61,82 @@ package org.osflash.dom.path
 		[Test]
 		public function path_select_node1_with_attribute_name() : void
 		{
+			const node0 : DOMNode = new DOMNode('node1');
+			const node1 : DOMSpecialAttributeNode = new DOMSpecialAttributeNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('node1@special');
+			
+			assertEquals('Result length should be 1', 1, result.length);
+			assertEquals('Result should contain node1', node1, result[0]);
+		}
+				
+				
+		[Test]
+		public function path_select_node1_with_attribute_name_in_context() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('/node1@name');
+			
+			assertEquals('Result length should be 1', 1, result.length);
+			assertEquals('Result should contain node1', node1, result[0]);
+		}
+		
+		[Test]
+		public function path_select_node1_with_attribute_name_in_document() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('//node1@name');
+			
+			assertEquals('Result length should be 1', 1, result.length);
+			assertEquals('Result should contain node1', node1, result[0]);
+		}
+		
+		[Test]
+		public function path_select_node1_then_select_children_with_attribute_name() : void
+		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
 			
@@ -82,7 +159,82 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function path_select_node1_with_invalid_attribute_name() : void
+		public function path_select_node1_them_subnode0_with_attribute_name() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('node1/subnode0@name');
+			
+			assertEquals('Result length should be 1', 1, result.length);
+			assertEquals('Result should contain subnode0', subnode0, result[0]);
+		}
+		
+		[Test]
+		public function path_select_node1_them_subnode0_with_attribute_name_in_context() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('/node1/subnode0@name');
+			
+			assertEquals('Result length should be 1', 1, result.length);
+			assertEquals('Result should contain subnode0', subnode0, result[0]);
+		}
+		
+		[Test]
+		public function path_select_node1_them_subnode0_with_attribute_name_in_document() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('//node1/subnode0@name');
+			
+			assertEquals('Result length should be 1', 1, result.length);
+			assertEquals('Result should contain subnode0', subnode0, result[0]);
+		}
+		
+		[Test]
+		public function path_select_node1_then_select_children_with_invalid_attribute_name() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -106,7 +258,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function path_select_node1_with_attribute_name_in_context() : void
+		public function path_select_node1_then_select_children_with_attribute_name_in_context() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -130,7 +282,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function path_select_node1_with_invalid_attribute_name_in_context() : void
+		public function path_select_node1_then_select_children_with_invalid_attribute_name_in_context() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -155,7 +307,7 @@ package org.osflash.dom.path
 		
 		
 		[Test]
-		public function path_select_node1_with_attribute_name_in_document() : void
+		public function path_select_node1_then_select_children_with_attribute_name_in_document() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -179,7 +331,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function path_select_node1_with_invalid_attribute_name_in_document() : void
+		public function path_select_node1_then_select_children_with_invalid_attribute_name_in_document() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -201,5 +353,6 @@ package org.osflash.dom.path
 			
 			assertEquals('Result length should be 0', 0, result.length);
 		}
+		
 	}
 }
