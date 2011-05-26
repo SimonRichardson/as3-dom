@@ -29,6 +29,8 @@ package org.osflash.dom.path.parser.expressions
 		public static const UNSIGNED_INTEGER : DOMPathExpressionType = 
 																	new DOMPathExpressionType(0x10);
 
+		public static const ATTRIBUTE : DOMPathExpressionType = new DOMPathExpressionType(0x11);
+
 		/**
 		 * @private
 		 */
@@ -66,6 +68,8 @@ package org.osflash.dom.path.parser.expressions
 					return 'number';
 				case UNSIGNED_INTEGER.type:
 					return 'unsignedInteger';
+				case ATTRIBUTE.type:
+					return 'attribute';
 				default:
 					throw new ArgumentError('Given argument is Unknown'); 
 			}

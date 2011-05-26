@@ -1,18 +1,21 @@
 package org.osflash.dom.path
 {
-	import org.osflash.dom.path.parser.expressions.DOMPathWildcardExpression;
 	import org.osflash.dom.element.IDOMDocument;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
 	import org.osflash.dom.element.utils.getAllDOMElementChildren;
 	import org.osflash.dom.element.utils.getDOMElementChildren;
+	import org.osflash.dom.path.parser.expressions.DOMPathAttributeExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
+	import org.osflash.dom.path.parser.expressions.DOMPathIndexAccessExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathNameDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
-	import org.osflash.dom.path.parser.expressions.DOMPathIndexAccessExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathUnsignedIntegerExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathWildcardExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
+	import org.osflash.dom.path.parser.stream.DOMPathByteArrayOutputStream;
+	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
 
 	import flash.utils.getDefinitionByName;
 
@@ -75,6 +78,7 @@ package org.osflash.dom.path
 			// If it's just trying to access the context, add a context descendants expression
 			if(	expression.type == DOMPathExpressionType.WILDCARD ||
 				expression.type == DOMPathExpressionType.NAME ||
+				expression.type == DOMPathExpressionType.ATTRIBUTE ||
 				expression.type == DOMPathExpressionType.NAME_DESCENDANTS ||
 				expression.type == DOMPathExpressionType.INDEX_ACCESS
 				)
@@ -83,9 +87,9 @@ package org.osflash.dom.path
 				expression = new DOMPathDescendantsExpression(type, expression);
 			}
 			
-			// const stream : IDOMPathOutputStream = new DOMPathByteArrayOutputStream();
-			// expression.describe(stream);
-			// log('RAW >', stream.toString());
+			const stream : IDOMPathOutputStream = new DOMPathByteArrayOutputStream();
+			expression.describe(stream);
+			log('RAW >', stream.toString());
 			
 			// common expr.
 			var nameExpr : DOMPathNameExpression;
@@ -112,6 +116,25 @@ package org.osflash.dom.path
 						
 						// we've finished the expression tree
 						valid = false;
+						break;
+						
+					case DOMPathExpressionType.ATTRIBUTE:
+						
+						domChildren = filterByAttribute(elements, expression);
+						
+						total = domChildren.length;
+						for(i = 0; i < total; i++)
+						{
+							domChild = domChildren[i];
+							if(nodes.indexOf(domChild) == -1) nodes.push(domChild);
+						}
+						
+						domChild = null;
+						domChildren = null;
+						
+						// we've finished the expression tree
+						valid = false;
+						
 						break;
 						
 					case DOMPathExpressionType.NAME:
@@ -321,6 +344,39 @@ package org.osflash.dom.path
 				{
 					if(domChildren.indexOf(domElement) == -1) 
 						domChildren.push(domElement);
+				}
+				else DOMPathError.throwError(DOMPathError.INVALID_ELEMENT);
+			}
+			
+			return domChildren;
+		}
+		
+		
+		/**
+		 * @private
+		 */
+		private function filterByAttribute(	elements : Vector.<IDOMElement>, 
+											expression : IDOMPathExpression
+											) :  Vector.<IDOMNode>
+		{
+			// filter the elements by the name
+			const attrExpr : DOMPathAttributeExpression = expression as DOMPathAttributeExpression;
+			if (null == attrExpr)
+				DOMPathError.throwError(DOMPathError.INVALID_EXPRESSION);
+				
+			const nameExpr : DOMPathNameExpression = attrExpr.attribute as DOMPathNameExpression;
+			if (null == nameExpr)
+				DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
+				
+			const total : int = elements.length;
+			const domChildren : Vector.<IDOMNode> = new Vector.<IDOMNode>();
+			for(var i : int = 0; i < total; i++)
+			{
+				const domElement : IDOMElement = elements[i];
+				if(domElement is IDOMNode)
+				{
+					const domChild : IDOMNode = IDOMNode(domElement);
+					if(nameExpr.name in domChild) domChildren.push(domChild);
 				}
 				else DOMPathError.throwError(DOMPathError.INVALID_ELEMENT);
 			}

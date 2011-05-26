@@ -40,7 +40,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_nodes_in_context() : void
+		public function path_select_nodes_in_context() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -64,7 +64,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_nodes_in_document() : void
+		public function path_select_nodes_in_document() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -93,7 +93,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_node1_children() : void
+		public function path_select_node1_children() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -121,7 +121,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_node1_children_in_context() : void
+		public function path_select_node1_children_in_context() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -149,7 +149,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_node1_children_in_document() : void
+		public function path_select_node1_children_in_document() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -177,7 +177,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_node1_then_subnode0_children() : void
+		public function path_select_node1_then_subnode0_children() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -206,7 +206,7 @@ package org.osflash.dom.path
 		
 		
 		[Test]
-		public function add_elements_and_path_select_node1_then_subnode0_children_in_context() : void
+		public function path_select_node1_then_subnode0_children_in_context() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -234,7 +234,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_node1_then_subnode0_children_in_document() : void
+		public function path_select_node1_then_subnode0_children_in_document() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -262,7 +262,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_node1_then_subnode0_then_subsubnode0_children() : void
+		public function path_select_node1_then_subnode0_then_subsubnode0_children() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -286,7 +286,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_node1_then_subnode0_then_subsubnode0_children_in_context() : void
+		public function path_select_node1_then_subnode0_then_subsubnode0_children_in_context() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -310,7 +310,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_node1_then_subnode0_then_subsubnode0_children_in_document() : void
+		public function path_select_node1_then_subnode0_then_subsubnode0_children_in_document() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -334,7 +334,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_all_grandchildren() : void
+		public function path_select_all_grandchildren() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -364,7 +364,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_all_grandchildren_in_context() : void
+		public function path_select_all_grandchildren_in_context() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -394,7 +394,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_all_grandchildren_in_document() : void
+		public function path_select_all_grandchildren_in_document() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
