@@ -386,6 +386,8 @@ package org.osflash.dom.path
 						}
 						else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 						
+						log('>>>>>>>>', attribDescExpr.attributeName);
+						
 						// we have a index expression here
 						if(attribDescExpr.attributeName is DOMPathIndexAccessExpression)
 						{
@@ -396,26 +398,14 @@ package org.osflash.dom.path
 							// now filter by attributes
 							domChildren = filterDescendantsByAttribute(	domChildren, 
 																		nameExpr
-																		);												
-						}
-						else if(attribDescExpr.attributeName is DOMPathNameExpression)
-						{
-							// now filter by attributes
-							domChildren = filterDescendantsByAttribute(	domChildren, 
-																		attribDescExpr.attributeName
 																		);
-						}
-						else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
-						
-						total = domChildren.length;
-						for(i = 0; i < total; i++)
-						{
-							domChild = domChildren[i];
-							if(nodes.indexOf(domChild) == -1) nodes.push(domChild);
-						}
-						
-						if(attribDescExpr.attributeName is DOMPathIndexAccessExpression)
-						{
+							total = domChildren.length;
+							for(i = 0; i < total; i++)
+							{
+								domChild = domChildren[i];
+								if(nodes.indexOf(domChild) == -1) nodes.push(domChild);
+							}
+							
 							// check that the internal part is a unsigned integer.
 							unsignedIntegerExpr = indexAccessExpr.parameter as 
 																DOMPathUnsignedIntegerExpression;
@@ -428,9 +418,27 @@ package org.osflash.dom.path
 							// now bring back the index
 							domChild = nodes[unsignedIntegerExpr.value];
 							nodes.length = 0;
-							nodes[0] = domChild;
+							nodes[0] = domChild;											
 						}
-						
+						else if(attribDescExpr.attributeName is DOMPathNameExpression)
+						{
+							// now filter by attributes
+							domChildren = filterDescendantsByAttribute(	domChildren, 
+																		attribDescExpr.attributeName
+																		);
+							total = domChildren.length;
+							for(i = 0; i < total; i++)
+							{
+								domChild = domChildren[i];
+								if(nodes.indexOf(domChild) == -1) nodes.push(domChild);
+							}											
+						}
+						else if(attribDescExpr.attributeName is DOMPathNameDescendantsExpression)
+						{
+							// now filter on the child attributes
+						}
+						else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
+												
 						domChild = null;
 						domChildren = null;
 						
