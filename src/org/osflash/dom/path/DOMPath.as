@@ -97,6 +97,7 @@ package org.osflash.dom.path
 			var nameExpr : DOMPathNameExpression;
 			var attribExpr : DOMPathAttributeExpression;
 			var indexAccessExpr : DOMPathIndexAccessExpression;
+			var filterDescExpr : DOMPathNameDescendantsExpression;
 			var unsignedIntegerExpr : DOMPathUnsignedIntegerExpression;
 			
 			while (valid)
@@ -317,9 +318,7 @@ package org.osflash.dom.path
 					
 					case DOMPathExpressionType.NAME_DESCENDANTS:
 					
-						const filterDescExpr : DOMPathNameDescendantsExpression = 
-												expression as DOMPathNameDescendantsExpression;
-												
+						filterDescExpr = expression as DOMPathNameDescendantsExpression;
 						if (null == filterDescExpr)
 							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
 						
@@ -386,8 +385,6 @@ package org.osflash.dom.path
 						}
 						else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 						
-						log('>>>>>>>>', attribDescExpr.attributeName);
-						
 						// we have a index expression here
 						if(attribDescExpr.attributeName is DOMPathIndexAccessExpression)
 						{
@@ -396,7 +393,7 @@ package org.osflash.dom.path
 							nameExpr = indexAccessExpr.name as DOMPathNameExpression;
 							
 							// now filter by attributes
-							domChildren = filterDescendantsByAttribute(	domChildren, 
+							domChildren = filterNodesByAttribute(	domChildren, 
 																		nameExpr
 																		);
 							total = domChildren.length;
@@ -423,7 +420,7 @@ package org.osflash.dom.path
 						else if(attribDescExpr.attributeName is DOMPathNameExpression)
 						{
 							// now filter by attributes
-							domChildren = filterDescendantsByAttribute(	domChildren, 
+							domChildren = filterNodesByAttribute(	domChildren, 
 																		attribDescExpr.attributeName
 																		);
 							total = domChildren.length;
@@ -436,6 +433,49 @@ package org.osflash.dom.path
 						else if(attribDescExpr.attributeName is DOMPathNameDescendantsExpression)
 						{
 							// now filter on the child attributes
+							filterDescExpr = attribDescExpr.attributeName as 
+																DOMPathNameDescendantsExpression;
+																
+							// this is the index access node
+							indexAccessExpr = filterDescExpr.name as DOMPathIndexAccessExpression;																
+							if(null == indexAccessExpr)
+								DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+							
+							nameExpr = indexAccessExpr.name as DOMPathNameExpression;
+							
+							// now filter by attributes
+							domChildren = filterDescendantsByAttribute(	domChildren, 
+																		nameExpr
+																		);
+							
+							total = domChildren.length;
+							for(i = 0; i < total; i++)
+							{
+								domChild = domChildren[i];
+								if(elements.indexOf(domChild) == -1) elements.push(domChild);
+							}
+							
+							// check that the internal part is a unsigned integer.
+							unsignedIntegerExpr = indexAccessExpr.parameter as 
+																DOMPathUnsignedIntegerExpression;
+																	
+							if (null == unsignedIntegerExpr)
+								DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+							if(isNaN(unsignedIntegerExpr.value))
+								DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+								
+							// now bring back the index
+							domElement = elements[unsignedIntegerExpr.value];
+							elements.length = 0;
+							elements[0] = domElement;
+							
+							domChild = null;
+							domElement = null;
+							domChildren = null;
+							
+							// this is the next node parse it.
+							expression = filterDescExpr.descendants;
+							break;
 						}
 						else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 												
@@ -535,9 +575,9 @@ package org.osflash.dom.path
 		/**
 		 * @private
 		 */
-		private function filterDescendantsByAttribute(	nodes : Vector.<IDOMNode>, 
-														expression : IDOMPathExpression
-														) :  Vector.<IDOMNode>
+		private function filterNodesByAttribute(	nodes : Vector.<IDOMNode>, 
+													expression : IDOMPathExpression
+													) :  Vector.<IDOMNode>
 		{
 			// filter the elements by the name
 			const nameExpr : DOMPathNameExpression = expression as DOMPathNameExpression;
@@ -548,6 +588,46 @@ package org.osflash.dom.path
 			for(var i : int = 0; i < total; i++)
 			{
 				const domElement : IDOMElement = nodes[i];
+				if(domElement is IDOMNode)
+				{
+					const domChild : IDOMNode = IDOMNode(domElement);
+					if(nameExpr.name in domChild) domChildren.push(domChild);
+				}
+				else DOMPathError.throwError(DOMPathError.INVALID_ELEMENT);
+			}
+			
+			return domChildren;
+		}
+		
+		/**
+		 * @private
+		 */
+		private function filterDescendantsByAttribute(	nodes : Vector.<IDOMNode>, 
+														expression : IDOMPathExpression
+														) :  Vector.<IDOMNode>
+		{
+			// filter the elements by the name
+			const nameExpr : DOMPathNameExpression = expression as DOMPathNameExpression;
+			if(null == nameExpr) DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
+			
+			var i : int;
+			var total : int = nodes.length;
+			var domElement : IDOMElement;
+			var elements : Vector.<IDOMNode> = new Vector.<IDOMNode>();
+			
+			for (i = 0; i < total; i++)
+			{
+				domElement = nodes[i];
+				const domElements : Vector.<IDOMNode> = getDOMElementChildren(domElement);
+				if (domElements.length > 0) elements = elements.concat(domElements);
+			}
+			
+			const domChildren : Vector.<IDOMNode> = new Vector.<IDOMNode>();
+			
+			total = elements.length;
+			for(i = 0; i < total; i++)
+			{
+				domElement = elements[i];
 				if(domElement is IDOMNode)
 				{
 					const domChild : IDOMNode = IDOMNode(domElement);
