@@ -56,5 +56,150 @@ package org.osflash.dom.path
 			const result : Vector.<IDOMNode> = document.select('@invalid');
 			assertEquals('Result length should be 0', 0, result.length);
 		}
+		
+		[Test]
+		public function path_select_node1_with_attribute_name() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('node1/@name');
+			
+			assertEquals('Result length should be 2', 2, result.length);
+		}
+		
+		[Test]
+		public function path_select_node1_with_invalid_attribute_name() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('node1/@invalid');
+			
+			assertEquals('Result length should be 0', 0, result.length);
+		}
+		
+		[Test]
+		public function path_select_node1_with_attribute_name_in_context() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('/node1/@name');
+			
+			assertEquals('Result length should be 2', 2, result.length);
+		}
+		
+		[Test]
+		public function path_select_node1_with_invalid_attribute_name_in_context() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('/node1/@invalid');
+			
+			assertEquals('Result length should be 0', 0, result.length);
+		}
+		
+		
+		[Test]
+		public function path_select_node1_with_attribute_name_in_document() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('//node1/@name');
+			
+			assertEquals('Result length should be 2', 2, result.length);
+		}
+		
+		[Test]
+		public function path_select_node1_with_invalid_attribute_name_in_document() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('//node1/@invalid');
+			
+			assertEquals('Result length should be 0', 0, result.length);
+		}
 	}
 }
