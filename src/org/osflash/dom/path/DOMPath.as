@@ -7,11 +7,15 @@ package org.osflash.dom.path
 	import org.osflash.dom.element.utils.getDOMElementChildren;
 	import org.osflash.dom.path.parser.expressions.DOMPathAttributeDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathAttributeExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathCallMethodExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
 	import org.osflash.dom.path.parser.expressions.DOMPathIndexAccessExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathIntegerExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathNameDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathNumberExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathStringExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathUnsignedIntegerExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathWildcardExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
@@ -82,7 +86,8 @@ package org.osflash.dom.path
 				expression.type == DOMPathExpressionType.NAME_DESCENDANTS ||
 				expression.type == DOMPathExpressionType.ATTRIBUTE ||
 				expression.type == DOMPathExpressionType.ATTRIBUTE_DESCENDANTS ||
-				expression.type == DOMPathExpressionType.INDEX_ACCESS
+				expression.type == DOMPathExpressionType.INDEX_ACCESS ||
+				expression.type == DOMPathExpressionType.CALL_METHOD
 				)
 			{
 				const type : int = DOMPathDescendantsExpression.CONTEXT;
@@ -456,7 +461,6 @@ package org.osflash.dom.path
 							domChildren = filterDescendantsByAttribute(	domChildren, 
 																		nameExpr
 																		);
-							
 							total = domChildren.length;
 							for(i = 0; i < total; i++)
 							{
@@ -490,11 +494,79 @@ package org.osflash.dom.path
 							expression = filterDescExpr.descendants;
 							break;
 						}
+						else if(attribDescExpr.attributeName is DOMPathCallMethodExpression)
+						{
+							nodes = domChildren;
+							
+							// clean
+							domChildren = null;
+							
+							// pass the expression on 
+							expression = attribDescExpr.attributeName;
+							break;
+						}
 						else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 												
 						domChild = null;
 						domChildren = null;
 						
+						valid = false;
+						break;
+					
+					case DOMPathExpressionType.CALL_METHOD:
+						const callExpr : DOMPathCallMethodExpression = expression as 
+																	DOMPathCallMethodExpression;
+						
+						const methodExpr : DOMPathNameExpression = callExpr.method as 
+																			DOMPathNameExpression;
+						if(null == methodExpr)
+							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+						
+						const params : Array = [];
+						const paramExprs : Vector.<IDOMPathExpression> = callExpr.parameters;
+						const paramLength : int = paramExprs.length;
+						for(i = 0; i < paramLength; i++)
+						{
+							const paramExpr : IDOMPathExpression = paramExprs[i];
+							
+							if(paramExpr.type == DOMPathExpressionType.INTEGER)
+								params.push(DOMPathIntegerExpression(paramExpr).value);
+							else if(paramExpr.type == DOMPathExpressionType.UNSIGNED_INTEGER)
+								params.push(DOMPathUnsignedIntegerExpression(paramExpr).value);
+							else if(paramExpr.type == DOMPathExpressionType.NUMBER)
+								params.push(DOMPathNumberExpression(paramExpr).value);
+							else if(paramExpr.type == DOMPathExpressionType.STRING)
+								params.push(DOMPathStringExpression(paramExpr).value);
+							else 
+								DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+						}
+						
+						const result : Vector.<String> = new Vector.<String>();
+						
+						total = nodes.length;						
+						for (i = 0; i < total; i++)
+						{
+							domElement = nodes[i];
+							if(methodExpr.name in domElement)
+							{
+								const method : Function = domElement[methodExpr.name];
+								
+								// hot pathing
+								if(paramLength == 0) result.push(method());
+								else if(paramLength == 1) result.push(method(params[0]));
+								else if(paramLength == 2) result.push(method(params[0], params[1]));
+								else result.push(method.apply(null, params));
+							}
+							else
+							{
+								result.push("");
+							}
+						}
+						
+						log("RESULT : " + result);
+						
+						// TODO : do a callback here onCallMethodResultSignal(methodName, result)
+						// how do we get the result back?
 						valid = false;
 						break;
 					

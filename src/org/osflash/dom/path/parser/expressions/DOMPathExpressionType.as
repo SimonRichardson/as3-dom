@@ -34,6 +34,8 @@ package org.osflash.dom.path.parser.expressions
 		public static const ATTRIBUTE_DESCENDANTS : DOMPathExpressionType = 
 																new DOMPathExpressionType(0x12);
 
+		public static const CALL_METHOD : DOMPathExpressionType = new DOMPathExpressionType(0x13);
+
 		/**
 		 * @private
 		 */
@@ -74,7 +76,9 @@ package org.osflash.dom.path.parser.expressions
 				case ATTRIBUTE.type:
 					return 'attribute';
 				case ATTRIBUTE_DESCENDANTS.type:
-					return 'attribute_descendants';
+					return 'attributeDescendants';
+				case CALL_METHOD.type:
+					return 'callMethod';
 				default:
 					throw new ArgumentError('Given argument is Unknown'); 
 			}

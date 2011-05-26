@@ -50,7 +50,7 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		override public function get type() : DOMPathExpressionType
 		{
-			return null;
+			return DOMPathExpressionType.CALL_METHOD;
 		}
 		
 		public function get method() : IDOMPathExpression

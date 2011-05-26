@@ -75,6 +75,7 @@ package org.osflash.dom.path.parser
 				var buffer : String = '';
 				if((charCode >= 48 && charCode <= 57) || (charCode >= 45 && charCode <= 46))
 				{
+					var nan : Boolean = false;
 					var decimal : Boolean = false;
 					var negative : Boolean = false; 
 					if(charCode == 45)
@@ -106,8 +107,16 @@ package org.osflash.dom.path.parser
 						}
 						else DOMPathError.throwError(DOMPathError.LEXER_EXHAUSTED);
 						
+						// This isn't a decimal number!
 						if(!(charCode >= 48 && charCode <= 57))
-							DOMPathError.throwError(DOMPathError.UNEXPECTED_CHAR);
+						{
+							// Reset the index to the time before we try and get the number
+							_index -= 2;
+							char = _source.charAt(_index);
+							charCode = char.charCodeAt(0);
+							
+							nan = true;
+						}
 					}
 					else
 					{
@@ -121,56 +130,60 @@ package org.osflash.dom.path.parser
 						else DOMPathError.throwError(DOMPathError.LEXER_EXHAUSTED);
 					}
 					
-					if(!(charCode == 46 || (charCode >= 48 && charCode <= 57)))
+					// There are occasions when we're not a number (nan/NaN)
+					if(!nan)
 					{
-						// rewind as it's only one char 
-						_index--;
-					}
-					else
-					{
-						// append to the buffer
-						buffer += char;
-						
-						while(	hasNext && 
-								(charCode == 46 || 
-								(charCode >= 48 && charCode <= 57))
-								)
+						if(!(charCode == 46 || (charCode >= 48 && charCode <= 57)))
 						{
-							// Find out if we've got a decimal or not
-							if(charCode == 46)
-							{
-								if(!decimal) decimal = true;
-								else 
-								{
-									// We've found another decimal...
-									DOMPathError.throwError(DOMPathError.UNEXPECTED_CHAR);
-								}
-							}
-							
-							char = _source.charAt(_index++);
-							charCode = char.charCodeAt(0);
-							
-							if(	!(charCode == 46 || 
-								 (charCode >= 48 && charCode <= 57)))
-							{
-								// TODO: we should validate what this item it!
-								// we've gone to far, roll back 1.
-								_index--;
-									
-								break;
-							}
-							
+							// rewind as it's only one char 
+							_index--;
+						}
+						else
+						{
 							// append to the buffer
 							buffer += char;
+							
+							while(	hasNext && 
+									(charCode == 46 || 
+									(charCode >= 48 && charCode <= 57))
+									)
+							{
+								// Find out if we've got a decimal or not
+								if(charCode == 46)
+								{
+									if(!decimal) decimal = true;
+									else 
+									{
+										// We've found another decimal...
+										DOMPathError.throwError(DOMPathError.UNEXPECTED_CHAR);
+									}
+								}
+								
+								char = _source.charAt(_index++);
+								charCode = char.charCodeAt(0);
+								
+								if(	!(charCode == 46 || 
+									 (charCode >= 48 && charCode <= 57)))
+								{
+									// TODO: we should validate what this item it!
+									// we've gone to far, roll back 1.
+									_index--;
+										
+									break;
+								}
+								
+								// append to the buffer
+								buffer += char;
+							}
 						}
-					}
 					
-					if(decimal) 
-						return new DOMPathToken(DOMPathTokenType.NUMBER, buffer);
-					else if(negative) 
-						return new DOMPathToken(DOMPathTokenType.INTEGER, buffer);
-					else 
-						return new DOMPathToken(DOMPathTokenType.UNSIGNED_INTEGER, buffer);
+						if(decimal) 
+							return new DOMPathToken(DOMPathTokenType.NUMBER, buffer);
+						else if(negative) 
+							return new DOMPathToken(DOMPathTokenType.INTEGER, buffer);
+						else 
+							return new DOMPathToken(DOMPathTokenType.UNSIGNED_INTEGER, buffer);
+					}
 				}
 				
 				// Work through the types
