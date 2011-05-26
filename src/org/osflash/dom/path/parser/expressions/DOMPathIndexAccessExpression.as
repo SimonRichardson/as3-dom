@@ -4,7 +4,7 @@ package org.osflash.dom.path.parser.expressions
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public final class DOMPathNameIndexAccessExpression extends DOMPathExpression
+	public final class DOMPathIndexAccessExpression extends DOMPathExpression
 	{
 		
 		/**
@@ -17,7 +17,7 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		private var _parameter : IDOMPathExpression;
 
-		public function DOMPathNameIndexAccessExpression(	name : IDOMPathExpression, 
+		public function DOMPathIndexAccessExpression(	name : IDOMPathExpression, 
 															parameter : IDOMPathExpression
 															)
 		{
@@ -45,7 +45,7 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		override public function get type() : DOMPathExpressionType
 		{
-			return DOMPathExpressionType.NAME_INDEX_ACCESS;
+			return DOMPathExpressionType.INDEX_ACCESS;
 		}
 		
 		public function get name() : IDOMPathExpression

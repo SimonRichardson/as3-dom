@@ -20,8 +20,7 @@ package org.osflash.dom.path.parser.expressions
 		
 		public static const NAME : DOMPathExpressionType = new DOMPathExpressionType(0x06);
 
-		public static const NAME_INDEX_ACCESS : DOMPathExpressionType = 
-																	new DOMPathExpressionType(0x07);
+		public static const INDEX_ACCESS : DOMPathExpressionType = new DOMPathExpressionType(0x07);
 
 		public static const INTEGER : DOMPathExpressionType = new DOMPathExpressionType(0x08);
 
@@ -59,8 +58,8 @@ package org.osflash.dom.path.parser.expressions
 					return 'string';
 				case NAME.type:
 					return 'name';
-				case NAME_INDEX_ACCESS.type:
-					return 'nameIndexAccess';
+				case INDEX_ACCESS.type:
+					return 'indexAccess';
 				case INTEGER.type:
 					return 'integer';
 				case NUMBER.type:

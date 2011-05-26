@@ -1,5 +1,6 @@
 package org.osflash.dom.path
 {
+	import org.osflash.dom.path.parser.expressions.DOMPathWildcardExpression;
 	import org.osflash.dom.element.IDOMDocument;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
@@ -9,7 +10,7 @@ package org.osflash.dom.path
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
 	import org.osflash.dom.path.parser.expressions.DOMPathNameDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
-	import org.osflash.dom.path.parser.expressions.DOMPathNameIndexAccessExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathIndexAccessExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathUnsignedIntegerExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 
@@ -75,7 +76,7 @@ package org.osflash.dom.path
 			if(	expression.type == DOMPathExpressionType.WILDCARD ||
 				expression.type == DOMPathExpressionType.NAME ||
 				expression.type == DOMPathExpressionType.NAME_DESCENDANTS ||
-				expression.type == DOMPathExpressionType.NAME_INDEX_ACCESS
+				expression.type == DOMPathExpressionType.INDEX_ACCESS
 				)
 			{
 				const type : int = DOMPathDescendantsExpression.CONTEXT;
@@ -87,13 +88,15 @@ package org.osflash.dom.path
 			// log('RAW >', stream.toString());
 			
 			// common expr.
-			var nameIndexAccessExpr : DOMPathNameIndexAccessExpression;
+			var nameExpr : DOMPathNameExpression;
+			var indexAccessExpr : DOMPathIndexAccessExpression;
 			
 			while (valid)
 			{
 				switch(expression.type)
 				{
 					case DOMPathExpressionType.WILDCARD:
+					
 						total = elements.length;
 						for (i = 0; i < total; i++)
 						{
@@ -112,6 +115,7 @@ package org.osflash.dom.path
 						break;
 						
 					case DOMPathExpressionType.NAME:
+					
 						domChildren = filterByName(elements, expression);
 						
 						total = domChildren.length;
@@ -128,28 +132,49 @@ package org.osflash.dom.path
 						valid = false;
 						break;
 					
-					case DOMPathExpressionType.NAME_INDEX_ACCESS:
+					case DOMPathExpressionType.INDEX_ACCESS:
+					
 						// move to the next expression
-						nameIndexAccessExpr = expression as DOMPathNameIndexAccessExpression;
-						if (null == nameIndexAccessExpr)
+						indexAccessExpr = expression as DOMPathIndexAccessExpression;
+						if (null == indexAccessExpr)
 							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
 						
 						// check that the name is valid
-						const nameIndexAccessNameExpr : DOMPathNameExpression = 
-										nameIndexAccessExpr.name as DOMPathNameExpression;
-						if (null == nameIndexAccessNameExpr)
-							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+						if(indexAccessExpr.name is DOMPathNameExpression)
+						{
+							nameExpr = indexAccessExpr.name as DOMPathNameExpression;
+														
+							// actually filter the name.
+							domChildren = filterByName(elements, nameExpr);
+						}
+						else if(indexAccessExpr.name is DOMPathWildcardExpression)
+						{
+							domChildren = new Vector.<IDOMNode>();
 							
+							// just pass all the elements
+							total = elements.length;
+							for (i = 0; i < total; i++)
+							{
+								domElement = elements[i];
+								if(domElement is IDOMNode)
+								{
+									if(domChildren.indexOf(domElement) == -1) 
+										domChildren.push(domElement);
+								}
+								else DOMPathError.throwError(DOMPathError.INVALID_ELEMENT);
+							}
+							
+							domElement = null;
+						}
+						else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
+						
 						// check that the internal part is a unsigned integer.
 						const unsignedIntegerExpr : DOMPathUnsignedIntegerExpression = 
-							nameIndexAccessExpr.parameter as DOMPathUnsignedIntegerExpression;
+							indexAccessExpr.parameter as DOMPathUnsignedIntegerExpression;
 						if (null == unsignedIntegerExpr)
 							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
 						if(isNaN(unsignedIntegerExpr.value))
 							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
-						
-						// actually filter the name.
-						domChildren = filterByName(elements, nameIndexAccessNameExpr);
 						
 						total = domChildren.length;
 						for(i = 0; i < total; i++)
@@ -172,6 +197,7 @@ package org.osflash.dom.path
 						break;
 						
 					case DOMPathExpressionType.ALL_DESCENDANTS:
+					
 						// clone the current items, we're going remove them on the next pass
 						domElements = elements.concat();
 						elements.length = 0;
@@ -196,6 +222,7 @@ package org.osflash.dom.path
 						break;
 					
 					case DOMPathExpressionType.DESCENDANTS:
+					
 						// clone the current items, we're going remove them on the next pass
 						domElements = elements.concat();
 						elements.length = 0;
@@ -213,6 +240,7 @@ package org.osflash.dom.path
 						break;
 					
 					case DOMPathExpressionType.NAME_DESCENDANTS:
+					
 						const filterDescExpr : DOMPathNameDescendantsExpression = 
 												expression as DOMPathNameDescendantsExpression;
 												
@@ -223,24 +251,20 @@ package org.osflash.dom.path
 						domElements = elements.concat();
 						elements.length = 0;
 						
-						var filterNameExpr : DOMPathNameExpression;
 						if(filterDescExpr.name is DOMPathNameExpression)
 						{
-							filterNameExpr = filterDescExpr.name as DOMPathNameExpression;
-							domChildren = filterByName(domElements, filterNameExpr);
+							nameExpr = filterDescExpr.name as DOMPathNameExpression;
+							domChildren = filterByName(domElements, nameExpr);
 						}
-						else if(filterDescExpr.name is DOMPathNameIndexAccessExpression)
+						else if(filterDescExpr.name is DOMPathIndexAccessExpression)
 						{
-							nameIndexAccessExpr = filterDescExpr.name as 
-																DOMPathNameIndexAccessExpression;
+							indexAccessExpr = filterDescExpr.name as 
+																DOMPathIndexAccessExpression;
 							
-							filterNameExpr = nameIndexAccessExpr.name as DOMPathNameExpression;
-							domChildren = filterByName(domElements, filterNameExpr);	
+							nameExpr = indexAccessExpr.name as DOMPathNameExpression;
+							domChildren = filterByName(domElements, nameExpr);	
 						}
-						else
-						{
-							DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
-						}
+						else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 						
 						total = domChildren.length;
 						for(i = 0; i < total; i++)
@@ -298,8 +322,8 @@ package org.osflash.dom.path
 										) :  Vector.<IDOMNode>
 		{
 			// filter the elements by the name
-			const nameExpression : DOMPathNameExpression = expression as DOMPathNameExpression;
-			if (null == nameExpression)
+			const nameExpr : DOMPathNameExpression = expression as DOMPathNameExpression;
+			if (null == nameExpr)
 				DOMPathError.throwError(DOMPathError.INVALID_EXPRESSION);
 				
 			const total : int = elements.length;
@@ -310,7 +334,7 @@ package org.osflash.dom.path
 				if(domElement is IDOMNode)
 				{
 					const domChild : IDOMNode = IDOMNode(domElement);
-					if(domChild.name == nameExpression.name) domChildren.push(domChild);
+					if(domChild.name == nameExpr.name) domChildren.push(domChild);
 				}
 				else DOMPathError.throwError(DOMPathError.INVALID_ELEMENT);
 			}

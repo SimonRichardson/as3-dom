@@ -5,7 +5,7 @@ package org.osflash.dom.path.parser
 	import org.osflash.dom.path.parser.parselets.DOMPathDescendantsParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathIntegerParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathNameDescendantsParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathNameIndexAccessParselet;
+	import org.osflash.dom.path.parser.parselets.DOMPathIndexAccessParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathNameParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathNumberParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathPostfixOperatorParselet;
@@ -67,7 +67,7 @@ package org.osflash.dom.path.parser
 			registerPrefix(DOMPathTokenType.NUMBER, new DOMPathNumberParselet());
 			registerPrefix(DOMPathTokenType.UNSIGNED_INTEGER, new DOMPathUnsignedIntegerParselet());
 			
-			registerInfix(DOMPathTokenType.LEFT_SQUARE, new DOMPathNameIndexAccessParselet());
+			registerInfix(DOMPathTokenType.LEFT_SQUARE, new DOMPathIndexAccessParselet());
 			registerInfix(DOMPathTokenType.FORWARD_SLASH, new DOMPathNameDescendantsParselet());
 		}
 		
