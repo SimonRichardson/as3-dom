@@ -28,7 +28,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_all_element_nodes() : void
+		public function add_elements_and_path_select_nodes() : void
 		{
 			const node : DOMNode = new DOMNode('node');
 			
@@ -40,7 +40,31 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_all_documents_nodes() : void
+		public function add_elements_and_path_select_nodes_in_context() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('/*');
+			
+			assertEquals('Result length should be 2', 2, result.length);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_nodes_in_document() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -69,30 +93,6 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_documents_nodes() : void
-		{
-			const node0 : DOMNode = new DOMNode('node0');
-			const node1 : DOMNode = new DOMNode('node1');
-			
-			const subnode0 : DOMNode = new DOMNode('subnode0');
-			const subnode1 : DOMNode = new DOMNode('subnode1');
-			
-			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
-			
-			document.add(node0);
-			document.add(node1);
-			
-			node1.add(subnode0);
-			node1.add(subnode1);
-			
-			subnode0.add(subsubnode0);
-						
-			const result : Vector.<IDOMNode> = document.select('/*');
-			
-			assertEquals('Result length should be 2', 2, result.length);
-		}
-		
-		[Test]
 		public function add_elements_and_path_select_node1_children() : void
 		{
 			const node0 : DOMNode = new DOMNode('node0');
@@ -112,6 +112,62 @@ package org.osflash.dom.path
 			subnode0.add(subsubnode0);
 						
 			const result : Vector.<IDOMNode> = document.select('node1/*');
+			
+			assertEquals('Result length should be 2', 2, result.length);
+			assertEqualsArraysIgnoringOrder('Result should contain subnode0 and subnode1',
+																			[subnode0, subnode1],
+																			[result[0], result[1]]
+																			);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_node1_children_in_context() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('/node1/*');
+			
+			assertEquals('Result length should be 2', 2, result.length);
+			assertEqualsArraysIgnoringOrder('Result should contain subnode0 and subnode1',
+																			[subnode0, subnode1],
+																			[result[0], result[1]]
+																			);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_node1_children_in_document() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('//node1/*');
 			
 			assertEquals('Result length should be 2', 2, result.length);
 			assertEqualsArraysIgnoringOrder('Result should contain subnode0 and subnode1',
@@ -148,6 +204,63 @@ package org.osflash.dom.path
 																				);
 		}
 		
+		
+		[Test]
+		public function add_elements_and_path_select_node1_then_subnode0_children_in_context() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('/node1/subnode0/*');
+			
+			assertEquals('Result length should be 1', 1, result.length);
+			assertEquals('Result item at 0 index should be same as subnode0', 
+																				subsubnode0, 
+																				result[0]
+																				);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_node1_then_subnode0_children_in_document() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('//node1/subnode0/*');
+			
+			assertEquals('Result length should be 1', 1, result.length);
+			assertEquals('Result item at 0 index should be same as subnode0', 
+																				subsubnode0, 
+																				result[0]
+																				);
+		}
+		
 		[Test]
 		public function add_elements_and_path_select_node1_then_subnode0_then_subsubnode0_children() : void
 		{
@@ -168,6 +281,54 @@ package org.osflash.dom.path
 			subnode0.add(subsubnode0);
 						
 			const result : Vector.<IDOMNode> = document.select('node1/subnode0/subsubnode0/*');
+			
+			assertEquals('Result length should be 0', 0, result.length);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_node1_then_subnode0_then_subsubnode0_children_in_context() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('/node1/subnode0/subsubnode0/*');
+			
+			assertEquals('Result length should be 0', 0, result.length);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_node1_then_subnode0_then_subsubnode0_children_in_document() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('//node1/subnode0/subsubnode0/*');
 			
 			assertEquals('Result length should be 0', 0, result.length);
 		}

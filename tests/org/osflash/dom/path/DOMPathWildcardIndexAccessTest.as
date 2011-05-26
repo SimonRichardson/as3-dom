@@ -70,5 +70,79 @@ package org.osflash.dom.path
 			assertEquals('Result item at 0 index should be same as node0', node0, result[0]);
 		}
 		
+		[Test]
+		public function add_elements_and_path_select_node1_child0() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('node1/*[0]');
+			
+			assertEquals('Result length should be 1', 1, result.length);
+			assertEquals('Result item at 0 index should be same as subnode0', subnode0, result[0]);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_node1_child0_in_context() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('/node1/*[0]');
+			
+			assertEquals('Result length should be 1', 1, result.length);
+			assertEquals('Result item at 0 index should be same as subnode0', subnode0, result[0]);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_node1_child0_in_document() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('//node1/*[0]');
+			
+			assertEquals('Result length should be 1', 1, result.length);
+			assertEquals('Result item at 0 index should be same as subnode0', subnode0, result[0]);
+		}
 	}
 }
