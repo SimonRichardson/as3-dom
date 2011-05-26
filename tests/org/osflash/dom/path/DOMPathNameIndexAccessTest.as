@@ -27,7 +27,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_node1() : void
+		public function add_elements_and_path_select_node1_index1() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -42,7 +42,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_node1_in_context() : void
+		public function add_elements_and_path_select_node1_index1_in_context() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -57,7 +57,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_node1_in_document() : void
+		public function add_elements_and_path_select_node1_index1_in_document() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -72,7 +72,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_node1_then_subnode1() : void
+		public function add_elements_and_path_select_node1_then_subnode1_index1() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -93,7 +93,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_node1_then_subnode1_in_context() : void
+		public function add_elements_and_path_select_node1_then_subnode1_index1_in_context() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -114,7 +114,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_node1_then_subnode1_in_document() : void
+		public function add_elements_and_path_select_node1_then_subnode1_index1_in_document() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -135,7 +135,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_node1_then_subnode1_then_subsubnode0() : void
+		public function add_elements_and_path_select_node1_then_subnode1_then_subsubnode0_index0() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -163,7 +163,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function add_elements_and_path_select_node1_then_subnode1_then_subsubnode0_in_context() : void
+		public function add_elements_and_path_select_node1_then_subnode1_then_subsubnode0_index0_in_context() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -192,7 +192,7 @@ package org.osflash.dom.path
 		
 		
 		[Test]
-		public function add_elements_and_path_select_node1_then_subnode1_then_subsubnode0_in_document() : void
+		public function add_elements_and_path_select_node1_then_subnode1_then_subsubnode0_index0_in_document() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
 			const node1 : DOMNode = new DOMNode('node1');
@@ -217,6 +217,28 @@ package org.osflash.dom.path
 																				subsubnode0, 
 																				result[0]
 																				);
+		}
+		
+		
+		[Test]
+		public function add_elements_and_path_select_node1_index1_then_subnode1() : void
+		{
+			const node0 : DOMNode = new DOMNode('node1');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode1');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			const result : Vector.<IDOMNode> = document.select('node1[1]/subnode1');
+			
+			assertEquals('Result length should be 1', 1, result.length);
+			assertEquals('Result item at 0 index should be same as subnode1', subnode1, result[0]);
 		}
 	}
 }

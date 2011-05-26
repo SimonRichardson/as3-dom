@@ -1,9 +1,10 @@
 package org.osflash.dom.element.utils
 {
-	import flash.display.DisplayObjectContainer;
 	import asunit.asserts.assertEquals;
-	import org.osflash.dom.element.DOMNode;
 
+	import org.osflash.dom.element.IDOMNode;
+
+	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	/**
@@ -14,7 +15,7 @@ package org.osflash.dom.element.utils
 		
 		protected var root : Sprite;
 		
-		protected var node : DOMNode;
+		protected var node : IDOMNode;
 		
 		[Before]
 		public function setUp() : void

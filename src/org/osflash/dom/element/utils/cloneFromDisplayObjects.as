@@ -1,15 +1,17 @@
 package org.osflash.dom.element.utils
 {
 	import org.osflash.dom.element.DOMNode;
+	import org.osflash.dom.element.IDOMNode;
+
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public function cloneFromDisplayObjects(displayObject : DisplayObject) : DOMNode
+	public function cloneFromDisplayObjects(displayObject : DisplayObject) : IDOMNode
 	{
-		const node : DOMNode = new DOMNode(displayObject.name);
+		const node : IDOMNode = new DOMNode(displayObject.name);
 		 
 		if(displayObject is DisplayObjectContainer)
 		{
@@ -18,7 +20,7 @@ package org.osflash.dom.element.utils
 			for(var i : int = 0; i < total; i++)
 			{
 				const child : DisplayObject = container.getChildAt(i);
-				const childNode : DOMNode = cloneFromDisplayObjects(child);
+				const childNode : IDOMNode = cloneFromDisplayObjects(child);
 				
 				node.add(childNode);
 			}
