@@ -95,7 +95,9 @@ package org.osflash.dom.path
 			
 			// common expr.
 			var nameExpr : DOMPathNameExpression;
+			var attribExpr : DOMPathAttributeExpression;
 			var indexAccessExpr : DOMPathIndexAccessExpression;
+			var unsignedIntegerExpr : DOMPathUnsignedIntegerExpression;
 			
 			while (valid)
 			{
@@ -122,18 +124,78 @@ package org.osflash.dom.path
 						
 					case DOMPathExpressionType.ATTRIBUTE:
 						
-						domChildren = filterByAttribute(elements, expression);
-						
-						total = domChildren.length;
-						for(i = 0; i < total; i++)
+						if(expression is DOMPathAttributeExpression)
 						{
-							domChild = domChildren[i];
-							if(nodes.indexOf(domChild) == -1) nodes.push(domChild);
+							attribExpr = expression as DOMPathAttributeExpression;
+							if(attribExpr.attribute is DOMPathIndexAccessExpression)
+							{
+								indexAccessExpr = attribExpr.attribute as 
+																	DOMPathIndexAccessExpression;
+								
+								nameExpr = indexAccessExpr.name as DOMPathNameExpression;
+								if(null == nameExpr) 
+									DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+								
+								domElements = elements.concat();
+								elements.length = 0;
+								
+								domChildren = filterByAttribute(domElements, nameExpr);
+							
+								total = domChildren.length;
+								for(i = 0; i < total; i++)
+								{
+									domChild = domChildren[i];
+									if(nodes.indexOf(domChild) == -1) nodes.push(domChild);
+								}
+								
+								// check that the internal part is a unsigned integer.
+								unsignedIntegerExpr = indexAccessExpr.parameter as 
+																DOMPathUnsignedIntegerExpression;
+																
+								if (null == unsignedIntegerExpr)
+									DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+								if(isNaN(unsignedIntegerExpr.value))
+									DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+																
+								// now bring back the index
+								domChild = nodes[unsignedIntegerExpr.value];
+								nodes.length = 0;
+								nodes[0] = domChild;
+							}
+							else if(attribExpr.attribute is DOMPathNameExpression)
+							{
+								nameExpr = attribExpr.attribute as DOMPathNameExpression;
+								if(null == nameExpr) 
+									DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+								
+								domChildren = filterByAttribute(elements, nameExpr);
+								
+								total = domChildren.length;
+								for(i = 0; i < total; i++)
+								{
+									domChild = domChildren[i];
+									if(nodes.indexOf(domChild) == -1) nodes.push(domChild);
+								}	
+							}
+							else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 						}
+						else if(expression is DOMPathNameExpression)
+						{
+							domChildren = filterByAttribute(elements, expression);
+							
+							total = domChildren.length;
+							for(i = 0; i < total; i++)
+							{
+								domChild = domChildren[i];
+								if(nodes.indexOf(domChild) == -1) nodes.push(domChild);
+							}	
+						}
+						else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 						
 						domChild = null;
 						domChildren = null;
-						
+						domElements = null;
+							
 						// we've finished the expression tree
 						valid = false;
 						
@@ -182,8 +244,9 @@ package org.osflash.dom.path
 						else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 						
 						// check that the internal part is a unsigned integer.
-						const unsignedIntegerExpr : DOMPathUnsignedIntegerExpression = 
-							indexAccessExpr.parameter as DOMPathUnsignedIntegerExpression;
+						unsignedIntegerExpr = indexAccessExpr.parameter as 
+																DOMPathUnsignedIntegerExpression;
+																
 						if (null == unsignedIntegerExpr)
 							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
 						if(isNaN(unsignedIntegerExpr.value))
@@ -323,16 +386,49 @@ package org.osflash.dom.path
 						}
 						else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 						
-						// now filter by attributes
-						domChildren = filterDescendantsByAttribute(	domChildren, 
-																	attribDescExpr.attributeName
-																	);
+						// we have a index expression here
+						if(attribDescExpr.attributeName is DOMPathIndexAccessExpression)
+						{
+							indexAccessExpr = attribDescExpr.attributeName as 
+																	DOMPathIndexAccessExpression;
+							nameExpr = indexAccessExpr.name as DOMPathNameExpression;
+							
+							// now filter by attributes
+							domChildren = filterDescendantsByAttribute(	domChildren, 
+																		nameExpr
+																		);												
+						}
+						else if(attribDescExpr.attributeName is DOMPathNameExpression)
+						{
+							// now filter by attributes
+							domChildren = filterDescendantsByAttribute(	domChildren, 
+																		attribDescExpr.attributeName
+																		);
+						}
+						else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 						
 						total = domChildren.length;
 						for(i = 0; i < total; i++)
 						{
 							domChild = domChildren[i];
 							if(nodes.indexOf(domChild) == -1) nodes.push(domChild);
+						}
+						
+						if(attribDescExpr.attributeName is DOMPathIndexAccessExpression)
+						{
+							// check that the internal part is a unsigned integer.
+							unsignedIntegerExpr = indexAccessExpr.parameter as 
+																DOMPathUnsignedIntegerExpression;
+																	
+							if (null == unsignedIntegerExpr)
+								DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+							if(isNaN(unsignedIntegerExpr.value))
+								DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+								
+							// now bring back the index
+							domChild = nodes[unsignedIntegerExpr.value];
+							nodes.length = 0;
+							nodes[0] = domChild;
 						}
 						
 						domChild = null;
@@ -397,12 +493,20 @@ package org.osflash.dom.path
 											expression : IDOMPathExpression
 											) :  Vector.<IDOMNode>
 		{
-			// filter the elements by the name
-			const attrExpr : DOMPathAttributeExpression = expression as DOMPathAttributeExpression;
-			if (null == attrExpr) DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
-													
-			const nameExpr : DOMPathNameExpression = attrExpr.attribute as DOMPathNameExpression;
-			if (null == nameExpr) DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
+			var nameExpr : DOMPathNameExpression;
+			if(expression is DOMPathNameExpression)
+			{
+				nameExpr = expression as DOMPathNameExpression;
+			}
+			else if(expression is DOMPathAttributeExpression)
+			{
+				// filter the elements by the name
+				const attrExpr : DOMPathAttributeExpression = expression as DOMPathAttributeExpression;
+														
+				nameExpr = attrExpr.attribute as DOMPathNameExpression;
+				if (null == nameExpr) DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
+			}
+			else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 			
 			const total : int = elements.length;
 			const domChildren : Vector.<IDOMNode> = new Vector.<IDOMNode>();
