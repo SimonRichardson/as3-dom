@@ -418,9 +418,13 @@ package org.osflash.dom.path
 								DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
 								
 							// now bring back the index
-							domChild = nodes[unsignedIntegerExpr.value];
-							nodes.length = 0;
-							nodes[0] = domChild;											
+							if(unsignedIntegerExpr.value >= nodes.length) nodes.length = 0;
+							else
+							{
+								domChild = nodes[unsignedIntegerExpr.value];
+								nodes.length = 0;
+								nodes[0] = domChild;
+							}											
 						}
 						else if(attribDescExpr.attributeName is DOMPathNameExpression)
 						{
