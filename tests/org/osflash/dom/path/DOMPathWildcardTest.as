@@ -332,5 +332,96 @@ package org.osflash.dom.path
 			
 			assertEquals('Result length should be 0', 0, result.length);
 		}
+		
+		[Test]
+		public function add_elements_and_path_select_all_grandchildren() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			const subnode2 : DOMNode = new DOMNode('subnode2');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			node1.add(subnode2);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('*/*');
+			
+			assertEquals('Result length should be 3', 3, result.length);
+			assertEqualsArraysIgnoringOrder('Result should contain subnode0, subnode1 and subnode2',
+																[subnode0, subnode1, subnode2],
+																[result[0], result[1], result[2]]
+																);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_all_grandchildren_in_context() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			const subnode2 : DOMNode = new DOMNode('subnode2');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			node1.add(subnode2);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('/*/*');
+			
+			assertEquals('Result length should be 3', 3, result.length);
+			assertEqualsArraysIgnoringOrder('Result should contain subnode0, subnode1 and subnode2',
+																[subnode0, subnode1, subnode2],
+																[result[0], result[1], result[2]]
+																);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_all_grandchildren_in_document() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			const subnode2 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node0.add(subnode0);
+			
+			node1.add(subnode1);
+			node1.add(subnode2);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('//*/*');
+			
+			assertEquals('Result length should be 4', 4, result.length);
+			assertEqualsArraysIgnoringOrder('Result should contain subnode0, subnode1, subnode2 and subsubnode0',
+														[subnode0, subnode1, subnode2, subsubnode0],
+														[result[0], result[1], result[2], result[3]]
+														);
+		}
 	}
 }

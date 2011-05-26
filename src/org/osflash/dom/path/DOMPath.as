@@ -139,32 +139,20 @@ package org.osflash.dom.path
 						if (null == indexAccessExpr)
 							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
 						
+						domElements = elements.concat();
+						elements.length = 0;
+						
 						// check that the name is valid
 						if(indexAccessExpr.name is DOMPathNameExpression)
 						{
 							nameExpr = indexAccessExpr.name as DOMPathNameExpression;
 														
 							// actually filter the name.
-							domChildren = filterByName(elements, nameExpr);
+							domChildren = filterByName(domElements, nameExpr);
 						}
 						else if(indexAccessExpr.name is DOMPathWildcardExpression)
 						{
-							domChildren = new Vector.<IDOMNode>();
-							
-							// just pass all the elements
-							total = elements.length;
-							for (i = 0; i < total; i++)
-							{
-								domElement = elements[i];
-								if(domElement is IDOMNode)
-								{
-									if(domChildren.indexOf(domElement) == -1) 
-										domChildren.push(domElement);
-								}
-								else DOMPathError.throwError(DOMPathError.INVALID_ELEMENT);
-							}
-							
-							domElement = null;
+							domChildren = filterByWildcard(domElements);
 						}
 						else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 						
@@ -256,6 +244,10 @@ package org.osflash.dom.path
 							nameExpr = filterDescExpr.name as DOMPathNameExpression;
 							domChildren = filterByName(domElements, nameExpr);
 						}
+						else if(filterDescExpr.name is DOMPathWildcardExpression)
+						{
+							domChildren = filterByWildcard(domElements);
+						}
 						else if(filterDescExpr.name is DOMPathIndexAccessExpression)
 						{
 							indexAccessExpr = filterDescExpr.name as 
@@ -312,6 +304,28 @@ package org.osflash.dom.path
 			}
 			
 			return children;
+		}
+		
+		/**
+		 * @private
+		 */
+		private function filterByWildcard(elements : Vector.<IDOMElement>) : Vector.<IDOMNode>
+		{
+			const domChildren : Vector.<IDOMNode> = new Vector.<IDOMNode>();
+						
+			const total : int = elements.length;
+			for (var i : int = 0; i < total; i++)
+			{
+				const domElement : IDOMElement = elements[i];
+				if(domElement is IDOMNode)
+				{
+					if(domChildren.indexOf(domElement) == -1) 
+						domChildren.push(domElement);
+				}
+				else DOMPathError.throwError(DOMPathError.INVALID_ELEMENT);
+			}
+			
+			return domChildren;
 		}
 		
 		/**
