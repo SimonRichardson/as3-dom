@@ -29,9 +29,9 @@ package org.osflash.dom.path
 		[Test]
 		public function path_select_node1_call_method_no_arg() : void
 		{
-			const node0 : DOMCallMethodNode = new DOMCallMethodNode('node0');
-			const node1 : DOMCallMethodNode = new DOMCallMethodNode('node1');
-			const node2 : DOMCallMethodNode = new DOMCallMethodNode('node1');
+			const node0 : IDOMNode = new DOMCallMethodNode('node0');
+			const node1 : IDOMNode = new DOMCallMethodNode('node1');
+			const node2 : IDOMNode = new DOMCallMethodNode('node1');
 			
 			document.add(node0);
 			document.add(node1);
@@ -42,11 +42,41 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
+		public function path_select_node1_call_method_no_arg_in_context() : void
+		{
+			const node0 : IDOMNode = new DOMCallMethodNode('node0');
+			const node1 : IDOMNode = new DOMCallMethodNode('node1');
+			const node2 : IDOMNode = new DOMCallMethodNode('node1');
+			
+			document.add(node0);
+			document.add(node1);
+			document.add(node2);
+									
+			const result : Vector.<IDOMNode> = document.select('/node1@methodNoArg()');
+			assertEquals('Result length should be 2', 2, result.length);
+		}
+		
+		[Test]
+		public function path_select_node1_call_method_no_arg_in_dom() : void
+		{
+			const node0 : IDOMNode = new DOMCallMethodNode('node0');
+			const node1 : IDOMNode = new DOMCallMethodNode('node1');
+			const node2 : IDOMNode = new DOMCallMethodNode('node1');
+			
+			document.add(node0);
+			document.add(node1);
+			document.add(node2);
+									
+			const result : Vector.<IDOMNode> = document.select('//node1@methodNoArg()');
+			assertEquals('Result length should be 2', 2, result.length);
+		}
+		
+		[Test]
 		public function path_select_node1_call_method_with_string_arg() : void
 		{
-			const node0 : DOMCallMethodNode = new DOMCallMethodNode('node0');
-			const node1 : DOMCallMethodNode = new DOMCallMethodNode('node1');
-			const node2 : DOMCallMethodNode = new DOMCallMethodNode('node1');
+			const node0 : IDOMNode = new DOMCallMethodNode('node0');
+			const node1 : IDOMNode = new DOMCallMethodNode('node1');
+			const node2 : IDOMNode = new DOMCallMethodNode('node1');
 			
 			document.add(node0);
 			document.add(node1);
@@ -56,6 +86,202 @@ package org.osflash.dom.path
 			assertEquals('Result length should be 2', 2, result.length);
 		}
 		
+		[Test]
+		public function path_select_node1_call_method_with_string_arg_in_context() : void
+		{
+			const node0 : IDOMNode = new DOMCallMethodNode('node0');
+			const node1 : IDOMNode = new DOMCallMethodNode('node1');
+			const node2 : IDOMNode = new DOMCallMethodNode('node1');
+			
+			document.add(node0);
+			document.add(node1);
+			document.add(node2);
+									
+			const result : Vector.<IDOMNode> = document.select('/node1@methodWithStringArg("hello")');
+			assertEquals('Result length should be 2', 2, result.length);
+		}
 		
+		[Test]
+		public function path_select_node1_call_method_with_string_arg_in_dom() : void
+		{
+			const node0 : IDOMNode = new DOMCallMethodNode('node0');
+			const node1 : IDOMNode = new DOMCallMethodNode('node1');
+			const node2 : IDOMNode = new DOMCallMethodNode('node1');
+			
+			document.add(node0);
+			document.add(node1);
+			document.add(node2);
+									
+			const result : Vector.<IDOMNode> = document.select('//node1@methodWithStringArg("hello")');
+			assertEquals('Result length should be 2', 2, result.length);
+		}
+		
+		[Test]
+		public function path_select_node1_then_subnode1_call_method_no_arg() : void
+		{
+			const node0 : IDOMNode = new DOMCallMethodNode('node1');
+			const node1 : IDOMNode = new DOMCallMethodNode('node1');
+			
+			const subnode0 : IDOMNode = new DOMCallMethodNode('subnode0');
+			const subnode1 : IDOMNode = new DOMCallMethodNode('subnode1');
+			
+			const subsubnode0 : IDOMNode = new DOMCallMethodNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+			
+			const result : Vector.<IDOMNode> = document.select('node1/subnode1@methodWithNoArg()');
+			assertEquals('Result length should be 1', 1, result.length);
+		}
+		
+		[Test]
+		public function path_select_node1_then_subnode1_call_method_no_arg_in_context() : void
+		{
+			const node0 : IDOMNode = new DOMCallMethodNode('node1');
+			const node1 : IDOMNode = new DOMCallMethodNode('node1');
+			
+			const subnode0 : IDOMNode = new DOMCallMethodNode('subnode0');
+			const subnode1 : IDOMNode = new DOMCallMethodNode('subnode1');
+			
+			const subsubnode0 : IDOMNode = new DOMCallMethodNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+			
+			const result : Vector.<IDOMNode> = document.select('/node1/subnode1@methodWithNoArg()');
+			assertEquals('Result length should be 1', 1, result.length);
+		}
+		
+		[Test]
+		public function path_select_node1_then_subnode1_call_method_no_arg_in_document() : void
+		{
+			const node0 : IDOMNode = new DOMCallMethodNode('node1');
+			const node1 : IDOMNode = new DOMCallMethodNode('node1');
+			
+			const subnode0 : IDOMNode = new DOMCallMethodNode('subnode0');
+			const subnode1 : IDOMNode = new DOMCallMethodNode('subnode1');
+			
+			const subsubnode0 : IDOMNode = new DOMCallMethodNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+			
+			const result : Vector.<IDOMNode> = document.select('//node1/subnode1@methodWithNoArg()');
+			assertEquals('Result length should be 1', 1, result.length);
+		}
+		
+		[Test]
+		public function path_select_node1_then_subnode1_call_method_string_arg() : void
+		{
+			const node0 : IDOMNode = new DOMCallMethodNode('node1');
+			const node1 : IDOMNode = new DOMCallMethodNode('node1');
+			
+			const subnode0 : IDOMNode = new DOMCallMethodNode('subnode0');
+			const subnode1 : IDOMNode = new DOMCallMethodNode('subnode1');
+			const subnode2 : IDOMNode = new DOMCallMethodNode('subnode1');
+			const subnode3 : IDOMNode = new DOMCallMethodNode('subnode1');
+			const subnode4 : IDOMNode = new DOMCallMethodNode('subnode2');
+			const subnode5 : IDOMNode = new DOMCallMethodNode('subnode2');
+			const subnode6 : IDOMNode = new DOMCallMethodNode('subnode3');
+			
+			const subsubnode0 : IDOMNode = new DOMCallMethodNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			node1.add(subnode2);
+			node1.add(subnode3);
+			node1.add(subnode4);
+			node1.add(subnode5);
+			node1.add(subnode6);
+			
+			subnode0.add(subsubnode0);
+			
+			const result : Vector.<IDOMNode> = document.select('node1/subnode1@methodWithStringArg("Sub hello")');
+			assertEquals('Result length should be 3', 3, result.length);
+		}
+		
+		[Test]
+		public function path_select_node1_then_subnode1_call_method_string_arg_in_context() : void
+		{
+			const node0 : IDOMNode = new DOMCallMethodNode('node1');
+			const node1 : IDOMNode = new DOMCallMethodNode('node1');
+			
+			const subnode0 : IDOMNode = new DOMCallMethodNode('subnode0');
+			const subnode1 : IDOMNode = new DOMCallMethodNode('subnode1');
+			const subnode2 : IDOMNode = new DOMCallMethodNode('subnode1');
+			const subnode3 : IDOMNode = new DOMCallMethodNode('subnode1');
+			const subnode4 : IDOMNode = new DOMCallMethodNode('subnode2');
+			const subnode5 : IDOMNode = new DOMCallMethodNode('subnode2');
+			const subnode6 : IDOMNode = new DOMCallMethodNode('subnode3');
+			
+			const subsubnode0 : IDOMNode = new DOMCallMethodNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			node1.add(subnode2);
+			node1.add(subnode3);
+			node1.add(subnode4);
+			node1.add(subnode5);
+			node1.add(subnode6);
+			
+			subnode0.add(subsubnode0);
+			
+			const result : Vector.<IDOMNode> = document.select('/node1/subnode1@methodWithStringArg("Sub hello")');
+			assertEquals('Result length should be 3', 3, result.length);
+		}
+		
+		[Test]
+		public function path_select_node1_then_subnode1_call_method_string_arg_in_document() : void
+		{
+			const node0 : IDOMNode = new DOMCallMethodNode('node1');
+			const node1 : IDOMNode = new DOMCallMethodNode('node1');
+			
+			const subnode0 : IDOMNode = new DOMCallMethodNode('subnode0');
+			const subnode1 : IDOMNode = new DOMCallMethodNode('subnode1');
+			const subnode2 : IDOMNode = new DOMCallMethodNode('subnode1');
+			const subnode3 : IDOMNode = new DOMCallMethodNode('subnode1');
+			const subnode4 : IDOMNode = new DOMCallMethodNode('subnode2');
+			const subnode5 : IDOMNode = new DOMCallMethodNode('subnode2');
+			const subnode6 : IDOMNode = new DOMCallMethodNode('subnode3');
+			
+			const subsubnode0 : IDOMNode = new DOMCallMethodNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			node1.add(subnode2);
+			node1.add(subnode3);
+			node1.add(subnode4);
+			node1.add(subnode5);
+			node1.add(subnode6);
+			
+			subnode0.add(subsubnode0);
+			
+			const result : Vector.<IDOMNode> = document.select('//node1/subnode1@methodWithStringArg("Sub hello")');
+			assertEquals('Result length should be 3', 3, result.length);
+		}
 	}
 }
