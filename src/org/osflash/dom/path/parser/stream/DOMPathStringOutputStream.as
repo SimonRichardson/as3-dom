@@ -10,10 +10,16 @@ package org.osflash.dom.path.parser.stream
 		 * @private
 		 */
 		private var _buffer : String;
-
+		
+		/**
+		 * @private
+		 */
+		private var _position : uint;
+		
 		public function DOMPathStringOutputStream()
 		{
 			_buffer = '';
+			_position = 0;
 		}
 
 		/**
@@ -21,7 +27,11 @@ package org.osflash.dom.path.parser.stream
 		 */
 		public function writeUTF(value : String) : void
 		{
-			_buffer += value;
+			const parts : Array = _buffer.split('');
+			parts.splice(position, 0, value);
+			
+			_buffer = parts.join('');
+			_position += value.length;
 		}
 		
 		/**
@@ -29,7 +39,11 @@ package org.osflash.dom.path.parser.stream
 		 */
 		public function writeInt(value : int) : void
 		{
-			_buffer += value;
+			const parts : Array = _buffer.split('');
+			parts.splice(position, 0, value);
+			
+			_buffer = parts.join('');
+			_position += value.toString().length;
 		}
 		
 		/**
@@ -37,7 +51,11 @@ package org.osflash.dom.path.parser.stream
 		 */
 		public function writeUnsignedInt(value : uint) : void
 		{
-			_buffer += value;
+			const parts : Array = _buffer.split('');
+			parts.splice(position, 0, value);
+			
+			_buffer = parts.join('');
+			_position += value.toString().length;
 		}
 		
 		/**
@@ -45,7 +63,27 @@ package org.osflash.dom.path.parser.stream
 		 */
 		public function writeFloat(value : Number) : void
 		{
-			_buffer += value;
+			const parts : Array = _buffer.split('');
+			parts.splice(position, 0, value);
+			
+			_buffer = parts.join('');
+			_position += value.toString().length;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function get position() : uint
+		{
+			return _position;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function set position(value : uint) : void
+		{
+			_position = value;
 		}
 		
 		/**
@@ -53,7 +91,7 @@ package org.osflash.dom.path.parser.stream
 		 */
 		public function toString() : String
 		{
-			return _buffer;
+			return _buffer.substr(_position);
 		}
 	}
 }

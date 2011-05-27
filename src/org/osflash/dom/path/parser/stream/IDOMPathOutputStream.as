@@ -14,6 +14,10 @@ package org.osflash.dom.path.parser.stream
 		
 		function writeUTF(value : String) : void;
 		
+		function get position() : uint;
+		
+		function set position(value : uint) : void;
+		
 		function toString() : String;
 	}
 }

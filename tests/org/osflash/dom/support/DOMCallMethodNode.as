@@ -9,7 +9,7 @@ package org.osflash.dom.support
 		
 		private var _prefix : String;
 		
-		public function DOMCallMethodNode(name : String, prefix : String = "")
+		public function DOMCallMethodNode(name : String, prefix : String = " ")
 		{
 			super(name);
 			
@@ -23,7 +23,22 @@ package org.osflash.dom.support
 		
 		public function methodWithStringArg(value : String) : String
 		{
-			return _prefix + value;
+			return _prefix + "(" + value + ")";
+		}
+		
+		public function methodWithMultipleArg(	value0 : String, 
+												value1 : int, 
+												value2 : String, 
+												value3 : int, 
+												value4 : Number
+												) : String
+		{
+			return _prefix + "(" +  value0 + ", " + 
+								 	value1 + ", " + 
+								 	value2 + ", " + 
+								 	value3 + ", " + 
+								 	value4 + 
+								 	")"; 
 		}
 	}
 }

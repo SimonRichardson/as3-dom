@@ -257,6 +257,11 @@ package org.osflash.dom.path.parser
 					
 					return new DOMPathToken(DOMPathTokenType.STRING, buffer);
 				}
+				else if(charCode == 32 || charCode == 9 || charCode == 10 || charCode == 13)
+				{
+					// This is effectively white space
+					continue;
+				}
 				else
 				{
 					DOMPathError.throwError(DOMPathError.UNEXPECTED_CHAR);

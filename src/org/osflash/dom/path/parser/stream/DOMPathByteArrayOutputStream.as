@@ -63,13 +63,28 @@ package org.osflash.dom.path.parser.stream
 		}
 		
 		/**
+		 * @inheritDoc
+		 */
+		public function get position() : uint
+		{
+			return _buffer.position;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function set position(value : uint) : void
+		{
+			_buffer.position = value;
+		}
+		
+		/**
 		 * Return the stream as a string
 		 */
 		public function toString() : String
 		{
 			const stream : IDOMPathOutputStream = new DOMPathStringOutputStream();
 			
-			_buffer.position = 0;
 			while(_buffer.position < _buffer.length)
 			{
 				switch(_buffer.readByte())
@@ -83,6 +98,8 @@ package org.osflash.dom.path.parser.stream
 						break;
 				}
 			}
+			
+			stream.position = 0;
 			
 			return stream.toString();
 		}

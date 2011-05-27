@@ -96,6 +96,7 @@ package org.osflash.dom.path
 			
 			const stream : IDOMPathOutputStream = new DOMPathByteArrayOutputStream();
 			expression.describe(stream);
+			stream.position = 0;
 			log('RAW >', stream.toString());
 			
 			// common expr.
@@ -540,7 +541,7 @@ package org.osflash.dom.path
 						if(elements.length > 0) callResult = callMethod(elements, expression);  
 						
 						log('RESULTS : ' + callResult);
-						// TODO : do a callback here onCallMethodResultSignal(methodName, result)
+						// TODO : do a callback here callMethodResultSignal(methodName, elements, result)
 						// how do we get the result back?
 						valid = false;
 						break;
