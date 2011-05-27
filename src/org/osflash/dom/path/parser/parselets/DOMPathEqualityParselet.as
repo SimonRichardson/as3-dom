@@ -1,13 +1,13 @@
 package org.osflash.dom.path.parser.parselets
 {
 	import org.osflash.dom.path.DOMPathError;
+	import org.osflash.dom.path.parser.DOMPathPrecedence;
+	import org.osflash.dom.path.parser.IDOMPathParser;
 	import org.osflash.dom.path.parser.expressions.DOMPathEqualityExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathStringExpression;
-	import org.osflash.dom.path.parser.DOMPathPrecedence;
-	import org.osflash.dom.path.parser.parselets.IDOMPathInfixParselet;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
-	import org.osflash.dom.path.parser.IDOMPathParser;
 	import org.osflash.dom.path.parser.tokens.DOMPathToken;
+	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
 
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
@@ -23,14 +23,14 @@ package org.osflash.dom.path.parser.parselets
 								token : DOMPathToken
 								) : IDOMPathExpression
 		{
-			const precedence : int = DOMPathPrecedence.EQUALITY - 1;
-			const right : IDOMPathExpression = parser.parseExpressionBy(precedence);
-
-			if (!(expression is DOMPathStringExpression)) 
+			parser.consumeToken(DOMPathTokenType.EQUALITY);
+			
+			const right : IDOMPathExpression = parser.parseExpression();
+			const name : DOMPathStringExpression = right as DOMPathStringExpression;
+			if (null == name) 
 				DOMPathError.throwError(DOMPathError.INVALID_EQUALITY);
-
-			const name : String = DOMPathStringExpression(expression).value;
-			return new DOMPathEqualityExpression(name, right);
+				
+			return new DOMPathEqualityExpression(name.value, right);
 		}
 		
 		/**

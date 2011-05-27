@@ -115,6 +115,8 @@ package org.osflash.dom.path.parser
 							char = _source.charAt(_index);
 							charCode = char.charCodeAt(0);
 							
+							_index++;
+							
 							nan = true;
 						}
 					}

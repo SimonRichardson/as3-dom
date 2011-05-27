@@ -1,11 +1,13 @@
 package org.osflash.dom.path.parser
 {
-	import org.osflash.dom.path.parser.parselets.DOMPathCallMethodParselet;
 	import org.osflash.dom.path.DOMPathError;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 	import org.osflash.dom.path.parser.parselets.DOMPathAttributeDescendantsParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathAttributeParselet;
+	import org.osflash.dom.path.parser.parselets.DOMPathCallMethodParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathDescendantsParselet;
+	import org.osflash.dom.path.parser.parselets.DOMPathEqualityParselet;
+	import org.osflash.dom.path.parser.parselets.DOMPathGroupParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathIndexAccessParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathIntegerParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathNameDescendantsParselet;
@@ -70,11 +72,14 @@ package org.osflash.dom.path.parser
 			registerPrefix(DOMPathTokenType.NUMBER, new DOMPathNumberParselet());
 			registerPrefix(DOMPathTokenType.UNSIGNED_INTEGER, new DOMPathUnsignedIntegerParselet());
 			registerPrefix(DOMPathTokenType.ATTRIBUTE, new DOMPathAttributeParselet());
+			registerPrefix(DOMPathTokenType.LEFT_PAREN, new DOMPathGroupParselet());
 			
 			registerInfix(DOMPathTokenType.LEFT_PAREN, new DOMPathCallMethodParselet());
 			registerInfix(DOMPathTokenType.LEFT_SQUARE, new DOMPathIndexAccessParselet());
 			registerInfix(DOMPathTokenType.FORWARD_SLASH, new DOMPathNameDescendantsParselet());
 			registerInfix(DOMPathTokenType.ATTRIBUTE, new DOMPathAttributeDescendantsParselet());
+			
+			registerInfix(DOMPathTokenType.EQUALITY, new DOMPathEqualityParselet());
 		}
 		
 		/**
