@@ -55,5 +55,7 @@ package org.osflash.dom.path
 			const result : Vector.<IDOMNode> = document.select('node1@methodWithStringArg("hello")');
 			assertEquals('Result length should be 2', 2, result.length);
 		}
+		
+		
 	}
 }

@@ -514,57 +514,13 @@ package org.osflash.dom.path
 						break;
 					
 					case DOMPathExpressionType.CALL_METHOD:
-						const callExpr : DOMPathCallMethodExpression = expression as 
-																	DOMPathCallMethodExpression;
 						
-						const methodExpr : DOMPathNameExpression = callExpr.method as 
-																			DOMPathNameExpression;
-						if(null == methodExpr)
-							DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+						elements = Vector.<IDOMElement>(nodes);
 						
-						const params : Array = [];
-						const paramExprs : Vector.<IDOMPathExpression> = callExpr.parameters;
-						const paramLength : int = paramExprs.length;
-						for(i = 0; i < paramLength; i++)
-						{
-							const paramExpr : IDOMPathExpression = paramExprs[i];
-							
-							if(paramExpr.type == DOMPathExpressionType.INTEGER)
-								params.push(DOMPathIntegerExpression(paramExpr).value);
-							else if(paramExpr.type == DOMPathExpressionType.UNSIGNED_INTEGER)
-								params.push(DOMPathUnsignedIntegerExpression(paramExpr).value);
-							else if(paramExpr.type == DOMPathExpressionType.NUMBER)
-								params.push(DOMPathNumberExpression(paramExpr).value);
-							else if(paramExpr.type == DOMPathExpressionType.STRING)
-								params.push(DOMPathStringExpression(paramExpr).value);
-							else 
-								DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
-						}
+						var callResult : Array = [];
+						if(elements.length > 0) callResult = callMethod(elements, expression);  
 						
-						const result : Vector.<String> = new Vector.<String>();
-						
-						total = nodes.length;						
-						for (i = 0; i < total; i++)
-						{
-							domElement = nodes[i];
-							if(methodExpr.name in domElement)
-							{
-								const method : Function = domElement[methodExpr.name];
-								
-								// hot pathing
-								if(paramLength == 0) result.push(method());
-								else if(paramLength == 1) result.push(method(params[0]));
-								else if(paramLength == 2) result.push(method(params[0], params[1]));
-								else result.push(method.apply(null, params));
-							}
-							else
-							{
-								result.push("");
-							}
-						}
-						
-						log("RESULT : " + result);
-						
+						log('RESULTS : ' + callResult);
 						// TODO : do a callback here onCallMethodResultSignal(methodName, result)
 						// how do we get the result back?
 						valid = false;
@@ -749,6 +705,71 @@ package org.osflash.dom.path
 			}
 			
 			return domChildren;
+		}
+		
+		/**
+		 * @private
+		 */
+		private function callMethod(	elements : Vector.<IDOMElement>,
+										expression : IDOMPathExpression
+										) : Array
+		{
+			const callExpr : DOMPathCallMethodExpression = expression as 
+																	DOMPathCallMethodExpression;
+			
+			const methodExpr : DOMPathNameExpression = callExpr.method as DOMPathNameExpression;
+			if(null == methodExpr)
+				DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+			
+			var i : int;
+			
+			const params : Array = [];
+			const paramExprs : Vector.<IDOMPathExpression> = callExpr.parameters;
+			const paramLength : int = paramExprs.length;
+			for(i = 0; i < paramLength; i++)
+			{
+				const paramExpr : IDOMPathExpression = paramExprs[i];
+				
+				if(paramExpr.type == DOMPathExpressionType.INTEGER)
+					params.push(DOMPathIntegerExpression(paramExpr).value);
+				else if(paramExpr.type == DOMPathExpressionType.UNSIGNED_INTEGER)
+					params.push(DOMPathUnsignedIntegerExpression(paramExpr).value);
+				else if(paramExpr.type == DOMPathExpressionType.NUMBER)
+					params.push(DOMPathNumberExpression(paramExpr).value);
+				else if(paramExpr.type == DOMPathExpressionType.STRING)
+					params.push(DOMPathStringExpression(paramExpr).value);
+				else 
+					DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+			}
+			
+			const result : Array = [];
+			
+			const total : int = elements.length;						
+			for (i = 0; i < total; i++)
+			{
+				const domElement : IDOMElement = elements[i];
+				if(domElement is IDOMNode)
+				{
+					const domNode : IDOMNode = IDOMNode(elements[i]);
+					if(methodExpr.name in domNode)
+					{
+						const method : Function = domNode[methodExpr.name];
+						
+						// hot pathing
+						if(paramLength == 0) result.push(method());
+						else if(paramLength == 1) result.push(method(params[0]));
+						else if(paramLength == 2) result.push(method(params[0], params[1]));
+						else result.push(method.apply(null, params));
+					}
+					else
+					{
+						result.push("");
+					}
+				}
+				else DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+			}
+			
+			return result;
 		}
 	}
 }
