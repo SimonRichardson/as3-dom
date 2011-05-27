@@ -6,20 +6,24 @@ package org.osflash.dom.support
 	 */
 	public class DOMCallMethodNode extends DOMNode
 	{
-
-		public function DOMCallMethodNode(name : String)
+		
+		private var _prefix : String;
+		
+		public function DOMCallMethodNode(name : String, prefix : String = "")
 		{
 			super(name);
+			
+			_prefix = prefix;
 		}
 		
 		public function methodNoArg() : String
 		{
-			return "";
+			return _prefix;
 		}
 		
 		public function methodWithStringArg(value : String) : String
 		{
-			return value;
+			return _prefix + value;
 		}
 	}
 }

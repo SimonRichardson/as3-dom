@@ -352,6 +352,25 @@ package org.osflash.dom.path
 							
 							nameExpr = indexAccessExpr.name as DOMPathNameExpression;
 							domChildren = filterByName(domElements, nameExpr);	
+							
+							// check that the internal part is a unsigned integer.
+							unsignedIntegerExpr = indexAccessExpr.parameter as 
+																DOMPathUnsignedIntegerExpression;
+																	
+							if (null == unsignedIntegerExpr)
+								DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+							if(isNaN(unsignedIntegerExpr.value))
+								DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+								
+							// now bring back the index
+							if(unsignedIntegerExpr.value >= domChildren.length) 
+								domChildren.length = 0;
+							else
+							{
+								domChild = domChildren[unsignedIntegerExpr.value];
+								domChildren.length = 0;
+								domChildren[0] = domChild;
+							}
 						}
 						else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 						

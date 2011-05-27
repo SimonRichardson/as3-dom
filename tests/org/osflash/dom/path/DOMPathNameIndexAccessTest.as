@@ -357,5 +357,107 @@ package org.osflash.dom.path
 			assertEquals('Result length should be 1', 1, result.length);
 			assertEquals('Result item at 0 index should be same as subsubnode0', subsubnode0, result[0]);
 		}
+		
+		[Test]
+		public function path_select_node1_with_index1_then_subnode1() : void
+		{
+			const node0 : IDOMNode = new DOMNode('node1');
+			const node1 : IDOMNode = new DOMNode('node1');
+			
+			const subnode0 : IDOMNode = new DOMNode('subnode1');
+			const subnode1 : IDOMNode = new DOMNode('subnode1');
+			const subnode2 : IDOMNode = new DOMNode('subnode1');
+			const subnode3 : IDOMNode = new DOMNode('subnode1');
+			const subnode4 : IDOMNode = new DOMNode('subnode2');
+			const subnode5 : IDOMNode = new DOMNode('subnode2');
+			const subnode6 : IDOMNode = new DOMNode('subnode3');
+			
+			const subsubnode0 : IDOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node0.add(subnode0);
+			
+			node1.add(subnode1);
+			node1.add(subnode2);
+			node1.add(subnode3);
+			node1.add(subnode4);
+			node1.add(subnode5);
+			node1.add(subnode6);
+			
+			subnode0.add(subsubnode0);
+			
+			const result : Vector.<IDOMNode> = document.select('node1[1]/subnode1');
+			assertEquals('Result length should be 3', 3, result.length);
+		}
+		
+		[Test]
+		public function path_select_node1_with_index1_then_subnode1_in_context() : void
+		{
+			const node0 : IDOMNode = new DOMNode('node1');
+			const node1 : IDOMNode = new DOMNode('node1');
+			
+			const subnode0 : IDOMNode = new DOMNode('subnode1');
+			const subnode1 : IDOMNode = new DOMNode('subnode1');
+			const subnode2 : IDOMNode = new DOMNode('subnode1');
+			const subnode3 : IDOMNode = new DOMNode('subnode1');
+			const subnode4 : IDOMNode = new DOMNode('subnode2');
+			const subnode5 : IDOMNode = new DOMNode('subnode2');
+			const subnode6 : IDOMNode = new DOMNode('subnode3');
+			
+			const subsubnode0 : IDOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node0.add(subnode0);
+			
+			node1.add(subnode1);
+			node1.add(subnode2);
+			node1.add(subnode3);
+			node1.add(subnode4);
+			node1.add(subnode5);
+			node1.add(subnode6);
+			
+			subnode0.add(subsubnode0);
+			
+			const result : Vector.<IDOMNode> = document.select('/node1[1]/subnode1');
+			assertEquals('Result length should be 3', 3, result.length);
+		}
+		
+		[Test]
+		public function path_select_node1_with_index1_then_subnode1_in_document() : void
+		{
+			const node0 : IDOMNode = new DOMNode('node1');
+			const node1 : IDOMNode = new DOMNode('node1');
+			
+			const subnode0 : IDOMNode = new DOMNode('subnode1');
+			const subnode1 : IDOMNode = new DOMNode('subnode1');
+			const subnode2 : IDOMNode = new DOMNode('subnode1');
+			const subnode3 : IDOMNode = new DOMNode('subnode1');
+			const subnode4 : IDOMNode = new DOMNode('subnode2');
+			const subnode5 : IDOMNode = new DOMNode('subnode2');
+			const subnode6 : IDOMNode = new DOMNode('subnode3');
+			
+			const subsubnode0 : IDOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node0.add(subnode0);
+			
+			node1.add(subnode1);
+			node1.add(subnode2);
+			node1.add(subnode3);
+			node1.add(subnode4);
+			node1.add(subnode5);
+			node1.add(subnode6);
+			
+			subnode0.add(subsubnode0);
+			
+			const result : Vector.<IDOMNode> = document.select('//node1[1]/subnode1');
+			assertEquals('Result length should be 3', 3, result.length);
+		}
 	}
 }
