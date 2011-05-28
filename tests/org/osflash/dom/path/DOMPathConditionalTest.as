@@ -27,7 +27,7 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
-		public function path_select_node1_call_method_no_arg() : void
+		public function path_select_node1_and_attribute_name_equals_node1() : void
 		{
 			const node0 : IDOMNode = new DOMNode('node0');
 			const node1 : IDOMNode = new DOMNode('node1');
@@ -37,7 +37,7 @@ package org.osflash.dom.path
 			document.add(node1);
 			document.add(node2);
 									
-			const result : Vector.<IDOMNode> = document.select('node1(@name=="node1")');
+			const result : Vector.<IDOMNode> = document.select('node1(@FUCK=="node1")');
 			assertEquals('Result length should be 2', 2, result.length);
 		}
 	}

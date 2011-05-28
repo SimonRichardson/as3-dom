@@ -18,6 +18,8 @@ package org.osflash.dom.path.builder
 		
 		function andCallingMethod(name : String, ...args) : IDOMPathMethodBuilder;
 		
+		function where(name : String, value : String) : IDOMPathWhereBuilder;
+		
 		function toString() : String;
 	}
 }

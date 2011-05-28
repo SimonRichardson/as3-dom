@@ -1,5 +1,6 @@
 package org.osflash.dom.path
 {
+	import org.osflash.dom.path.parser.expressions.DOMPathEqualityExpression;
 	import org.osflash.dom.element.IDOMDocument;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
@@ -10,6 +11,7 @@ package org.osflash.dom.path
 	import org.osflash.dom.path.parser.expressions.DOMPathCallMethodExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
+	import org.osflash.dom.path.parser.expressions.DOMPathGroupExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathIndexAccessExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathIntegerExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathNameDescendantsExpression;
@@ -108,6 +110,8 @@ package org.osflash.dom.path
 			
 			while (valid)
 			{
+				log(">>", expression);
+				
 				switch(expression.type)
 				{
 					case DOMPathExpressionType.WILDCARD:
@@ -546,6 +550,24 @@ package org.osflash.dom.path
 						valid = false;
 						break;
 					
+					case DOMPathExpressionType.GROUP_EXPRESSION:
+						
+						const groupExpr : DOMPathGroupExpression = expression as 
+																			DOMPathGroupExpression;
+						if(null == groupExpr) DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+						
+						if(groupExpr.expression is DOMPathEqualityExpression)
+						{
+							const equalExpr : DOMPathEqualityExpression = 
+													DOMPathEqualityExpression(groupExpr.expression);
+							
+							log(equalExpr.value, equalExpr.expression);
+						}
+						else DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+						
+						valid = false;
+						break;
+											
 					default:
 						DOMPathError.throwError(DOMPathError.INVALID_EXPRESSION);
 						break;

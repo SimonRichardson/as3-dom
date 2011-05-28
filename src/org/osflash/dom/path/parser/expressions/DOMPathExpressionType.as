@@ -9,12 +9,12 @@ package org.osflash.dom.path.parser.expressions
 		public static const WILDCARD : DOMPathExpressionType = new DOMPathExpressionType(0x01);
 		
 		public static const ALL_DESCENDANTS : DOMPathExpressionType = 
-																	new DOMPathExpressionType(0x02);
+																new DOMPathExpressionType(0x02);
 		
 		public static const DESCENDANTS : DOMPathExpressionType = new DOMPathExpressionType(0x03);
 		
 		public static const NAME_DESCENDANTS : DOMPathExpressionType = 
-																	new DOMPathExpressionType(0x04);
+																new DOMPathExpressionType(0x04);
 
 		public static const STRING : DOMPathExpressionType = new DOMPathExpressionType(0x05);
 		
@@ -27,7 +27,7 @@ package org.osflash.dom.path.parser.expressions
 		public static const NUMBER : DOMPathExpressionType = new DOMPathExpressionType(0x09);
 
 		public static const UNSIGNED_INTEGER : DOMPathExpressionType = 
-																	new DOMPathExpressionType(0x10);
+																new DOMPathExpressionType(0x10);
 
 		public static const ATTRIBUTE : DOMPathExpressionType = new DOMPathExpressionType(0x11);
 
@@ -35,6 +35,9 @@ package org.osflash.dom.path.parser.expressions
 																new DOMPathExpressionType(0x12);
 
 		public static const CALL_METHOD : DOMPathExpressionType = new DOMPathExpressionType(0x13);
+
+		public static const GROUP_EXPRESSION : DOMPathExpressionType = 
+																new DOMPathExpressionType(0x14);
 
 		/**
 		 * @private
@@ -79,6 +82,8 @@ package org.osflash.dom.path.parser.expressions
 					return 'attributeDescendants';
 				case CALL_METHOD.type:
 					return 'callMethod';
+				case GROUP_EXPRESSION.type:
+					return 'groupExpression';
 				default:
 					throw new ArgumentError('Given argument is Unknown'); 
 			}

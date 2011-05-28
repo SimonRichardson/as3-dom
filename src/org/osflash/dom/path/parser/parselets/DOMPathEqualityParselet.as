@@ -29,8 +29,8 @@ package org.osflash.dom.path.parser.parselets
 			const name : DOMPathStringExpression = right as DOMPathStringExpression;
 			if (null == name) 
 				DOMPathError.throwError(DOMPathError.INVALID_EQUALITY);
-				
-			return new DOMPathEqualityExpression(name.value, right);
+			
+			return new DOMPathEqualityExpression(expression, right);
 		}
 		
 		/**

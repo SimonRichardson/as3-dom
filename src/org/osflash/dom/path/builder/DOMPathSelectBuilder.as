@@ -85,6 +85,14 @@ package org.osflash.dom.path.builder
 		/**
 		 * @inheritDoc
 		 */
+		public function where(name : String, value : String) : IDOMPathWhereBuilder
+		{
+			return new DOMPathWhereBuilder(_stream, name, value);
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function toQuery() : String
 		{
 			_stream.position = 0;

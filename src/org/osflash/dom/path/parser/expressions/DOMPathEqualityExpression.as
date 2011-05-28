@@ -11,14 +11,16 @@ package org.osflash.dom.path.parser.expressions
 		/**
 		 * @private
 		 */
-		private var _value : String;
+		private var _value : IDOMPathExpression;
 		
 		/**
 		 * @private
 		 */
 		private var _expression : IDOMPathExpression;
 		
-		public function DOMPathEqualityExpression(value : String, expression : IDOMPathExpression)
+		public function DOMPathEqualityExpression(	value : IDOMPathExpression, 
+													expression : IDOMPathExpression
+													)
 		{
 			if(null == value) throw new ArgumentError('Given value can not be null');
 			if(null == expression) throw new ArgumentError('Given expression can not be null');
@@ -32,9 +34,8 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		override public function describe(stream : IDOMPathOutputStream) : void
 		{
-			stream.writeUTF(_value);
+			_value.describe(stream);
 			stream.writeUTF("==");
-			
 			_expression.describe(stream);			
 		}
 		
@@ -46,7 +47,7 @@ package org.osflash.dom.path.parser.expressions
 			return null;
 		}
 
-		public function get value() : String
+		public function get value() : IDOMPathExpression
 		{
 			return _value;
 		}

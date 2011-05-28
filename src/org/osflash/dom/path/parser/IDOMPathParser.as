@@ -18,5 +18,5 @@ package org.osflash.dom.path.parser
 		function consume() : DOMPathToken;
 		
 		function consumeToken(expected : DOMPathTokenType) : DOMPathToken;
-	}
+	}		
 }
