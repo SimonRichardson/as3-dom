@@ -1,6 +1,5 @@
 package org.osflash.dom.path
 {
-	import org.osflash.dom.path.parser.expressions.DOMPathEqualityExpression;
 	import org.osflash.dom.element.IDOMDocument;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
@@ -10,6 +9,7 @@ package org.osflash.dom.path
 	import org.osflash.dom.path.parser.expressions.DOMPathAttributeExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathCallMethodExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathDescendantsExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathEqualityExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
 	import org.osflash.dom.path.parser.expressions.DOMPathGroupExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathIndexAccessExpression;
@@ -556,14 +556,31 @@ package org.osflash.dom.path
 																			DOMPathGroupExpression;
 						if(null == groupExpr) DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
 						
-						if(groupExpr.expression is DOMPathEqualityExpression)
+						domElements = elements.concat();
+						elements.length = 0;
+						
+						if(groupExpr.expression is DOMPathNameExpression)
 						{
-							const equalExpr : DOMPathEqualityExpression = 
-													DOMPathEqualityExpression(groupExpr.expression);
+							nameExpr = groupExpr.expression as DOMPathNameExpression;
+							domElements = filterDescendants(domElements);
+							domChildren = filterByName(domElements, nameExpr);
 							
-							log(equalExpr.value, equalExpr.expression);
+							// TODO : Make sure that the domChildren are exclusive.
+							
+							if(groupExpr.group is DOMPathEqualityExpression)
+							{
+								const equalExpr : DOMPathEqualityExpression = 
+														DOMPathEqualityExpression(groupExpr.group);
+								
+								nodes = filterByAttributeWithEquality(	
+															Vector.<IDOMElement>(domChildren), 
+															equalExpr.value,
+															equalExpr.expression
+															);
+							}
+							else DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
 						}
-						else DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+						else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 						
 						valid = false;
 						break;
@@ -632,7 +649,8 @@ package org.osflash.dom.path
 			else if(expression is DOMPathAttributeExpression)
 			{
 				// filter the elements by the name
-				const attrExpr : DOMPathAttributeExpression = expression as DOMPathAttributeExpression;
+				const attrExpr : DOMPathAttributeExpression = expression as 
+																		DOMPathAttributeExpression;
 														
 				nameExpr = attrExpr.attribute as DOMPathNameExpression;
 				if (null == nameExpr) DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
@@ -648,6 +666,57 @@ package org.osflash.dom.path
 				{
 					const domChild : IDOMNode = IDOMNode(domElement);
 					if(nameExpr.name in domChild) domChildren.push(domChild);
+				}
+				else DOMPathError.throwError(DOMPathError.INVALID_ELEMENT);
+			}
+			
+			return domChildren;
+		}
+		
+		/**
+		 * @private
+		 */
+		private function filterByAttributeWithEquality( elements : Vector.<IDOMElement>, 
+														left : IDOMPathExpression,
+														right : IDOMPathExpression
+														) :  Vector.<IDOMNode>
+		{
+			var leftNameExpr : DOMPathNameExpression;
+			if(left is DOMPathNameExpression)
+			{
+				leftNameExpr = left as DOMPathNameExpression;
+			}
+			else if(left is DOMPathAttributeExpression)
+			{
+				// filter the elements by the name
+				const attrExpr : DOMPathAttributeExpression = left as DOMPathAttributeExpression;
+														
+				leftNameExpr = attrExpr.attribute as DOMPathNameExpression;
+				if (null == leftNameExpr) 
+					DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
+			}
+			else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
+			
+			var rightStringExpr : DOMPathStringExpression;
+			if(right is DOMPathStringExpression)
+			{
+				rightStringExpr = right as DOMPathStringExpression;
+			}
+			else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
+			
+			const total : int = elements.length;
+			const domChildren : Vector.<IDOMNode> = new Vector.<IDOMNode>();
+			for(var i : int = 0; i < total; i++)
+			{
+				const domElement : IDOMElement = elements[i];
+				if(domElement is IDOMNode)
+				{
+					const domChild : IDOMNode = IDOMNode(domElement);
+					if(leftNameExpr.name in domChild && 
+							domChild[leftNameExpr.name] == rightStringExpr.value) 
+					{
+						domChildren.push(domChild);
+					}
 				}
 				else DOMPathError.throwError(DOMPathError.INVALID_ELEMENT);
 			}
