@@ -64,13 +64,15 @@ package org.osflash.dom.path
 			var valid : Boolean = true;
 			var expression : IDOMPathExpression = _expression;
 			
+			const isDocument : Boolean = element is IDOMDocument;
+			
 			// If it's just trying to access the document directly, make sure we know 
 			// element[0] is a document
 			if( expression.type == DOMPathExpressionType.DESCENDANTS ||
 				expression.type == DOMPathExpressionType.ALL_DESCENDANTS
 				)
 			{
-				if(!(element is IDOMDocument)) 
+				if(!isDocument) 
 				{
 					if(element is IDOMNode && null != IDOMNode(element).document)
 					{
@@ -94,6 +96,12 @@ package org.osflash.dom.path
 			{
 				const type : int = DOMPathDescendantsExpression.CONTEXT;
 				expression = new DOMPathDescendantsExpression(type, expression);
+			}
+			
+			// Filter the group expression if it's the route one.
+			if(expression.type == DOMPathExpressionType.GROUP_EXPRESSION)
+			{
+				elements = filterDescendants(elements);	
 			}
 			
 			const stream : IDOMPathOutputStream = new DOMPathByteArrayOutputStream();
@@ -562,8 +570,9 @@ package org.osflash.dom.path
 						if(groupExpr.expression is DOMPathNameExpression)
 						{
 							nameExpr = groupExpr.expression as DOMPathNameExpression;
-							domElements = filterDescendants(domElements);
 							domChildren = filterByName(domElements, nameExpr);
+							
+							log("DOM CHILDREN >", domChildren);
 							
 							// TODO : Make sure that the domChildren are exclusive.
 							
@@ -579,6 +588,8 @@ package org.osflash.dom.path
 															);
 							}
 							else DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+							
+							log("NODES >", nodes);
 						}
 						else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 						
