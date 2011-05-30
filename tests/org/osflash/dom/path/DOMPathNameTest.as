@@ -1,5 +1,6 @@
 package org.osflash.dom.path
 {
+	import asunit.asserts.assertEqualsArraysIgnoringOrder;
 	import asunit.asserts.assertEquals;
 
 	import org.osflash.dom.element.DOMDocument;
@@ -45,7 +46,7 @@ package org.osflash.dom.path
 			
 			subnode0.add(subsubnode0);
 						
-			const result : Vector.<IDOMNode> = document.select('/node1');
+			const result : Vector.<IDOMNode> = document.select('//node1');
 			
 			assertEquals('Result length should be 1', 1, result.length);
 			assertEquals('Result item at 0 index should be same as node1', node1, result[0]);
@@ -70,7 +71,7 @@ package org.osflash.dom.path
 			
 			subnode0.add(subsubnode0);
 						
-			const result : Vector.<IDOMNode> = document.select('node1');
+			const result : Vector.<IDOMNode> = document.select('/node1');
 			
 			assertEquals('Result length should be 1', 1, result.length);
 			assertEquals('Result item at 0 index should be same as node1', node1, result[0]);
@@ -151,6 +152,216 @@ package org.osflash.dom.path
 																				subsubnode0, 
 																				result[0]
 																				);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_subnode1() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			const node2 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode1');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			const subnode2 : DOMNode = new DOMNode('subnode1');
+			const subnode3 : DOMNode = new DOMNode('subnode4');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			document.add(node2);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			node1.add(subnode2);
+			node1.add(subnode3);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('node1/subnode1');
+			
+			assertEquals('Result length should be 3', 3, result.length);
+			assertEqualsArraysIgnoringOrder('Result should be same as', 
+																[subnode0, subnode1, subnode2], 
+																[result[0], result[1], result[2]]
+																);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_subnode1_in_context() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			const node2 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode1');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			const subnode2 : DOMNode = new DOMNode('subnode1');
+			const subnode3 : DOMNode = new DOMNode('subnode4');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			document.add(node2);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			node1.add(subnode2);
+			node1.add(subnode3);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('/node1/subnode1');
+			
+			assertEquals('Result length should be 3', 3, result.length);
+			assertEqualsArraysIgnoringOrder('Result should be same as', 
+																[subnode0, subnode1, subnode2], 
+																[result[0], result[1], result[2]]
+																);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_subnode1_in_document() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			const node2 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode1');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			const subnode2 : DOMNode = new DOMNode('subnode1');
+			const subnode3 : DOMNode = new DOMNode('subnode4');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			document.add(node2);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			node1.add(subnode2);
+			node1.add(subnode3);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('//node1/subnode1');
+			
+			assertEquals('Result length should be 3', 3, result.length);
+			assertEqualsArraysIgnoringOrder('Result should be same as', 
+																[subnode0, subnode1, subnode2], 
+																[result[0], result[1], result[2]]
+																);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_node1_subnode1() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			const node2 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode1');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			const subnode2 : DOMNode = new DOMNode('subnode1');
+			const subnode3 : DOMNode = new DOMNode('subnode4');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			document.add(node2);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			node2.add(subnode2);
+			
+			node1.add(subnode3);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('node1/subnode1');
+			
+			assertEquals('Result length should be 3', 3, result.length);
+			assertEqualsArraysIgnoringOrder('Result should be same as', 
+																[subnode0, subnode1, subnode2], 
+																[result[0], result[1], result[2]]
+																);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_node1_subnode1_in_context() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			const node2 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode1');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			const subnode2 : DOMNode = new DOMNode('subnode1');
+			const subnode3 : DOMNode = new DOMNode('subnode4');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			document.add(node2);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			node2.add(subnode2);
+			
+			node1.add(subnode3);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('/node1/subnode1');
+			
+			assertEquals('Result length should be 3', 3, result.length);
+			assertEqualsArraysIgnoringOrder('Result should be same as', 
+																[subnode0, subnode1, subnode2], 
+																[result[0], result[1], result[2]]
+																);
+		}
+		
+		[Test]
+		public function add_elements_and_path_select_node1_subnode1_in_document() : void
+		{
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
+			const node2 : DOMNode = new DOMNode('node1');
+			
+			const subnode0 : DOMNode = new DOMNode('subnode1');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			const subnode2 : DOMNode = new DOMNode('subnode1');
+			const subnode3 : DOMNode = new DOMNode('subnode4');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			
+			document.add(node0);
+			document.add(node1);
+			document.add(node2);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			node2.add(subnode2);
+			
+			node1.add(subnode3);
+			
+			subnode0.add(subsubnode0);
+						
+			const result : Vector.<IDOMNode> = document.select('//node1/subnode1');
+			
+			assertEquals('Result length should be 3', 3, result.length);
+			assertEqualsArraysIgnoringOrder('Result should be same as', 
+																[subnode0, subnode1, subnode2], 
+																[result[0], result[1], result[2]]
+																);
 		}
 	}
 }

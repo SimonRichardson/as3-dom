@@ -40,5 +40,30 @@ package org.osflash.dom.path
 			const result : Vector.<IDOMNode> = document.select('node1(@name=="node1")');
 			assertEquals('Result length should be 2', 2, result.length);
 		}
+		
+		[Test]
+		public function path_select_subnode1_and_attribute_name_equals_subnode1() : void
+		{
+			const node0 : IDOMNode = new DOMNode('node0');
+			const node1 : IDOMNode = new DOMNode('node1');
+			const node2 : IDOMNode = new DOMNode('node1');
+			
+			const subnode0 : IDOMNode = new DOMNode('subnode1');
+			const subnode1 : IDOMNode = new DOMNode('subnode1');
+			const subnode2 : IDOMNode = new DOMNode('subnode1');
+			const subnode3 : IDOMNode = new DOMNode('subnode4');
+			
+			document.add(node0);
+			document.add(node1);
+			document.add(node2);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			node1.add(subnode2);
+			node1.add(subnode3);
+									
+			const result : Vector.<IDOMNode> = document.select('node1/subnode1(@name=="subnode1")');
+			assertEquals('Result length should be 3', 3, result.length);
+		}
 	}
 }
