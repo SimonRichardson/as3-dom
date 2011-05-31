@@ -30,13 +30,30 @@ package org.osflash.dom.path
 		[Test]
 		public function add_elements_and_path_select_nodes() : void
 		{
-			const node : DOMNode = new DOMNode('node');
+			const node0 : DOMNode = new DOMNode('node0');
+			const node1 : DOMNode = new DOMNode('node1');
 			
-			document.add(node);
+			const subnode0 : DOMNode = new DOMNode('subnode0');
+			const subnode1 : DOMNode = new DOMNode('subnode1');
+			
+			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			const subsubnode1 : DOMNode = new DOMNode('subsubnode1');
+			const subsubnode2 : DOMNode = new DOMNode('subsubnode2');
+			
+			document.add(node0);
+			document.add(node1);
+			
+			node1.add(subnode0);
+			node1.add(subnode1);
+			
+			subnode0.add(subsubnode0);
+			
+			subnode1.add(subsubnode1);
+			subnode1.add(subsubnode2);
 			
 			const result : Vector.<IDOMNode> = document.select('*');
-			assertEquals('Result length should be 1', 1, result.length);
-			assertEquals('Result item at 0 index should be same as initial node', node, result[0]);
+			
+			assertEquals('Result length should be 7', 7, result.length);
 		}
 		
 		[Test]
@@ -169,11 +186,11 @@ package org.osflash.dom.path
 						
 			const result : Vector.<IDOMNode> = document.select('//node1/*');
 			
-			assertEquals('Result length should be 2', 2, result.length);
-			assertEqualsArraysIgnoringOrder('Result should contain subnode0 and subnode1',
-																			[subnode0, subnode1],
-																			[result[0], result[1]]
-																			);
+			assertEquals('Result length should be 3', 3, result.length);
+			assertEqualsArraysIgnoringOrder('Result should contain',
+																[subnode0, subnode1, subsubnode0],
+																[result[0], result[1], result[2]]
+																);
 		}
 		
 		[Test]

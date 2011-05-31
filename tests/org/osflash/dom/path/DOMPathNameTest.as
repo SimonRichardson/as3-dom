@@ -48,7 +48,8 @@ package org.osflash.dom.path
 						
 			const result : Vector.<IDOMNode> = document.select('node1');
 			
-			assertEquals('Result length should be 0', 0, result.length);
+			assertEquals('Result length should be 1', 1, result.length);
+			assertEquals('Result item at 0 index should be same as node1', node1, result[0]);
 		}
 		
 		[Test]
@@ -121,7 +122,8 @@ package org.osflash.dom.path
 						
 			const result : Vector.<IDOMNode> = document.select('node1/subnode0');
 			
-			assertEquals('Result length should be 0', 0, result.length);
+			assertEquals('Result length should be 1', 1, result.length);
+			assertEquals('Result item at 0 index should be same as subnode0', subnode0, result[0]);
 		}
 		
 		[Test]
@@ -191,6 +193,10 @@ package org.osflash.dom.path
 			const subnode1 : DOMNode = new DOMNode('subnode1');
 			
 			const subsubnode0 : DOMNode = new DOMNode('subsubnode0');
+			const subsubnode1 : DOMNode = new DOMNode('subsubnode0');
+			const subsubnode2 : DOMNode = new DOMNode('subsubnode1');
+			const subsubnode3 : DOMNode = new DOMNode('subsubnode0');
+			const subsubnode4 : DOMNode = new DOMNode('subsubnode2');
 			
 			document.add(node0);
 			document.add(node1);
@@ -199,10 +205,19 @@ package org.osflash.dom.path
 			node1.add(subnode1);
 			
 			subnode0.add(subsubnode0);
+			subnode0.add(subsubnode1);
+			subnode0.add(subsubnode2);
+			
+			subnode1.add(subsubnode3);
+			subnode1.add(subsubnode4);
 						
 			const result : Vector.<IDOMNode> = document.select('node1/subnode0/subsubnode0');
 			
-			assertEquals('Result length should be 0', 0, result.length);
+			assertEquals('Result length should be 3', 3, result.length);
+			assertEqualsArraysIgnoringOrder('Result item should be same as ', 
+															[subsubnode0, subsubnode1, subsubnode3],
+															[result[0], result[1], result[2]]
+															);
 		}
 		
 		[Test]

@@ -40,15 +40,29 @@ package org.osflash.dom.path
 		 */
 		public function execute(element : IDOMElement) : Vector.<IDOMNode>
 		{
-			const stream : IDOMPathOutputStream = new DOMPathByteArrayOutputStream();
-			_expression.describe(stream);
-			stream.position = 0;
-			log("Expression >", stream.toString());
-			
 			var resultNodes : Vector.<IDOMNode> = new Vector.<IDOMNode>();
 			var domNodes : Vector.<IDOMNode> = Vector.<IDOMNode>([element]);
 			
 			var expression : IDOMPathExpression = _expression;
+			
+			var injectedType : int;
+			switch(expression.type)
+			{
+				case DOMPathExpressionType.WILDCARD:
+					injectedType = DOMPathDescendantsExpression.ALL;
+					expression = new DOMPathDescendantsExpression(injectedType, expression);
+					break;
+				case DOMPathExpressionType.NAME:
+				case DOMPathExpressionType.NAME_DESCENDANTS:
+					injectedType = DOMPathDescendantsExpression.CONTEXT;
+					expression = new DOMPathDescendantsExpression(injectedType, expression);
+					break;
+			}
+			
+			const stream : IDOMPathOutputStream = new DOMPathByteArrayOutputStream();
+			_expression.describe(stream);
+			stream.position = 0;
+			log("Expression >", stream.toString());
 			
 			var nameExpr : DOMPathNameExpression;
 			var descInterface : IDOMPathDescendantsExpression;
@@ -60,6 +74,11 @@ package org.osflash.dom.path
 				
 				switch(expression.type)
 				{
+					case DOMPathExpressionType.WILDCARD:
+						resultNodes = domNodes;
+						
+						validExpression = false;
+						break;
 					case DOMPathExpressionType.NAME:
 						nameExpr = DOMPathNameExpression(expression);
 						resultNodes = filterByName(domNodes, nameExpr);
