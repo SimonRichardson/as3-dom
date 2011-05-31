@@ -26,7 +26,7 @@ package org.osflash.dom.path
 
 		public static const PARSER_ERROR : int = 0x10;
 
-		public static const INVALID_EQUALITY : int = 0x11;
+		public static const INVALID_RIGHT_SIDE_EQUALITY : int = 0x11;
 		
 		public static const INVALID_EXPRESSION : int = 0x12;
 
@@ -43,6 +43,8 @@ package org.osflash.dom.path
 		public static const UNEXPECTED_EOF_TOKEN : int = 0x18;
 
 		public static const UNEXPECTED_EXPRESSION : int = 0x19;
+		
+		public static const INVALID_LEFT_SIDE_EQUALITY : int = 0x20;
 		
 		public function DOMPathError(message : String)
 		{
@@ -79,8 +81,10 @@ package org.osflash.dom.path
 					return 'unexpectedToken';
 				case PARSER_ERROR:
 					return 'parserError';
-				case INVALID_EQUALITY:
-					return 'invalidEquality';
+				case INVALID_LEFT_SIDE_EQUALITY:
+					return 'invalidLeftSideEquality';
+				case INVALID_RIGHT_SIDE_EQUALITY:
+					return 'invalidRightSideEquality';
 				case INVALID_EXPRESSION:
 					return 'invalidExpression';
 				case ABSTRACT_METHOD:
@@ -133,8 +137,10 @@ package org.osflash.dom.path
 					throw new DOMPathError('Unexpected token');
 				case PARSER_ERROR:
 					throw new DOMPathError('Parser error');
-				case INVALID_EQUALITY:
-					throw new DOMPathError('The left-hand side of an assignment must be a string');
+				case INVALID_LEFT_SIDE_EQUALITY:
+					throw new DOMPathError('The left-hand side of an equality must be a name');
+				case INVALID_RIGHT_SIDE_EQUALITY:
+					throw new DOMPathError('The right-hand side of an equality must be a string');
 				case INVALID_EXPRESSION:
 					throw new DOMPathError('Unknown expression');
 				case ABSTRACT_METHOD:

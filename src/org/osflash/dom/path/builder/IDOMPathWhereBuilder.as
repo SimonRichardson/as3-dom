@@ -6,6 +6,8 @@ package org.osflash.dom.path.builder
 	public interface IDOMPathWhereBuilder extends IDOMPathQuery
 	{
 		
+		function addwhere(name : String, value : String) : IDOMPathWhereBuilder;
+		
 		function toString() : String;
 	}
 }

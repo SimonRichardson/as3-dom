@@ -4,7 +4,8 @@ package org.osflash.dom.path.parser.parselets
 	import org.osflash.dom.path.parser.DOMPathPrecedence;
 	import org.osflash.dom.path.parser.IDOMPathParser;
 	import org.osflash.dom.path.parser.expressions.DOMPathEqualityExpression;
-	import org.osflash.dom.path.parser.expressions.DOMPathStringExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
+	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 	import org.osflash.dom.path.parser.tokens.DOMPathToken;
 	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
@@ -25,12 +26,22 @@ package org.osflash.dom.path.parser.parselets
 		{
 			parser.consumeToken(DOMPathTokenType.EQUALITY);
 			
-			const right : IDOMPathExpression = parser.parseExpression();
-			const name : DOMPathStringExpression = right as DOMPathStringExpression;
-			if (null == name) 
-				DOMPathError.throwError(DOMPathError.INVALID_EQUALITY);
+			const name : DOMPathNameExpression = expression as DOMPathNameExpression;
+			if(null == name)
+				DOMPathError.throwError(DOMPathError.INVALID_LEFT_SIDE_EQUALITY);
 			
-			return new DOMPathEqualityExpression(expression, right);
+			const right : IDOMPathExpression = parser.parseExpression();
+			if(	!(	right.type == DOMPathExpressionType.STRING ||
+					right.type == DOMPathExpressionType.INTEGER || 
+					right.type == DOMPathExpressionType.UNSIGNED_INTEGER ||
+					right.type == DOMPathExpressionType.NUMBER
+				))
+			{
+				// TODO : validate the value here, making sure it's a valid value?
+				DOMPathError.throwError(DOMPathError.INVALID_RIGHT_SIDE_EQUALITY);
+			}
+			
+			return new DOMPathEqualityExpression(name, right);
 		}
 		
 		/**

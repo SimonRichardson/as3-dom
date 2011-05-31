@@ -55,6 +55,8 @@ package org.osflash.dom.path.parser.tokens
 		
 		public static const DOT : DOMPathTokenType = new DOMPathTokenType(0x24);
 		
+		public static const AMPERSAND : DOMPathTokenType = new DOMPathTokenType(0x25);
+		
 		/**
 		 * @private
 		 */
@@ -97,7 +99,8 @@ package org.osflash.dom.path.parser.tokens
 												LEFT_SQUARE,
 												RIGHT_SQUARE,
 												ATTRIBUTE,
-												DOT
+												DOT,
+												AMPERSAND
 											 ]);
 		}
 		
@@ -132,6 +135,7 @@ package org.osflash.dom.path.parser.tokens
 				case NAME.type: return 'Name';
 				case UNSIGNED_INTEGER.type: return 'uint';
 				case DOT.type: return '.';
+				case AMPERSAND.type: return '&';
 				default:
 					DOMPathError.throwError(DOMPathError.UNEXPECTED_TOKEN_TYPE);
 					break;

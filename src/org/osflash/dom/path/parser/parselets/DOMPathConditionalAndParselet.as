@@ -2,15 +2,15 @@ package org.osflash.dom.path.parser.parselets
 {
 	import org.osflash.dom.path.parser.DOMPathPrecedence;
 	import org.osflash.dom.path.parser.IDOMPathParser;
-	import org.osflash.dom.path.parser.expressions.DOMPathNameDescendantsExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathConditionalAndExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 	import org.osflash.dom.path.parser.tokens.DOMPathToken;
+	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
 	/**
-	 * @author Simon Richardson - simon@ustwo.co.uk
+	 * @author Simon Richardson - me@simonrichardson.info
 	 */
-	public final class DOMPathNameDescendantsParselet implements IDOMPathInfixParselet
+	public final class DOMPathConditionalAndParselet implements IDOMPathInfixParselet
 	{
-		
 		
 		/**
 		 * @inheritDoc
@@ -20,8 +20,10 @@ package org.osflash.dom.path.parser.parselets
 								token : DOMPathToken
 								) : IDOMPathExpression
 		{
+			parser.consumeToken(DOMPathTokenType.AMPERSAND);
+			
 			const right : IDOMPathExpression = parser.parseExpression();
-			return new DOMPathNameDescendantsExpression(expression, right);
+			return new DOMPathConditionalAndExpression(expression, right);
 		}
 		
 		/**
@@ -29,7 +31,7 @@ package org.osflash.dom.path.parser.parselets
 		 */
 		public function get precedence() : int
 		{
-			return DOMPathPrecedence.POSTFIX;
+			return DOMPathPrecedence.CONDITIONAL;
 		}
 	}
 }

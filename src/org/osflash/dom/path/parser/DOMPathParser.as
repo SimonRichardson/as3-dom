@@ -4,10 +4,12 @@ package org.osflash.dom.path.parser
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 	import org.osflash.dom.path.parser.parselets.DOMPathAttributeDescendantsParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathAttributeParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathGroupOrCallMethodParselet;
+	import org.osflash.dom.path.parser.parselets.DOMPathCallMethodParselet;
+	import org.osflash.dom.path.parser.parselets.DOMPathConditionalAndParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathDescendantsParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathEqualityParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathIndexAccessParselet;
+	import org.osflash.dom.path.parser.parselets.DOMPathInstanceParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathIntegerParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathNameDescendantsParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathNameParselet;
@@ -72,12 +74,13 @@ package org.osflash.dom.path.parser
 			registerPrefix(DOMPathTokenType.UNSIGNED_INTEGER, new DOMPathUnsignedIntegerParselet());
 			registerPrefix(DOMPathTokenType.ATTRIBUTE, new DOMPathAttributeParselet());
 			
-			registerInfix(DOMPathTokenType.LEFT_PAREN, new DOMPathGroupOrCallMethodParselet());
+			registerInfix(DOMPathTokenType.DOT, new DOMPathInstanceParselet());
+			registerInfix(DOMPathTokenType.LEFT_PAREN, new DOMPathCallMethodParselet());
 			registerInfix(DOMPathTokenType.LEFT_SQUARE, new DOMPathIndexAccessParselet());
 			registerInfix(DOMPathTokenType.FORWARD_SLASH, new DOMPathNameDescendantsParselet());
 			registerInfix(DOMPathTokenType.ATTRIBUTE, new DOMPathAttributeDescendantsParselet());
-			
 			registerInfix(DOMPathTokenType.EQUALITY, new DOMPathEqualityParselet());
+			registerInfix(DOMPathTokenType.AMPERSAND, new DOMPathConditionalAndParselet());
 		}
 		
 		/**
@@ -136,7 +139,6 @@ package org.osflash.dom.path.parser
 			if(null == prefix) DOMPathError.throwError(DOMPathError.PARSER_ERROR);
 			
 			var expression : IDOMPathExpression = prefix.parse(this, token);
-			
 			while(precedence < nextTokenPrecedence)
 			{
 				token = consume();

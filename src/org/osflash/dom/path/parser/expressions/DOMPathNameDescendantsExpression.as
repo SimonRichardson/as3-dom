@@ -4,7 +4,8 @@ package org.osflash.dom.path.parser.expressions
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public class DOMPathNameDescendantsExpression extends DOMPathExpression
+	public class DOMPathNameDescendantsExpression extends DOMPathExpression 
+													implements IDOMPathDescendantsExpression
 	{
 		
 		/**

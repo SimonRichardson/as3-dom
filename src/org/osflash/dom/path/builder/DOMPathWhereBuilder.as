@@ -42,6 +42,14 @@ package org.osflash.dom.path.builder
 			_stream.writeUTF('==');
 			_stream.writeUTF(value);
 		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function addwhere(name : String, value : String) : IDOMPathWhereBuilder
+		{
+			return new DOMPathWhereBuilder(_stream, name, value);
+		}
 
 		/**
 		 * @inheritDoc

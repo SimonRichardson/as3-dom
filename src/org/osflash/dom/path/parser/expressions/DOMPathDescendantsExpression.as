@@ -5,7 +5,8 @@ package org.osflash.dom.path.parser.expressions
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public class DOMPathDescendantsExpression extends DOMPathExpression
+	public class DOMPathDescendantsExpression extends DOMPathExpression 
+												implements IDOMPathDescendantsExpression
 	{
 
 		public static const CONTEXT : int = 0x01;

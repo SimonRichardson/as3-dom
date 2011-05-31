@@ -41,5 +41,10 @@ package org.osflash.dom.path.parser.expressions
 		{
 			return _value;
 		}
+		
+		public function toString() : String 
+		{
+			return "[DOMPathStringExpression (value='" + value + "')]";
+		}
 	}
 }

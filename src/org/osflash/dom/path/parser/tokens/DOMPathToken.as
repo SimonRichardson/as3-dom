@@ -44,5 +44,10 @@ package org.osflash.dom.path.parser.tokens
 		{
 			return _buffer;
 		}
+		
+		public function toString() : String 
+		{
+			return "[DOMPathToken (type='" + DOMPathTokenType.getType(type.type) + "')]";
+		}
 	}
 }

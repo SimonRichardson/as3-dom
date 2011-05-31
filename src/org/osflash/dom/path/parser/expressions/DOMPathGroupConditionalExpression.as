@@ -4,7 +4,7 @@ package org.osflash.dom.path.parser.expressions
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
-	public class DOMPathGroupExpression extends DOMPathExpression
+	public class DOMPathGroupConditionalExpression extends DOMPathExpression
 	{
 		
 		/**
@@ -17,9 +17,9 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		private var _group : IDOMPathExpression;
 		
-		public function DOMPathGroupExpression(	expression : IDOMPathExpression, 
-												group : IDOMPathExpression
-												)
+		public function DOMPathGroupConditionalExpression(	expression : IDOMPathExpression, 
+															group : IDOMPathExpression
+															)
 		{
 			if(null == expression) throw new ArgumentError('Given expression can not be null');
 			if(null == group) throw new ArgumentError('Given group can not be null');
