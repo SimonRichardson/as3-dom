@@ -1,9 +1,11 @@
 package org.osflash.dom.path
 {
-	import org.osflash.dom.path.parser.expressions.DOMPathDescendantsExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathUnsignedIntegerExpression;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
+	import org.osflash.dom.path.parser.expressions.DOMPathDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
+	import org.osflash.dom.path.parser.expressions.DOMPathIndexAccessExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
@@ -54,6 +56,7 @@ package org.osflash.dom.path
 					break;
 				case DOMPathExpressionType.NAME:
 				case DOMPathExpressionType.NAME_DESCENDANTS:
+				case DOMPathExpressionType.INDEX_ACCESS:
 					injectedType = DOMPathDescendantsExpression.CONTEXT;
 					expression = new DOMPathDescendantsExpression(injectedType, expression);
 					break;
@@ -64,7 +67,11 @@ package org.osflash.dom.path
 			stream.position = 0;
 			log("Expression >", stream.toString());
 			
+			var domNode : IDOMNode;
+			
 			var nameExpr : DOMPathNameExpression;
+			var indexExpr : DOMPathIndexAccessExpression;
+			var unsignedExpr : DOMPathUnsignedIntegerExpression;
 			var descInterface : IDOMPathDescendantsExpression;
 			
 			var validExpression : Boolean = true;
@@ -82,6 +89,24 @@ package org.osflash.dom.path
 					case DOMPathExpressionType.NAME:
 						nameExpr = DOMPathNameExpression(expression);
 						resultNodes = filterByName(domNodes, nameExpr);
+						
+						validExpression = false;
+						break;
+					case DOMPathExpressionType.INDEX_ACCESS:
+						indexExpr = DOMPathIndexAccessExpression(expression);
+						nameExpr = DOMPathNameExpression(indexExpr.name);
+						unsignedExpr = DOMPathUnsignedIntegerExpression(indexExpr.parameter);
+						
+						resultNodes = filterByName(domNodes, nameExpr);
+						
+						if(unsignedExpr.value < resultNodes.length)
+						{
+							domNode = resultNodes[unsignedExpr.value];
+						
+							resultNodes.length = 0;
+							resultNodes[0] = domNode;
+						}
+						else resultNodes.length = 0;
 						
 						validExpression = false;
 						break;
