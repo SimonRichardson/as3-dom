@@ -6,6 +6,8 @@ package org.osflash.dom.path
 	import org.osflash.dom.path.parser.expressions.DOMPathDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
 	import org.osflash.dom.path.parser.expressions.DOMPathIndexAccessDescendantsExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathIndexAccessExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathNameDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathUnsignedIntegerExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathDescendantsExpression;
@@ -95,6 +97,7 @@ package org.osflash.dom.path
 			// Parsing the expressions.
 			var results : Array;
 			var nameExpr : DOMPathNameExpression;
+			var nameDescExpr : DOMPathNameDescendantsExpression;
 			var unsignedExpr : DOMPathUnsignedIntegerExpression;
 			var callMethodExpr : DOMPathCallMethodExpression;
 			
@@ -165,12 +168,46 @@ package org.osflash.dom.path
 						
 						domNodes = filterByName(domNodes, nameExpr);
 						
-						nameExpr = DOMPathNameExpression(leftRightExpr.right);
+						if(leftRightExpr.right.type == DOMPathExpressionType.NAME)
+						{
+							nameExpr = DOMPathNameExpression(leftRightExpr.right);
+						}
+						else if(leftRightExpr.right.type == DOMPathExpressionType.INDEX_ACCESS)
+						{
+							leftRightExpr = IDOMPathLeftRightNodeExpression(leftRightExpr.right);
+							nameExpr = DOMPathNameExpression(leftRightExpr.left);
+						}
+						else if(leftRightExpr.right.type == DOMPathExpressionType.NAME_DESCENDANTS)
+						{
+							nameDescExpr = DOMPathNameDescendantsExpression(leftRightExpr.right);
+							leftRightExpr = IDOMPathLeftRightNodeExpression(nameDescExpr.left);
+							
+							nameExpr = DOMPathNameExpression(leftRightExpr.left);
+						}
+						else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
+						
 						results = callAttribute(domNodes, nameExpr.name);
 						
 						// This removes nodes with invalid results
 						domNodes = filterByAttributeResults(domNodes, results);
 						
+						// Filter by index
+						if(leftRightExpr is DOMPathIndexAccessExpression)
+						{
+							unsignedExpr = DOMPathUnsignedIntegerExpression(leftRightExpr.right);
+							domNodes = filterAtIndexAccess(domNodes, unsignedExpr.value);
+						}
+						
+						// Move on to the next expression
+						if(null != nameDescExpr)
+						{
+							injectedType = DOMPathDescendantsExpression.CONTEXT;
+							expression = new DOMPathDescendantsExpression(	injectedType, 
+																			nameDescExpr.right
+																			);
+							break;
+						}
+																			
 						resultNodes = domNodes;
 						validExpression = false;
 						break;
@@ -236,6 +273,12 @@ package org.osflash.dom.path
 						DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 						break;
 				}
+				
+				// TODO : Make sure we result all values here.
+				nameExpr = null;
+				nameDescExpr = null;
+				unsignedExpr = null;
+				callMethodExpr = null;
 			}
 			
 			return resultNodes;
