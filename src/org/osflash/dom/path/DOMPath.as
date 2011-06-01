@@ -1,12 +1,12 @@
 package org.osflash.dom.path
 {
-	import flash.utils.getDefinitionByName;
+	import org.osflash.dom.path.parser.expressions.DOMPathInstanceExpression;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
+	import org.osflash.dom.path.parser.expressions.DOMPathCallMethodExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
 	import org.osflash.dom.path.parser.expressions.DOMPathIndexAccessDescendantsExpression;
-	import org.osflash.dom.path.parser.expressions.DOMPathNameDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathUnsignedIntegerExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathDescendantsExpression;
@@ -14,10 +14,13 @@ package org.osflash.dom.path
 	import org.osflash.dom.path.parser.expressions.IDOMPathLeftRightNodeExpression;
 	import org.osflash.dom.path.parser.stream.DOMPathByteArrayOutputStream;
 	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
+	import org.osflash.dom.path.parser.utils.callMethodNameWithArgs;
 	import org.osflash.dom.path.parser.utils.filterAtIndexAccess;
 	import org.osflash.dom.path.parser.utils.filterByName;
 	import org.osflash.dom.path.parser.utils.getContextChildren;
 	import org.osflash.dom.path.parser.utils.getDocumentChildren;
+
+	import flash.utils.getDefinitionByName;
 
 
 	/**
@@ -71,6 +74,7 @@ package org.osflash.dom.path
 					break;
 				case DOMPathExpressionType.NAME_DESCENDANTS:
 				case DOMPathExpressionType.INDEX_ACCESS:
+				case DOMPathExpressionType.INSTANCE:
 					leftRightExpr = IDOMPathLeftRightNodeExpression(expression);
 					if(leftRightExpr.left.type == DOMPathExpressionType.WILDCARD)
 						injectedType = DOMPathDescendantsExpression.ALL;
@@ -87,8 +91,11 @@ package org.osflash.dom.path
 			log("Expression >", stream.toString());
 			
 			// Parsing the expressions.
+			var results : Array;
 			var nameExpr : DOMPathNameExpression;
+			var instanceExpr : DOMPathInstanceExpression;
 			var unsignedExpr : DOMPathUnsignedIntegerExpression;
+			var callMethodExpr : DOMPathCallMethodExpression;
 			
 			var validExpression : Boolean = true;
 			while(validExpression)
@@ -115,6 +122,19 @@ package org.osflash.dom.path
 						validExpression = false;
 						break;
 						
+					case DOMPathExpressionType.CALL_METHOD:
+						callMethodExpr = DOMPathCallMethodExpression(expression);
+						nameExpr = DOMPathNameExpression(callMethodExpr.method);
+						
+						results = callMethodNameWithArgs(	domNodes,
+															nameExpr.name,
+															callMethodExpr.parameters
+															);
+															
+						resultNodes = domNodes;
+						validExpression = false;
+						break;
+						
 					case DOMPathExpressionType.INDEX_ACCESS:
 						leftRightExpr = IDOMPathLeftRightNodeExpression(expression);
 						
@@ -137,7 +157,16 @@ package org.osflash.dom.path
 						resultNodes = domNodes;
 						validExpression = false;
 						break;
+					
+					case DOMPathExpressionType.INSTANCE:
+						instanceExpr = DOMPathInstanceExpression(expression);
+						nameExpr = DOMPathNameExpression(instanceExpr.left);
 						
+						domNodes = filterByName(domNodes, nameExpr);
+						
+						expression = instanceExpr.right;
+						break;
+					
 					case DOMPathExpressionType.DESCENDANTS:
 						domNodes = getContextChildren(domNodes);
 						

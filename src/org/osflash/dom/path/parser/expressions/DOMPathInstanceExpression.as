@@ -5,10 +5,29 @@ package org.osflash.dom.path.parser.expressions
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
 	public final class DOMPathInstanceExpression extends DOMPathExpression
+												 implements IDOMPathDescendantsExpression,
+															IDOMPathLeftRightNodeExpression
 	{
 		
-		public function DOMPathInstanceExpression()
+		/**
+		 * @private
+		 */
+		private var _left : IDOMPathExpression;
+		
+		/**
+		 * @private
+		 */
+		private var _right : IDOMPathExpression;
+		
+		public function DOMPathInstanceExpression(	left : IDOMPathExpression,
+													right : IDOMPathExpression
+													)
 		{
+			if(null == left) throw new ArgumentError('Given left can not be null');
+			if(null == right) throw new ArgumentError('Given right can not be null');
+			
+			_left = left;
+			_right = right;
 		}
 		
 		/**
@@ -16,7 +35,11 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		override public function describe(stream : IDOMPathOutputStream) : void
 		{
-			stream.writeUTF('INSTANCE DOT');
+			_left.describe(stream);
+			
+			stream.writeUTF(".");
+			
+			_right.describe(stream);
 		}
 
 		/**
@@ -25,6 +48,21 @@ package org.osflash.dom.path.parser.expressions
 		override public function get type() : DOMPathExpressionType
 		{
 			return DOMPathExpressionType.INSTANCE;
+		}
+
+		public function get descendants() : IDOMPathExpression
+		{
+			return _right;
+		}
+
+		public function get left() : IDOMPathExpression
+		{
+			return _left;
+		}
+
+		public function get right() : IDOMPathExpression
+		{
+			return _right;
 		}
 	}
 }

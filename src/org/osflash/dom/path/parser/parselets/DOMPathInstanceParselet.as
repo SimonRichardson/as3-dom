@@ -20,7 +20,8 @@ package org.osflash.dom.path.parser.parselets
 								token : DOMPathToken
 								) : IDOMPathExpression
 		{
-			return new DOMPathInstanceExpression();
+			const right : IDOMPathExpression = parser.parseExpression();
+			return new DOMPathInstanceExpression(expression, right);
 		}
 		
 		/**

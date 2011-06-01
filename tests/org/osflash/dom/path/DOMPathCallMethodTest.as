@@ -8,7 +8,7 @@ package org.osflash.dom.path
 	import org.osflash.dom.element.IDOMNode;
 	import org.osflash.dom.support.DOMCallMethodNode;
 	/**
-	 * @author Simon Richardson - simon@ustwo.co.uk
+	 * .author Simon Richardson - simon.ustwo.co.uk
 	 */
 	public class DOMPathCallMethodTest
 	{
@@ -38,7 +38,7 @@ package org.osflash.dom.path
 			document.add(node1);
 			document.add(node2);
 									
-			const result : Vector.<IDOMNode> = document.select('node1@methodNoArg()');
+			const result : Vector.<IDOMNode> = document.select('node1.methodNoArg()');
 			assertEquals('Result length should be 2', 2, result.length);
 		}
 		
@@ -53,7 +53,7 @@ package org.osflash.dom.path
 			document.add(node1);
 			document.add(node2);
 									
-			const result : Vector.<IDOMNode> = document.select('/node1@methodNoArg()');
+			const result : Vector.<IDOMNode> = document.select('/node1.methodNoArg()');
 			assertEquals('Result length should be 2', 2, result.length);
 		}
 		
@@ -68,7 +68,7 @@ package org.osflash.dom.path
 			document.add(node1);
 			document.add(node2);
 									
-			const result : Vector.<IDOMNode> = document.select('//node1@methodNoArg()');
+			const result : Vector.<IDOMNode> = document.select('//node1.methodNoArg()');
 			assertEquals('Result length should be 2', 2, result.length);
 		}
 		
@@ -83,7 +83,7 @@ package org.osflash.dom.path
 			document.add(node1);
 			document.add(node2);
 									
-			const result : Vector.<IDOMNode> = document.select('node1@methodWithStringArg("hello")');
+			const result : Vector.<IDOMNode> = document.select('node1.methodWithStringArg("hello")');
 			assertEquals('Result length should be 2', 2, result.length);
 		}
 		
@@ -98,7 +98,7 @@ package org.osflash.dom.path
 			document.add(node1);
 			document.add(node2);
 									
-			const result : Vector.<IDOMNode> = document.select('/node1@methodWithStringArg("hello")');
+			const result : Vector.<IDOMNode> = document.select('/node1.methodWithStringArg("hello")');
 			assertEquals('Result length should be 2', 2, result.length);
 		}
 		
@@ -113,7 +113,7 @@ package org.osflash.dom.path
 			document.add(node1);
 			document.add(node2);
 									
-			const result : Vector.<IDOMNode> = document.select('//node1@methodWithStringArg("hello")');
+			const result : Vector.<IDOMNode> = document.select('//node1.methodWithStringArg("hello")');
 			assertEquals('Result length should be 2', 2, result.length);
 		}
 		
@@ -128,7 +128,7 @@ package org.osflash.dom.path
 			document.add(node1);
 			document.add(node2);
 									
-			const result : Vector.<IDOMNode> = document.select('node1@methodWithMultipleArg("hello", 1, "duffus", -8, 0.2)');
+			const result : Vector.<IDOMNode> = document.select('node1.methodWithMultipleArg("hello", 1, "duffus", -8, 0.2)');
 			assertEquals('Result length should be 2', 2, result.length);
 		}
 		
@@ -151,7 +151,7 @@ package org.osflash.dom.path
 			
 			subnode0.add(subsubnode0);
 			
-			const result : Vector.<IDOMNode> = document.select('node1/subnode1@methodWithNoArg()');
+			const result : Vector.<IDOMNode> = document.select('node1/subnode1.methodWithNoArg()');
 			assertEquals('Result length should be 1', 1, result.length);
 		}
 		
@@ -174,7 +174,7 @@ package org.osflash.dom.path
 			
 			subnode0.add(subsubnode0);
 			
-			const result : Vector.<IDOMNode> = document.select('/node1/subnode1@methodWithNoArg()');
+			const result : Vector.<IDOMNode> = document.select('/node1/subnode1.methodWithNoArg()');
 			assertEquals('Result length should be 1', 1, result.length);
 		}
 		
@@ -197,7 +197,7 @@ package org.osflash.dom.path
 			
 			subnode0.add(subsubnode0);
 			
-			const result : Vector.<IDOMNode> = document.select('//node1/subnode1@methodWithNoArg()');
+			const result : Vector.<IDOMNode> = document.select('//node1/subnode1.methodWithNoArg()');
 			assertEquals('Result length should be 1', 1, result.length);
 		}
 		
@@ -230,7 +230,7 @@ package org.osflash.dom.path
 			
 			subnode0.add(subsubnode0);
 			
-			const result : Vector.<IDOMNode> = document.select('node1/subnode1@methodWithStringArg("Sub hello")');
+			const result : Vector.<IDOMNode> = document.select('node1/subnode1.methodWithStringArg("Sub hello")');
 			assertEquals('Result length should be 3', 3, result.length);
 		}
 		
@@ -263,7 +263,7 @@ package org.osflash.dom.path
 			
 			subnode0.add(subsubnode0);
 			
-			const result : Vector.<IDOMNode> = document.select('/node1/subnode1@methodWithStringArg("Sub hello")');
+			const result : Vector.<IDOMNode> = document.select('/node1/subnode1.methodWithStringArg("Sub hello")');
 			assertEquals('Result length should be 3', 3, result.length);
 		}
 		
@@ -296,7 +296,7 @@ package org.osflash.dom.path
 			
 			subnode0.add(subsubnode0);
 			
-			const result : Vector.<IDOMNode> = document.select('//node1/subnode1@methodWithStringArg("Sub hello")');
+			const result : Vector.<IDOMNode> = document.select('//node1/subnode1.methodWithStringArg("Sub hello")');
 			assertEquals('Result length should be 3', 3, result.length);
 		}
 		
@@ -330,7 +330,7 @@ package org.osflash.dom.path
 			
 			subnode0.add(subsubnode0);
 			
-			const result : Vector.<IDOMNode> = document.select('node1[1]/subnode1@methodWithNoArg()');
+			const result : Vector.<IDOMNode> = document.select('node1[1]/subnode1.methodWithNoArg()');
 			assertEquals('Result length should be 3', 3, result.length);
 		}
 		
@@ -364,7 +364,7 @@ package org.osflash.dom.path
 			
 			subnode0.add(subsubnode0);
 			
-			const result : Vector.<IDOMNode> = document.select('/node1[1]/subnode1@methodWithNoArg()');
+			const result : Vector.<IDOMNode> = document.select('/node1[1]/subnode1.methodWithNoArg()');
 			assertEquals('Result length should be 3', 3, result.length);
 		}
 		
@@ -398,7 +398,7 @@ package org.osflash.dom.path
 			
 			subnode0.add(subsubnode0);
 			
-			const result : Vector.<IDOMNode> = document.select('//node1[1]/subnode1@methodWithNoArg()');
+			const result : Vector.<IDOMNode> = document.select('//node1[1]/subnode1.methodWithNoArg()');
 			assertEquals('Result length should be 3', 3, result.length);
 		}
 		
@@ -432,7 +432,7 @@ package org.osflash.dom.path
 			
 			subnode0.add(subsubnode0);
 			
-			const result : Vector.<IDOMNode> = document.select('node1[1]/subnode1@methodWithStringArg("Sub hello")');
+			const result : Vector.<IDOMNode> = document.select('node1[1]/subnode1.methodWithStringArg("Sub hello")');
 			assertEquals('Result length should be 3', 3, result.length);
 		}
 		
@@ -466,7 +466,7 @@ package org.osflash.dom.path
 			
 			subnode0.add(subsubnode0);
 			
-			const result : Vector.<IDOMNode> = document.select('/node1[1]/subnode1@methodWithStringArg("Sub hello")');
+			const result : Vector.<IDOMNode> = document.select('/node1[1]/subnode1.methodWithStringArg("Sub hello")');
 			assertEquals('Result length should be 3', 3, result.length);
 		}
 		
@@ -500,7 +500,7 @@ package org.osflash.dom.path
 			
 			subnode0.add(subsubnode0);
 			
-			const result : Vector.<IDOMNode> = document.select('//node1[1]/subnode1@methodWithStringArg("Sub hello")');
+			const result : Vector.<IDOMNode> = document.select('//node1[1]/subnode1.methodWithStringArg("Sub hello")');
 			assertEquals('Result length should be 3', 3, result.length);
 		}
 		
@@ -543,7 +543,7 @@ package org.osflash.dom.path
 			subnode1.add(subsubnode3);
 			subnode1.add(subsubnode4);
 			
-			const result : Vector.<IDOMNode> = document.select('node1[1]/subnode1[0]/subsubnode2@methodNoArg()');
+			const result : Vector.<IDOMNode> = document.select('node1[1]/subnode1[0]/subsubnode2.methodNoArg()');
 			assertEquals('Result length should be 2', 2, result.length);
 			assertEqualsArraysIgnoringOrder('Result length should include', 
 																[subsubnode3, subsubnode4], 
@@ -590,7 +590,7 @@ package org.osflash.dom.path
 			subnode1.add(subsubnode3);
 			subnode1.add(subsubnode4);
 			
-			const result : Vector.<IDOMNode> = document.select('/node1[1]/subnode1[0]/subsubnode2@methodNoArg()');
+			const result : Vector.<IDOMNode> = document.select('/node1[1]/subnode1[0]/subsubnode2.methodNoArg()');
 			assertEquals('Result length should be 2', 2, result.length);
 			assertEqualsArraysIgnoringOrder('Result length should include', 
 																[subsubnode3, subsubnode4], 
@@ -637,7 +637,7 @@ package org.osflash.dom.path
 			subnode1.add(subsubnode3);
 			subnode1.add(subsubnode4);
 			
-			const result : Vector.<IDOMNode> = document.select('//node1[1]/subnode1[0]/subsubnode2@methodNoArg()');
+			const result : Vector.<IDOMNode> = document.select('//node1[1]/subnode1[0]/subsubnode2.methodNoArg()');
 			assertEquals('Result length should be 2', 2, result.length);
 			assertEqualsArraysIgnoringOrder('Result length should include', 
 																[subsubnode3, subsubnode4], 
@@ -685,7 +685,7 @@ package org.osflash.dom.path
 			subnode1.add(subsubnode3);
 			subnode1.add(subsubnode4);
 			
-			const result : Vector.<IDOMNode> = document.select('node1[1]/subnode1[0]/subsubnode2@methodWithStringArg("Hello subsubnode2")');
+			const result : Vector.<IDOMNode> = document.select('node1[1]/subnode1[0]/subsubnode2.methodWithStringArg("Hello subsubnode2")');
 			assertEquals('Result length should be 2', 2, result.length);
 			assertEqualsArraysIgnoringOrder('Result length should include', 
 																[subsubnode3, subsubnode4], 
@@ -732,7 +732,7 @@ package org.osflash.dom.path
 			subnode1.add(subsubnode3);
 			subnode1.add(subsubnode4);
 			
-			const result : Vector.<IDOMNode> = document.select('/node1[1]/subnode1[0]/subsubnode2@methodWithStringArg("Hello subsubnode2")');
+			const result : Vector.<IDOMNode> = document.select('/node1[1]/subnode1[0]/subsubnode2.methodWithStringArg("Hello subsubnode2")');
 			assertEquals('Result length should be 2', 2, result.length);
 			assertEqualsArraysIgnoringOrder('Result length should include', 
 																[subsubnode3, subsubnode4], 
@@ -779,7 +779,7 @@ package org.osflash.dom.path
 			subnode1.add(subsubnode3);
 			subnode1.add(subsubnode4);
 			
-			const result : Vector.<IDOMNode> = document.select('//node1[1]/subnode1[0]/subsubnode2@methodWithStringArg("Hello subsubnode2")');
+			const result : Vector.<IDOMNode> = document.select('//node1[1]/subnode1[0]/subsubnode2.methodWithStringArg("Hello subsubnode2")');
 			assertEquals('Result length should be 2', 2, result.length);
 			assertEqualsArraysIgnoringOrder('Result length should include', 
 																[subsubnode3, subsubnode4], 
