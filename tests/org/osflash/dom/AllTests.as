@@ -20,9 +20,9 @@ package org.osflash.dom
 		public var _DOMPathCallMethodTest:DOMPathCallMethodTest;
 //		public var _DOMPathConditionalTest:DOMPathConditionalTest;
 //		public var _DOMPathMultipleConditionalTest:DOMPathMultipleConditionalTest;
-//		public var _DOMPathNameIndexAccessTest:DOMPathNameIndexAccessTest;
-//		public var _DOMPathNameTest:DOMPathNameTest;
-//		public var _DOMPathWildcardIndexAccessTest:DOMPathWildcardIndexAccessTest;
-//		public var _DOMPathWildcardTest:DOMPathWildcardTest;
+		public var _DOMPathNameIndexAccessTest:DOMPathNameIndexAccessTest;
+		public var _DOMPathNameTest:DOMPathNameTest;
+		public var _DOMPathWildcardIndexAccessTest:DOMPathWildcardIndexAccessTest;
+		public var _DOMPathWildcardTest:DOMPathWildcardTest;
 	}
 }
