@@ -1,21 +1,24 @@
 package org.osflash.dom.path
 {
-	import org.osflash.dom.path.parser.expressions.DOMPathUnsignedIntegerExpression;
+	import flash.utils.getDefinitionByName;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
 	import org.osflash.dom.path.parser.expressions.DOMPathDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
-	import org.osflash.dom.path.parser.expressions.DOMPathIndexAccessExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathIndexAccessDescendantsExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathNameDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathUnsignedIntegerExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
+	import org.osflash.dom.path.parser.expressions.IDOMPathLeftRightNodeExpression;
 	import org.osflash.dom.path.parser.stream.DOMPathByteArrayOutputStream;
 	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
+	import org.osflash.dom.path.parser.utils.filterAtIndexAccess;
 	import org.osflash.dom.path.parser.utils.filterByName;
 	import org.osflash.dom.path.parser.utils.getContextChildren;
 	import org.osflash.dom.path.parser.utils.getDocumentChildren;
 
-	import flash.utils.getDefinitionByName;
 
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
@@ -29,12 +32,16 @@ package org.osflash.dom.path
 		 * @private
 		 */
 		private var _expression : IDOMPathExpression;
+		
+		private var _context : DOMPathContext;
 
 		public function DOMPath(expression : IDOMPathExpression)
 		{
 			if (null == expression) throw new ArgumentError('Given value can not be null');
 
 			_expression = expression;
+			
+			_context = new DOMPathContext();
 		}
 
 		/**
@@ -47,6 +54,10 @@ package org.osflash.dom.path
 			
 			var expression : IDOMPathExpression = _expression;
 			
+			var descExpr : IDOMPathDescendantsExpression;
+			var leftRightExpr : IDOMPathLeftRightNodeExpression;
+			
+			// TODO : Should we inject the context into none context syntax.
 			var injectedType : int;
 			switch(expression.type)
 			{
@@ -55,73 +66,128 @@ package org.osflash.dom.path
 					expression = new DOMPathDescendantsExpression(injectedType, expression);
 					break;
 				case DOMPathExpressionType.NAME:
+					injectedType = DOMPathDescendantsExpression.CONTEXT;
+					expression = new DOMPathDescendantsExpression(injectedType, expression);
+					break;
 				case DOMPathExpressionType.NAME_DESCENDANTS:
 				case DOMPathExpressionType.INDEX_ACCESS:
-					injectedType = DOMPathDescendantsExpression.CONTEXT;
+					leftRightExpr = IDOMPathLeftRightNodeExpression(expression);
+					if(leftRightExpr.left.type == DOMPathExpressionType.WILDCARD)
+						injectedType = DOMPathDescendantsExpression.ALL;
+					else
+						injectedType = DOMPathDescendantsExpression.CONTEXT;
 					expression = new DOMPathDescendantsExpression(injectedType, expression);
 					break;
 			}
 			
+			// TODO : Remove this
 			const stream : IDOMPathOutputStream = new DOMPathByteArrayOutputStream();
 			_expression.describe(stream);
 			stream.position = 0;
 			log("Expression >", stream.toString());
 			
-			var domNode : IDOMNode;
-			
+			// Parsing the expressions.
 			var nameExpr : DOMPathNameExpression;
-			var indexExpr : DOMPathIndexAccessExpression;
 			var unsignedExpr : DOMPathUnsignedIntegerExpression;
-			var descInterface : IDOMPathDescendantsExpression;
 			
 			var validExpression : Boolean = true;
 			while(validExpression)
 			{
-				log(">", expression, DOMPathExpressionType.getType(expression.type.type));
+				_context.pushContext(expression);
+				
+				log(">", 	_context.length, 
+							expression, 
+							DOMPathExpressionType.getType(expression.type.type)
+							);
 				
 				switch(expression.type)
 				{
 					case DOMPathExpressionType.WILDCARD:
 						resultNodes = domNodes;
-						
 						validExpression = false;
 						break;
+						
 					case DOMPathExpressionType.NAME:
 						nameExpr = DOMPathNameExpression(expression);
-						resultNodes = filterByName(domNodes, nameExpr);
+						domNodes = filterByName(domNodes, nameExpr);
 						
+						resultNodes = domNodes;
 						validExpression = false;
 						break;
+						
 					case DOMPathExpressionType.INDEX_ACCESS:
-						indexExpr = DOMPathIndexAccessExpression(expression);
-						nameExpr = DOMPathNameExpression(indexExpr.name);
-						unsignedExpr = DOMPathUnsignedIntegerExpression(indexExpr.parameter);
+						leftRightExpr = IDOMPathLeftRightNodeExpression(expression);
 						
-						resultNodes = filterByName(domNodes, nameExpr);
-						
-						if(unsignedExpr.value < resultNodes.length)
+						if(leftRightExpr.left.type == DOMPathExpressionType.NAME)
 						{
-							domNode = resultNodes[unsignedExpr.value];
-						
-							resultNodes.length = 0;
-							resultNodes[0] = domNode;
+							nameExpr = DOMPathNameExpression(leftRightExpr.left);
+							domNodes = filterByName(domNodes, nameExpr);
 						}
-						else resultNodes.length = 0;
+						else if(leftRightExpr.left.type == DOMPathExpressionType.WILDCARD)
+						{
+							// This is so we can have select all for wildcards.
+							if(_context.match(DOMPathExpressionType.DESCENDANTS))
+								domNodes = getContextChildren(domNodes);
+						}
+						else DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 						
+						unsignedExpr = DOMPathUnsignedIntegerExpression(leftRightExpr.right);
+						domNodes = filterAtIndexAccess(domNodes, unsignedExpr.value);
+						
+						resultNodes = domNodes;
 						validExpression = false;
 						break;
+						
 					case DOMPathExpressionType.DESCENDANTS:
-					case DOMPathExpressionType.NAME_DESCENDANTS:
 						domNodes = getContextChildren(domNodes);
 						
-						descInterface = IDOMPathDescendantsExpression(expression);
-						expression = descInterface.descendants;
+						descExpr = IDOMPathDescendantsExpression(expression);
+						expression = descExpr.descendants;
 						break;
+						
+					case DOMPathExpressionType.NAME_DESCENDANTS:
+						descExpr = IDOMPathDescendantsExpression(expression);
+					
+						leftRightExpr = IDOMPathLeftRightNodeExpression(expression);
+						if(leftRightExpr.left.type == DOMPathExpressionType.INDEX_ACCESS)
+						{
+							expression = new DOMPathIndexAccessDescendantsExpression(
+																		leftRightExpr.left, 
+																		descExpr.descendants
+																		);
+						}
+						else
+						{
+							domNodes = getContextChildren(domNodes);
+							
+							expression = descExpr.descendants;
+						}
+						break;
+					
+					case DOMPathExpressionType.INDEX_ACCESS_DESCENDANTS:
+						leftRightExpr = IDOMPathLeftRightNodeExpression(expression);
+						leftRightExpr = IDOMPathLeftRightNodeExpression(leftRightExpr.left);
+						
+						nameExpr = DOMPathNameExpression(leftRightExpr.left);
+						unsignedExpr = DOMPathUnsignedIntegerExpression(leftRightExpr.right);
+						
+						domNodes = filterByName(domNodes, nameExpr);
+						domNodes = filterAtIndexAccess(domNodes, unsignedExpr.value);
+						domNodes = getContextChildren(domNodes);
+						
+						descExpr = IDOMPathDescendantsExpression(expression);
+						expression = descExpr.descendants;
+						break;
+						
 					case DOMPathExpressionType.ALL_DESCENDANTS:
 						domNodes = getDocumentChildren(domNodes);
 						
-						descInterface = IDOMPathDescendantsExpression(expression);
-						expression = descInterface.descendants;
+						descExpr = IDOMPathDescendantsExpression(expression);
+						expression = descExpr.descendants;
+						break;
+					
+					default:
+						DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 						break;
 				}
 			}

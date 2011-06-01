@@ -4,8 +4,9 @@ package org.osflash.dom.path.parser.expressions
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public final class DOMPathIndexAccessExpression extends DOMPathExpression
-													implements IDOMPathLeftRightNodeExpression
+	public class DOMPathIndexAccessDescendantsExpression extends DOMPathExpression 
+														 implements IDOMPathDescendantsExpression,
+														 IDOMPathLeftRightNodeExpression
 	{
 		
 		/**
@@ -17,10 +18,10 @@ package org.osflash.dom.path.parser.expressions
 		 * @private
 		 */
 		private var _right : IDOMPathExpression;
-
-		public function DOMPathIndexAccessExpression(	left : IDOMPathExpression, 
-														right : IDOMPathExpression
-														)
+		
+		public function DOMPathIndexAccessDescendantsExpression(	left : IDOMPathExpression,
+																	right : IDOMPathExpression
+																	)
 		{
 			if(null == left) throw new ArgumentError('Given left can not be null');
 			if(null == right) throw new ArgumentError('Given right can not be null');
@@ -36,9 +37,9 @@ package org.osflash.dom.path.parser.expressions
 		{
 			_left.describe(stream);
 			
-			stream.writeUTF("[");
+			stream.writeUTF("(");
 			_right.describe(stream);
-			stream.writeUTF("]");
+			stream.writeUTF(")");
 		}
 
 		/**
@@ -46,9 +47,14 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		override public function get type() : DOMPathExpressionType
 		{
-			return DOMPathExpressionType.INDEX_ACCESS;
+			return DOMPathExpressionType.INDEX_ACCESS_DESCENDANTS;
 		}
 		
+		public function get descendants() : IDOMPathExpression
+		{
+			return _right;
+		}
+
 		public function get left() : IDOMPathExpression
 		{
 			return _left;

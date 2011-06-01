@@ -47,6 +47,9 @@ package org.osflash.dom.path.parser.expressions
 
 		public static const INSTANCE : DOMPathExpressionType = 	new DOMPathExpressionType(0x16);
 
+		public static const INDEX_ACCESS_DESCENDANTS : DOMPathExpressionType =
+																new DOMPathExpressionType(0x17);
+
 		/**
 		 * @private
 		 */
@@ -96,6 +99,8 @@ package org.osflash.dom.path.parser.expressions
 					return 'conditionalAnd';
 				case INSTANCE.type:
 					return 'instance';
+				case INDEX_ACCESS_DESCENDANTS.type:
+					return 'indexAccessDescendants';
 				default:
 					throw new ArgumentError('Given argument is Unknown'); 
 			}
