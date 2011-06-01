@@ -5,28 +5,29 @@ package org.osflash.dom.path.parser.expressions
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
 	public final class DOMPathEqualityExpression extends DOMPathExpression
+													implements IDOMPathLeftRightNodeExpression
 	{
 		
 		
 		/**
 		 * @private
 		 */
-		private var _value : IDOMPathExpression;
+		private var _left : IDOMPathExpression;
 		
 		/**
 		 * @private
 		 */
-		private var _expression : IDOMPathExpression;
+		private var _right : IDOMPathExpression;
 		
-		public function DOMPathEqualityExpression(	value : IDOMPathExpression, 
-													expression : IDOMPathExpression
+		public function DOMPathEqualityExpression(	left : IDOMPathExpression, 
+													right : IDOMPathExpression
 													)
 		{
-			if(null == value) throw new ArgumentError('Given value can not be null');
-			if(null == expression) throw new ArgumentError('Given expression can not be null');
+			if(null == left) throw new ArgumentError('Given left can not be null');
+			if(null == right) throw new ArgumentError('Given right can not be null');
 			
-			_value = value;
-			_expression = expression;
+			_left = left;
+			_right = right;
 		}
 		
 		/**
@@ -34,9 +35,9 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		override public function describe(stream : IDOMPathOutputStream) : void
 		{
-			_value.describe(stream);
+			_left.describe(stream);
 			stream.writeUTF("==");
-			_expression.describe(stream);			
+			_right.describe(stream);			
 		}
 		
 		/**
@@ -44,17 +45,17 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		override public function get type() : DOMPathExpressionType
 		{
-			return null;
+			return DOMPathExpressionType.EQUALITY;
 		}
 
-		public function get value() : IDOMPathExpression
+		public function get left() : IDOMPathExpression
 		{
-			return _value;
+			return _left;
 		}
 
-		public function get expression() : IDOMPathExpression
+		public function get right() : IDOMPathExpression
 		{
-			return _expression;
+			return _right;
 		}
 	}
 }

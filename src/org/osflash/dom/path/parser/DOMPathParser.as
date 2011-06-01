@@ -4,10 +4,11 @@ package org.osflash.dom.path.parser
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 	import org.osflash.dom.path.parser.parselets.DOMPathAttributeParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathCallMethodParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathConditionalAndParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathDescendantsParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathEqualityParselet;
+	import org.osflash.dom.path.parser.parselets.DOMPathGroupParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathIndexAccessParselet;
+	import org.osflash.dom.path.parser.parselets.DOMPathInfixAttributeParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathInstanceParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathIntegerParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathNameDescendantsParselet;
@@ -24,6 +25,7 @@ package org.osflash.dom.path.parser
 	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
 
 	import flash.utils.Dictionary;
+	import flash.utils.getDefinitionByName;
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
@@ -71,14 +73,15 @@ package org.osflash.dom.path.parser
 			registerPrefix(DOMPathTokenType.INTEGER, new DOMPathIntegerParselet());
 			registerPrefix(DOMPathTokenType.NUMBER, new DOMPathNumberParselet());
 			registerPrefix(DOMPathTokenType.UNSIGNED_INTEGER, new DOMPathUnsignedIntegerParselet());
+			registerPrefix(DOMPathTokenType.LEFT_PAREN, new DOMPathGroupParselet());
+			registerPrefix(DOMPathTokenType.ATTRIBUTE, new DOMPathAttributeParselet());
 			
 			registerInfix(DOMPathTokenType.DOT, new DOMPathInstanceParselet());
 			registerInfix(DOMPathTokenType.LEFT_PAREN, new DOMPathCallMethodParselet());
 			registerInfix(DOMPathTokenType.LEFT_SQUARE, new DOMPathIndexAccessParselet());
 			registerInfix(DOMPathTokenType.FORWARD_SLASH, new DOMPathNameDescendantsParselet());
-			registerInfix(DOMPathTokenType.ATTRIBUTE, new DOMPathAttributeParselet());
+			registerInfix(DOMPathTokenType.ATTRIBUTE, new DOMPathInfixAttributeParselet());
 			registerInfix(DOMPathTokenType.EQUALITY, new DOMPathEqualityParselet());
-			registerInfix(DOMPathTokenType.AMPERSAND, new DOMPathConditionalAndParselet());
 		}
 		
 		/**
@@ -132,6 +135,8 @@ package org.osflash.dom.path.parser
 		{
 			var token : DOMPathToken = consume();
 			if(null == token) DOMPathError.throwError(DOMPathError.TOKEN_IS_NULL);
+			
+			getDefinitionByName('trace')(">>", token);
 			
 			const prefix : IDOMPathPrefixParselet = _prefix[token.type];
 			if(null == prefix) DOMPathError.throwError(DOMPathError.PARSER_ERROR);

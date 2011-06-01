@@ -31,21 +31,23 @@ package org.osflash.dom.path.parser.expressions
 		public static const UNSIGNED_INTEGER : DOMPathExpressionType = 
 																new DOMPathExpressionType(0x10);
 
-		public static const ATTRIBUTE : DOMPathExpressionType = new DOMPathExpressionType(0x11);
+		public static const INFIX_ATTRIBUTE : DOMPathExpressionType = 
+																new DOMPathExpressionType(0x11);
 
 		public static const CALL_METHOD : DOMPathExpressionType = 
 																new DOMPathExpressionType(0x12);
 
-		public static const GROUP_EXPRESSION : DOMPathExpressionType = 
+		public static const GROUP : DOMPathExpressionType = 
 																new DOMPathExpressionType(0x13);
 
-		public static const CONDITIONAL_AND : DOMPathExpressionType = 
-																new DOMPathExpressionType(0x14);
+		public static const INSTANCE : DOMPathExpressionType = 	new DOMPathExpressionType(0x14);
 
-		public static const INSTANCE : DOMPathExpressionType = 	new DOMPathExpressionType(0x15);
+		public static const INDEX_ACCESS_DESCENDANTS : DOMPathExpressionType = 
+																new DOMPathExpressionType(0x15);
 
-		public static const INDEX_ACCESS_DESCENDANTS : DOMPathExpressionType =
-																new DOMPathExpressionType(0x16);
+		public static const ATTRIBUTE : DOMPathExpressionType = new DOMPathExpressionType(0x16);
+		
+		public static const EQUALITY : DOMPathExpressionType = 	new DOMPathExpressionType(0x17);
 
 		/**
 		 * @private
@@ -84,18 +86,20 @@ package org.osflash.dom.path.parser.expressions
 					return 'number';
 				case UNSIGNED_INTEGER.type:
 					return 'unsignedInteger';
-				case ATTRIBUTE.type:
-					return 'attribute';
+				case INFIX_ATTRIBUTE.type:
+					return 'infixAttribute';
 				case CALL_METHOD.type:
 					return 'callMethod';
-				case GROUP_EXPRESSION.type:
-					return 'groupExpression';
-				case CONDITIONAL_AND.type:
-					return 'conditionalAnd';
+				case GROUP.type:
+					return 'group';
 				case INSTANCE.type:
 					return 'instance';
 				case INDEX_ACCESS_DESCENDANTS.type:
 					return 'indexAccessDescendants';
+				case ATTRIBUTE.type:
+					return 'attribute';
+				case EQUALITY.type:
+					return 'equality';
 				default:
 					throw new ArgumentError('Given argument is Unknown'); 
 			}

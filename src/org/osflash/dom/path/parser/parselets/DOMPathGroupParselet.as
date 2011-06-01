@@ -1,6 +1,7 @@
 package org.osflash.dom.path.parser.parselets
 {
 	import org.osflash.dom.path.parser.IDOMPathParser;
+	import org.osflash.dom.path.parser.expressions.DOMPathGroupExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 	import org.osflash.dom.path.parser.tokens.DOMPathToken;
 	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
@@ -15,9 +16,14 @@ package org.osflash.dom.path.parser.parselets
 		 */
 		public function parse(parser : IDOMPathParser, token : DOMPathToken) : IDOMPathExpression
 		{
-			const expression : IDOMPathExpression = parser.parseExpression();
-			parser.consumeToken(DOMPathTokenType.RIGHT_PAREN);
-			return expression;
+			const expressions : Vector.<IDOMPathExpression> = new Vector.<IDOMPathExpression>();
+			do
+			{
+				expressions.push(parser.parseExpression());
+			}
+			while(!parser.match(DOMPathTokenType.RIGHT_PAREN));
+			
+			return new DOMPathGroupExpression(expressions);
 		}
 	}
 }

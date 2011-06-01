@@ -5,6 +5,7 @@ package org.osflash.dom.path
 	import org.osflash.dom.path.parser.expressions.DOMPathCallMethodExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
+	import org.osflash.dom.path.parser.expressions.DOMPathGroupExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathIndexAccessDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathIndexAccessExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathNameDescendantsExpression;
@@ -19,6 +20,7 @@ package org.osflash.dom.path
 	import org.osflash.dom.path.parser.utils.callMethodNameWithArgs;
 	import org.osflash.dom.path.parser.utils.filterAtIndexAccess;
 	import org.osflash.dom.path.parser.utils.filterByAttributeResults;
+	import org.osflash.dom.path.parser.utils.filterByCondition;
 	import org.osflash.dom.path.parser.utils.filterByName;
 	import org.osflash.dom.path.parser.utils.getContextChildren;
 	import org.osflash.dom.path.parser.utils.getDocumentChildren;
@@ -72,7 +74,7 @@ package org.osflash.dom.path
 					expression = new DOMPathDescendantsExpression(injectedType, expression);
 					break;
 				case DOMPathExpressionType.NAME:
-				case DOMPathExpressionType.ATTRIBUTE:
+				case DOMPathExpressionType.INFIX_ATTRIBUTE:
 					injectedType = DOMPathDescendantsExpression.CONTEXT;
 					expression = new DOMPathDescendantsExpression(injectedType, expression);
 					break;
@@ -96,7 +98,10 @@ package org.osflash.dom.path
 			
 			// Parsing the expressions.
 			var results : Array;
+			var expressions : Vector.<IDOMPathExpression>;
+			
 			var nameExpr : DOMPathNameExpression;
+			var groupExpr : DOMPathGroupExpression;
 			var nameDescExpr : DOMPathNameDescendantsExpression;
 			var unsignedExpr : DOMPathUnsignedIntegerExpression;
 			var callMethodExpr : DOMPathCallMethodExpression;
@@ -162,7 +167,7 @@ package org.osflash.dom.path
 						validExpression = false;
 						break;
 					
-					case DOMPathExpressionType.ATTRIBUTE:
+					case DOMPathExpressionType.INFIX_ATTRIBUTE:
 						leftRightExpr = IDOMPathLeftRightNodeExpression(expression);
 						nameExpr = DOMPathNameExpression(leftRightExpr.left);
 						
@@ -269,6 +274,54 @@ package org.osflash.dom.path
 						expression = descExpr.descendants;
 						break;
 					
+					case DOMPathExpressionType.GROUP:
+						groupExpr = DOMPathGroupExpression(expression);
+						
+						expressions = groupExpr.expressions;
+						
+						var validSubExpression : Boolean = true;
+						const total : int = expressions.length;
+						for(var i : int = 0; i<total; i++)
+						{
+							expression = expressions[i];
+							
+							_context.pushContext(expression);
+				
+							log(">", 	_context.length, 
+										expression, 
+										DOMPathExpressionType.getType(expression.type.type)
+										);
+							
+							switch(expression.type)
+							{
+								case DOMPathExpressionType.ATTRIBUTE:
+									// Because of the way the parser works, this is a prefix and 
+									// not infix like outside of a group
+									break;
+								case DOMPathExpressionType.EQUALITY:
+									leftRightExpr = IDOMPathLeftRightNodeExpression(expression);
+									nameExpr = DOMPathNameExpression(leftRightExpr.left);
+									
+									domNodes = filterByCondition(	domNodes, 
+																	nameExpr, 
+																	leftRightExpr.right
+																	);
+																	
+									validSubExpression = false;
+									break;
+								default:
+									DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
+									break;
+							}
+							
+							if(!validSubExpression)
+								break;
+						}
+												
+						resultNodes = domNodes;
+						validExpression = false;
+						break;
+					
 					default:
 						DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 						break;
@@ -276,6 +329,7 @@ package org.osflash.dom.path
 				
 				// TODO : Make sure we result all values here.
 				nameExpr = null;
+				groupExpr = null;
 				nameDescExpr = null;
 				unsignedExpr = null;
 				callMethodExpr = null;

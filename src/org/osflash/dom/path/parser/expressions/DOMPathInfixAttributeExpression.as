@@ -4,7 +4,7 @@ package org.osflash.dom.path.parser.expressions
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public final class DOMPathAttributeExpression extends DOMPathExpression
+	public final class DOMPathInfixAttributeExpression extends DOMPathExpression
 													implements IDOMPathLeftRightNodeExpression
 	{
 		
@@ -18,7 +18,7 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		private var _right : IDOMPathExpression;
 		
-		public function DOMPathAttributeExpression(	left : IDOMPathExpression,
+		public function DOMPathInfixAttributeExpression(	left : IDOMPathExpression,
 													right : IDOMPathExpression
 													)
 		{
@@ -45,7 +45,7 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		override public function get type() : DOMPathExpressionType
 		{
-			return DOMPathExpressionType.ATTRIBUTE;
+			return DOMPathExpressionType.INFIX_ATTRIBUTE;
 		}
 		
 		public function get left() : IDOMPathExpression
