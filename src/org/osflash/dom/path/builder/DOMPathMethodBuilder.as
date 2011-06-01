@@ -41,7 +41,7 @@ package org.osflash.dom.path.builder
 			_stream = stream;
 			_streamPosition = _stream.position;
 			
-			_stream.writeUTF('@');
+			_stream.writeUTF('.');
 			_stream.writeUTF(name);
 			_stream.writeUTF('(');
 			
