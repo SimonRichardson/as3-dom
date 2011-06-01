@@ -12,7 +12,7 @@ package org.osflash.dom.path.parser.utils
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public function filterByCondition(	nodes : Vector.<IDOMNode>,
+	public function filterByEquality(	nodes : Vector.<IDOMNode>,
 										name : DOMPathNameExpression,
 										value : IDOMPathExpression
 										) : Vector.<IDOMNode>

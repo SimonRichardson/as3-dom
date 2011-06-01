@@ -7,6 +7,7 @@ package org.osflash.dom
 	import org.osflash.dom.path.DOMPathBuilderTest;
 	import org.osflash.dom.path.DOMPathCallMethodTest;
 	import org.osflash.dom.path.DOMPathConditionalTest;
+	import org.osflash.dom.path.DOMPathMultipleConditionalTest;
 	import org.osflash.dom.path.DOMPathNameIndexAccessTest;
 	import org.osflash.dom.path.DOMPathNameTest;
 	import org.osflash.dom.path.DOMPathWildcardIndexAccessTest;
@@ -25,7 +26,7 @@ package org.osflash.dom
 		public var _DOMPathBuilderTest:DOMPathBuilderTest;
 		public var _DOMPathCallMethodTest:DOMPathCallMethodTest;
 		public var _DOMPathConditionalTest:DOMPathConditionalTest;
-//		public var _DOMPathMultipleConditionalTest:DOMPathMultipleConditionalTest;
+		public var _DOMPathMultipleConditionalTest:DOMPathMultipleConditionalTest;
 		public var _DOMPathNameIndexAccessTest:DOMPathNameIndexAccessTest;
 		public var _DOMPathNameTest:DOMPathNameTest;
 		public var _DOMPathWildcardIndexAccessTest:DOMPathWildcardIndexAccessTest;

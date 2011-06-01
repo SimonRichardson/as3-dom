@@ -20,7 +20,7 @@ package org.osflash.dom.path
 	import org.osflash.dom.path.parser.utils.callMethodNameWithArgs;
 	import org.osflash.dom.path.parser.utils.filterAtIndexAccess;
 	import org.osflash.dom.path.parser.utils.filterByAttributeResults;
-	import org.osflash.dom.path.parser.utils.filterByCondition;
+	import org.osflash.dom.path.parser.utils.filterByEquality;
 	import org.osflash.dom.path.parser.utils.filterByName;
 	import org.osflash.dom.path.parser.utils.getContextChildren;
 	import org.osflash.dom.path.parser.utils.getDocumentChildren;
@@ -302,7 +302,7 @@ package org.osflash.dom.path
 									leftRightExpr = IDOMPathLeftRightNodeExpression(expression);
 									nameExpr = DOMPathNameExpression(leftRightExpr.left);
 									
-									domNodes = filterByCondition(	domNodes, 
+									domNodes = filterByEquality(	domNodes, 
 																	nameExpr, 
 																	leftRightExpr.right
 																	);
