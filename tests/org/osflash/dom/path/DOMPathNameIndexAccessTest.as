@@ -26,7 +26,7 @@ package org.osflash.dom.path
 			document = null;
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_node1_index1() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
@@ -41,7 +41,7 @@ package org.osflash.dom.path
 			assertEquals('Result item at 0 index should be same as node1', node1, result[0]);
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_node1_index1_in_context() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
@@ -56,7 +56,7 @@ package org.osflash.dom.path
 			assertEquals('Result item at 0 index should be same as node1', node1, result[0]);
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_node1_index1_in_document() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
@@ -71,7 +71,7 @@ package org.osflash.dom.path
 			assertEquals('Result item at 0 index should be same as node1', node1, result[0]);
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_node1_then_subnode1_index1() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
@@ -92,7 +92,7 @@ package org.osflash.dom.path
 			assertEquals('Result item at 0 index should be same as subnode1', subnode1, result[0]);
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_node1_then_subnode1_index1_in_context() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
@@ -113,7 +113,7 @@ package org.osflash.dom.path
 			assertEquals('Result item at 0 index should be same as subnode1', subnode1, result[0]);
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_node1_then_subnode1_index1_in_document() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
@@ -134,7 +134,7 @@ package org.osflash.dom.path
 			assertEquals('Result item at 0 index should be same as subnode1', subnode1, result[0]);
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_node1_then_subnode1_then_subsubnode0_index0() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
@@ -162,7 +162,7 @@ package org.osflash.dom.path
 																				);
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_node1_then_subnode1_then_subsubnode0_index0_in_context() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
@@ -191,7 +191,7 @@ package org.osflash.dom.path
 		}
 		
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_node1_then_subnode1_then_subsubnode0_index0_in_document() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
@@ -219,7 +219,7 @@ package org.osflash.dom.path
 																				);
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_node1_index1_then_subnode1() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
@@ -240,7 +240,7 @@ package org.osflash.dom.path
 			assertEquals('Result item at 0 index should be same as subnode0', subnode0, result[0]);
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_node1_index1_then_subnode1_in_context() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
@@ -262,7 +262,7 @@ package org.osflash.dom.path
 		}
 		
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_node1_index1_then_subnode1_in_document() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
@@ -283,7 +283,7 @@ package org.osflash.dom.path
 			assertEquals('Result item at 0 index should be same as subnode0', subnode0, result[0]);
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_node1_index1_then_subnode1_index0_then_subsubnode0() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
@@ -308,7 +308,7 @@ package org.osflash.dom.path
 			assertEquals('Result item at 0 index should be same as subsubnode0', subsubnode0, result[0]);
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_node1_index1_then_subnode1_index0_then_subsubnode0_in_context() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');
@@ -333,7 +333,7 @@ package org.osflash.dom.path
 			assertEquals('Result item at 0 index should be same as subsubnode0', subsubnode0, result[0]);
 		}
 		
-		[Test]
+		[Tester]
 		public function add_elements_and_path_select_node1_index1_then_subnode1_index0_then_subsubnode0_in_document() : void
 		{
 			const node0 : DOMNode = new DOMNode('node1');

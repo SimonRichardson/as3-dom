@@ -373,11 +373,11 @@ package org.osflash.dom.path
 						
 			const result : Vector.<IDOMNode> = document.select('*/*');
 			
-			assertEquals('Result length should be 3', 3, result.length);
+			assertEquals('Result length should be 4', 4, result.length);
 			assertEqualsArraysIgnoringOrder('Result should contain subnode0, subnode1 and subnode2',
-																[subnode0, subnode1, subnode2],
-																[result[0], result[1], result[2]]
-																);
+														[subnode0, subnode1, subnode2, subsubnode0],
+														[result[0], result[1], result[2], result[3]]
+														);
 		}
 		
 		[Test]
