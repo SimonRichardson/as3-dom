@@ -12,7 +12,7 @@ package org.osflash.dom.path.parser.utils
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public function filterByEquality(	nodes : Vector.<IDOMNode>,
+	public function filterByInequality(	nodes : Vector.<IDOMNode>,
 										name : DOMPathNameExpression,
 										value : IDOMPathExpression
 										) : Vector.<IDOMNode>
@@ -45,7 +45,7 @@ package org.osflash.dom.path.parser.utils
 		for(var i : int = 0; i<total; i++)
 		{
 			const node : IDOMNode = nodes[i];
-			if(attribute in node && node[attribute] == raw)
+			if(attribute in node && node[attribute] != raw)
 			{
 				if (results.indexOf(node) == -1)
 					results.push(node);

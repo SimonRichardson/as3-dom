@@ -21,6 +21,7 @@ package org.osflash.dom.path
 	import org.osflash.dom.path.parser.utils.filterAtIndexAccess;
 	import org.osflash.dom.path.parser.utils.filterByAttributeResults;
 	import org.osflash.dom.path.parser.utils.filterByEquality;
+	import org.osflash.dom.path.parser.utils.filterByInequality;
 	import org.osflash.dom.path.parser.utils.filterByName;
 	import org.osflash.dom.path.parser.utils.getContextChildren;
 	import org.osflash.dom.path.parser.utils.getDocumentChildren;
@@ -303,6 +304,17 @@ package org.osflash.dom.path
 									nameExpr = DOMPathNameExpression(leftRightExpr.left);
 									
 									domNodes = filterByEquality(	domNodes, 
+																	nameExpr, 
+																	leftRightExpr.right
+																	);
+																	
+									validSubExpression = false;
+									break;
+								case DOMPathExpressionType.INEQUALITY:
+									leftRightExpr = IDOMPathLeftRightNodeExpression(expression);
+									nameExpr = DOMPathNameExpression(leftRightExpr.left);
+									
+									domNodes = filterByInequality(	domNodes, 
 																	nameExpr, 
 																	leftRightExpr.right
 																	);

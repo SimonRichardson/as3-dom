@@ -37,7 +37,7 @@ package org.osflash.dom.path
 			document.add(node1);
 			document.add(node2);
 									
-			const result : Vector.<IDOMNode> = document.select('node1.(name=="node2" && name=="node1")');
+			const result : Vector.<IDOMNode> = document.select('node1.(name!="node2" && name=="node1")');
 			assertEquals('Result length should be 2', 2, result.length);
 		}
 	}

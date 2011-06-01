@@ -1,5 +1,6 @@
 package org.osflash.dom.path.parser
 {
+	import org.osflash.dom.path.parser.parselets.DOMPathInequalityParselet;
 	import org.osflash.dom.path.DOMPathError;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 	import org.osflash.dom.path.parser.parselets.DOMPathAttributeParselet;
@@ -82,6 +83,7 @@ package org.osflash.dom.path.parser
 			registerInfix(DOMPathTokenType.FORWARD_SLASH, new DOMPathNameDescendantsParselet());
 			registerInfix(DOMPathTokenType.ATTRIBUTE, new DOMPathInfixAttributeParselet());
 			registerInfix(DOMPathTokenType.EQUALITY, new DOMPathEqualityParselet());
+			registerInfix(DOMPathTokenType.BANG, new DOMPathInequalityParselet());
 		}
 		
 		/**

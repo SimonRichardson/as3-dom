@@ -1,0 +1,54 @@
+package org.osflash.dom.path.parser.parselets
+{
+	import org.osflash.dom.path.DOMPathError;
+	import org.osflash.dom.path.parser.DOMPathPrecedence;
+	import org.osflash.dom.path.parser.IDOMPathParser;
+	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
+	import org.osflash.dom.path.parser.expressions.DOMPathInequalityExpression;
+	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
+	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
+	import org.osflash.dom.path.parser.tokens.DOMPathToken;
+	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
+	/**
+	 * @author Simon Richardson - simon@ustwo.co.uk
+	 */
+	public class DOMPathInequalityParselet implements IDOMPathInfixParselet
+	{
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function parse(	parser : IDOMPathParser, 
+								expression : IDOMPathExpression, 
+								token : DOMPathToken
+								) : IDOMPathExpression
+		{
+			parser.consumeToken(DOMPathTokenType.EQUALITY);
+			
+			const name : DOMPathNameExpression = expression as DOMPathNameExpression;
+			if(null == name)
+				DOMPathError.throwError(DOMPathError.INVALID_LEFT_SIDE_EQUALITY);
+			
+			const right : IDOMPathExpression = parser.parseExpression();
+			if(	!(	right.type == DOMPathExpressionType.STRING ||
+					right.type == DOMPathExpressionType.INTEGER || 
+					right.type == DOMPathExpressionType.UNSIGNED_INTEGER ||
+					right.type == DOMPathExpressionType.NUMBER
+				))
+			{
+				// TODO : validate the value here, making sure it's a valid value?
+				DOMPathError.throwError(DOMPathError.INVALID_RIGHT_SIDE_EQUALITY);
+			}
+			
+			return new DOMPathInequalityExpression(name, right);
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function get precedence() : int
+		{
+			return DOMPathPrecedence.EQUALITY;
+		}
+	}
+}

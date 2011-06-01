@@ -11,7 +11,7 @@ package org.osflash.dom.path
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
-	public class DOMPathConditionalTest
+	public class DOMPathEqualityTest
 	{
 		
 		protected var document : IDOMDocument;

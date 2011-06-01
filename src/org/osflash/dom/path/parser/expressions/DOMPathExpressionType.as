@@ -47,7 +47,10 @@ package org.osflash.dom.path.parser.expressions
 
 		public static const ATTRIBUTE : DOMPathExpressionType = new DOMPathExpressionType(0x16);
 		
-		public static const EQUALITY : DOMPathExpressionType = 	new DOMPathExpressionType(0x17);
+		public static const EQUALITY : DOMPathExpressionType =	new DOMPathExpressionType(0x17);
+
+		public static const INEQUALITY : DOMPathExpressionType = 
+																new DOMPathExpressionType(0x18);
 
 		/**
 		 * @private
@@ -100,6 +103,8 @@ package org.osflash.dom.path.parser.expressions
 					return 'attribute';
 				case EQUALITY.type:
 					return 'equality';
+				case INEQUALITY.type:
+					return 'inequality';
 				default:
 					throw new ArgumentError('Given argument is Unknown'); 
 			}
