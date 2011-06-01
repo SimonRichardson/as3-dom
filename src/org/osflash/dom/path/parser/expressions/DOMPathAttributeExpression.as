@@ -5,18 +5,28 @@ package org.osflash.dom.path.parser.expressions
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
 	public final class DOMPathAttributeExpression extends DOMPathExpression
+													implements IDOMPathLeftRightNodeExpression
 	{
 		
 		/**
 		 * @private
 		 */
-		private var _attribute : IDOMPathExpression;
+		private var _left : IDOMPathExpression;
 		
-		public function DOMPathAttributeExpression(attribute : IDOMPathExpression)
+		/**
+		 * @private
+		 */
+		private var _right : IDOMPathExpression;
+		
+		public function DOMPathAttributeExpression(	left : IDOMPathExpression,
+													right : IDOMPathExpression
+													)
 		{
-			if(null == attribute) throw new ArgumentError('Given name can not be null');
+			if(null == left) throw new ArgumentError('Given left can not be null');
+			if(null == right) throw new ArgumentError('Given right can not be null');
 			
-			_attribute = attribute;
+			_left = left;
+			_right = right;
 		}
 		
 		/**
@@ -24,10 +34,12 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		override public function describe(stream : IDOMPathOutputStream) : void
 		{
+			_left.describe(stream);
+			
 			stream.writeUTF('@');
-			_attribute.describe(stream);
+			_right.describe(stream);
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
@@ -35,10 +47,15 @@ package org.osflash.dom.path.parser.expressions
 		{
 			return DOMPathExpressionType.ATTRIBUTE;
 		}
-
-		public function get attribute() : IDOMPathExpression
+		
+		public function get left() : IDOMPathExpression
 		{
-			return _attribute;
+			return _left;
+		}
+
+		public function get right() : IDOMPathExpression
+		{
+			return _right;
 		}
 	}
 }

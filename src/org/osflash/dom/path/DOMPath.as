@@ -1,6 +1,5 @@
 package org.osflash.dom.path
 {
-	import org.osflash.dom.path.parser.expressions.DOMPathInstanceExpression;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
 	import org.osflash.dom.path.parser.expressions.DOMPathCallMethodExpression;
@@ -14,8 +13,10 @@ package org.osflash.dom.path
 	import org.osflash.dom.path.parser.expressions.IDOMPathLeftRightNodeExpression;
 	import org.osflash.dom.path.parser.stream.DOMPathByteArrayOutputStream;
 	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
+	import org.osflash.dom.path.parser.utils.callAttribute;
 	import org.osflash.dom.path.parser.utils.callMethodNameWithArgs;
 	import org.osflash.dom.path.parser.utils.filterAtIndexAccess;
+	import org.osflash.dom.path.parser.utils.filterByAttributeResults;
 	import org.osflash.dom.path.parser.utils.filterByName;
 	import org.osflash.dom.path.parser.utils.getContextChildren;
 	import org.osflash.dom.path.parser.utils.getDocumentChildren;
@@ -69,6 +70,7 @@ package org.osflash.dom.path
 					expression = new DOMPathDescendantsExpression(injectedType, expression);
 					break;
 				case DOMPathExpressionType.NAME:
+				case DOMPathExpressionType.ATTRIBUTE:
 					injectedType = DOMPathDescendantsExpression.CONTEXT;
 					expression = new DOMPathDescendantsExpression(injectedType, expression);
 					break;
@@ -93,7 +95,6 @@ package org.osflash.dom.path
 			// Parsing the expressions.
 			var results : Array;
 			var nameExpr : DOMPathNameExpression;
-			var instanceExpr : DOMPathInstanceExpression;
 			var unsignedExpr : DOMPathUnsignedIntegerExpression;
 			var callMethodExpr : DOMPathCallMethodExpression;
 			
@@ -158,15 +159,31 @@ package org.osflash.dom.path
 						validExpression = false;
 						break;
 					
-					case DOMPathExpressionType.INSTANCE:
-						instanceExpr = DOMPathInstanceExpression(expression);
-						nameExpr = DOMPathNameExpression(instanceExpr.left);
+					case DOMPathExpressionType.ATTRIBUTE:
+						leftRightExpr = IDOMPathLeftRightNodeExpression(expression);
+						nameExpr = DOMPathNameExpression(leftRightExpr.left);
 						
 						domNodes = filterByName(domNodes, nameExpr);
 						
-						expression = instanceExpr.right;
+						nameExpr = DOMPathNameExpression(leftRightExpr.right);
+						results = callAttribute(domNodes, nameExpr.name);
+						
+						// This removes nodes with invalid results
+						domNodes = filterByAttributeResults(domNodes, results);
+						
+						resultNodes = domNodes;
+						validExpression = false;
 						break;
 					
+					case DOMPathExpressionType.INSTANCE:
+						leftRightExpr = IDOMPathLeftRightNodeExpression(expression);
+						nameExpr = DOMPathNameExpression(leftRightExpr.left);
+						
+						domNodes = filterByName(domNodes, nameExpr);
+						
+						expression = leftRightExpr.right;
+						break;
+										
 					case DOMPathExpressionType.DESCENDANTS:
 						domNodes = getContextChildren(domNodes);
 						
@@ -207,7 +224,7 @@ package org.osflash.dom.path
 						descExpr = IDOMPathDescendantsExpression(expression);
 						expression = descExpr.descendants;
 						break;
-						
+					
 					case DOMPathExpressionType.ALL_DESCENDANTS:
 						domNodes = getDocumentChildren(domNodes);
 						

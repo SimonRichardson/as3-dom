@@ -33,22 +33,19 @@ package org.osflash.dom.path.parser.expressions
 
 		public static const ATTRIBUTE : DOMPathExpressionType = new DOMPathExpressionType(0x11);
 
-		public static const ATTRIBUTE_DESCENDANTS : DOMPathExpressionType = 
+		public static const CALL_METHOD : DOMPathExpressionType = 
 																new DOMPathExpressionType(0x12);
 
-		public static const CALL_METHOD : DOMPathExpressionType = 
+		public static const GROUP_EXPRESSION : DOMPathExpressionType = 
 																new DOMPathExpressionType(0x13);
 
-		public static const GROUP_EXPRESSION : DOMPathExpressionType = 
+		public static const CONDITIONAL_AND : DOMPathExpressionType = 
 																new DOMPathExpressionType(0x14);
 
-		public static const CONDITIONAL_AND : DOMPathExpressionType = 
-																new DOMPathExpressionType(0x15);
-
-		public static const INSTANCE : DOMPathExpressionType = 	new DOMPathExpressionType(0x16);
+		public static const INSTANCE : DOMPathExpressionType = 	new DOMPathExpressionType(0x15);
 
 		public static const INDEX_ACCESS_DESCENDANTS : DOMPathExpressionType =
-																new DOMPathExpressionType(0x17);
+																new DOMPathExpressionType(0x16);
 
 		/**
 		 * @private
@@ -89,8 +86,6 @@ package org.osflash.dom.path.parser.expressions
 					return 'unsignedInteger';
 				case ATTRIBUTE.type:
 					return 'attribute';
-				case ATTRIBUTE_DESCENDANTS.type:
-					return 'attributeDescendants';
 				case CALL_METHOD.type:
 					return 'callMethod';
 				case GROUP_EXPRESSION.type:
