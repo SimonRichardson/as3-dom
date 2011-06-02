@@ -6,6 +6,8 @@ package org.osflash.dom.path.parser.expressions
 	public interface IDOMPathLeftRightNodeExpression
 	{
 		
+		function get type() : DOMPathExpressionType;
+		
 		function get left() : IDOMPathExpression;
 		
 		function get right() : IDOMPathExpression;

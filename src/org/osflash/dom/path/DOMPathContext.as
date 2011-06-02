@@ -1,5 +1,6 @@
 package org.osflash.dom.path
 {
+	import org.osflash.dom.element.IDOMNode;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 
@@ -9,23 +10,26 @@ package org.osflash.dom.path
 	internal final class DOMPathContext
 	{
 
-		private var _expressions : Vector.<IDOMPathExpression>;
+		private var _contexts : Vector.<DOMPathContextObject>;
 
 		public function DOMPathContext()
 		{
-			_expressions = new Vector.<IDOMPathExpression>();
+			_contexts = new Vector.<DOMPathContextObject>();
 		}
 
-		public function pushContext(expression : IDOMPathExpression) : uint
+		public function pushContext(	expression : IDOMPathExpression,
+										domNodes : Vector.<IDOMNode>
+										) : uint
 		{
-			_expressions.push(expression);
+			_contexts.push(new DOMPathContextObject(expression, domNodes));
 
 			return length;
 		}
 
 		public function popContext(expression : IDOMPathExpression) : uint
 		{
-			if (_expressions.pop() != expression)
+			const context : DOMPathContextObject = _contexts.pop();
+			if (context.expression != expression)
 				DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 
 			return length;
@@ -33,15 +37,33 @@ package org.osflash.dom.path
 		
 		public function match(type : DOMPathExpressionType) : Boolean
 		{
-			if(_expressions.length == 0) return false;
+			if(_contexts.length == 0) return false;
 			
-			const expression : IDOMPathExpression = _expressions[_expressions.length - 1];
+			const expression : IDOMPathExpression = _contexts[_contexts.length - 1].expression;
 			return expression.type == type;
 		}
 		
 		public function get length() : uint
 		{
-			return _expressions.length;
+			return _contexts.length;
 		}
 	}
+}
+import org.osflash.dom.element.IDOMNode;
+import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
+
+internal class DOMPathContextObject
+{
+	public var expression : IDOMPathExpression;
+	
+	public var domNodes : Vector.<IDOMNode>;
+
+	public function DOMPathContextObject(	expression : IDOMPathExpression, 
+											domNodes : Vector.<IDOMNode>
+											)
+	{
+		this.expression = expression;
+		this.domNodes = domNodes;
+	}
+
 }

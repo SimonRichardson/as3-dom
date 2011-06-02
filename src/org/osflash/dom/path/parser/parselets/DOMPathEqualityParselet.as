@@ -36,7 +36,9 @@ package org.osflash.dom.path.parser.parselets
 			
 			// Make sure we're a valid value to check against.
 			var equalityType : DOMPathExpressionType= right.type; 
-			if(right.type == DOMPathExpressionType.LOGICAL_AND)
+			if(	right.type == DOMPathExpressionType.LOGICAL_AND ||
+				right.type == DOMPathExpressionType.LOGICAL_OR
+				)
 			{
 				equalityType = IDOMPathLeftRightNodeExpression(right).left.type;
 			}

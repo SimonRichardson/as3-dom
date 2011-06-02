@@ -52,7 +52,7 @@ package org.osflash.dom.path
 			document.add(node7);
 			document.add(node8);
 									
-			const result : Vector.<IDOMNode> = document.select('node1.(@index==2 || @value=="value1")');
+			const result : Vector.<IDOMNode> = document.select('node1.(@value=="value1" || @index==2)');
 			assertEquals('Result length should be 3', 3, result.length);
 			assertEqualsArraysIgnoringOrder('Results should be',
 																[node2, node4, node5],

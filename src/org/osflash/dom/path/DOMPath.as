@@ -23,6 +23,7 @@ package org.osflash.dom.path
 	import org.osflash.dom.path.parser.utils.filterByEquality;
 	import org.osflash.dom.path.parser.utils.filterByInequality;
 	import org.osflash.dom.path.parser.utils.filterByName;
+	import org.osflash.dom.path.parser.utils.filterUniquely;
 	import org.osflash.dom.path.parser.utils.getContextChildren;
 	import org.osflash.dom.path.parser.utils.getDocumentChildren;
 
@@ -101,6 +102,7 @@ package org.osflash.dom.path
 			var results : Array;
 			var expressions : Vector.<IDOMPathExpression>;
 			
+			// Commonly used expression / variables.
 			var exprType : DOMPathExpressionType;
 			var nameExpr : DOMPathNameExpression;
 			var groupExpr : DOMPathGroupExpression;
@@ -111,7 +113,7 @@ package org.osflash.dom.path
 			var validExpression : Boolean = true;
 			while(validExpression)
 			{
-				_context.pushContext(expression);
+				_context.pushContext(expression, domNodes);
 				
 				log(">", 	_context.length, 
 							expression, 
@@ -281,13 +283,18 @@ package org.osflash.dom.path
 						
 						expressions = groupExpr.expressions;
 						
+						var logicalPrevExprType : DOMPathExpressionType;
+						var logicalDomNodes : Vector.<Vector.<IDOMNode>> = 
+																new Vector.<Vector.<IDOMNode>>();
+						var logicalOrDomNodes : Vector.<IDOMNode> = domNodes;
+						
 						var validSubExpression : Boolean = true;
 						const total : int = expressions.length;
 						for(var i : int = 0; i<total; i++)
 						{
 							expression = expressions[i];
 							
-							_context.pushContext(expression);
+							_context.pushContext(expression, domNodes);
 				
 							log(">", 	_context.length, 
 										expression, 
@@ -295,49 +302,21 @@ package org.osflash.dom.path
 										);
 							
 							var logicalExpr : IDOMPathLeftRightNodeExpression;
-							
 							switch(expression.type)
 							{
 								case DOMPathExpressionType.ATTRIBUTE:
 									// Because of the way the parser works, this is a prefix and 
-									// not infix like outside of a group
+									// not infix like outside of a group expression
 									break;
 								case DOMPathExpressionType.EQUALITY:
-									leftRightExpr = IDOMPathLeftRightNodeExpression(expression);
-									nameExpr = DOMPathNameExpression(leftRightExpr.left);
-									
-									expression = leftRightExpr.right;
-									
-									exprType = leftRightExpr.right.type;
-									if(	exprType == DOMPathExpressionType.LOGICAL_AND ||
-										exprType == DOMPathExpressionType.LOGICAL_OR
-										)
-									{
-										logicalExpr = IDOMPathLeftRightNodeExpression(
-																				leftRightExpr.right
-																				);
-										expression = logicalExpr.left;
-									}
-									
-									domNodes = filterByEquality(	domNodes, 
-																	nameExpr, 
-																	expression
-																	);
-									
-									if(null != logicalExpr)
-									{
-										expression = logicalExpr.right;
-										break;
-									}
-																	
-									validSubExpression = false;
-									break;
 								case DOMPathExpressionType.INEQUALITY:
 									leftRightExpr = IDOMPathLeftRightNodeExpression(expression);
 									nameExpr = DOMPathNameExpression(leftRightExpr.left);
 									
 									expression = leftRightExpr.right;
 									
+									logicalPrevExprType = exprType;
+									
 									exprType = leftRightExpr.right.type;
 									if(	exprType == DOMPathExpressionType.LOGICAL_AND ||
 										exprType == DOMPathExpressionType.LOGICAL_OR
@@ -347,19 +326,43 @@ package org.osflash.dom.path
 																				leftRightExpr.right
 																				);
 										expression = logicalExpr.left;
+									}										
+									
+									if(leftRightExpr.type == DOMPathExpressionType.EQUALITY)
+									{
+										domNodes = filterByEquality(	domNodes, 
+																		nameExpr, 
+																		expression
+																		);
+									}
+									else
+									{
+										domNodes = filterByInequality(	domNodes, 
+																		nameExpr, 
+																		expression
+																		);
 									}
 									
-									domNodes = filterByInequality(	domNodes, 
-																	nameExpr, 
-																	expression
-																	);
+									logicalDomNodes.push(domNodes);
 									
 									if(null != logicalExpr)
 									{
+										if(exprType == DOMPathExpressionType.LOGICAL_OR)
+											domNodes = logicalOrDomNodes;
+										
+										if(logicalPrevExprType == DOMPathExpressionType.LOGICAL_OR)
+											domNodes = filterUniquely(logicalDomNodes);
+										
 										expression = logicalExpr.right;
 										break;
 									}
-																	
+																		
+									// Make sure we're only having the correct items here
+									if(logicalPrevExprType == DOMPathExpressionType.LOGICAL_OR)
+										domNodes = filterUniquely(logicalDomNodes);
+									
+									logicalDomNodes.length = 0;
+									
 									validSubExpression = false;
 									break;
 								default:
