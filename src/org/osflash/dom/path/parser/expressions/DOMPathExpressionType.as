@@ -52,6 +52,12 @@ package org.osflash.dom.path.parser.expressions
 		public static const INEQUALITY : DOMPathExpressionType = 
 																new DOMPathExpressionType(0x18);
 
+		public static const LOGICAL_AND : DOMPathExpressionType = 
+																new DOMPathExpressionType(0x19);
+
+		public static const LOGICAL_NOT : DOMPathExpressionType = 
+																new DOMPathExpressionType(0x20);
+
 		/**
 		 * @private
 		 */
@@ -105,6 +111,10 @@ package org.osflash.dom.path.parser.expressions
 					return 'equality';
 				case INEQUALITY.type:
 					return 'inequality';
+				case LOGICAL_AND.type:
+					return 'logicalAnd';
+				case LOGICAL_NOT.type:
+					return 'logicalNot';
 				default:
 					throw new ArgumentError('Given argument is Unknown'); 
 			}

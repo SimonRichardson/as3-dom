@@ -7,6 +7,7 @@ package org.osflash.dom.path.parser.parselets
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
 	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
+	import org.osflash.dom.path.parser.expressions.IDOMPathLeftRightNodeExpression;
 	import org.osflash.dom.path.parser.tokens.DOMPathToken;
 	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
 
@@ -31,13 +32,21 @@ package org.osflash.dom.path.parser.parselets
 				DOMPathError.throwError(DOMPathError.INVALID_LEFT_SIDE_EQUALITY);
 			
 			const right : IDOMPathExpression = parser.parseExpression();
-			if(	!(	right.type == DOMPathExpressionType.STRING ||
-					right.type == DOMPathExpressionType.INTEGER || 
-					right.type == DOMPathExpressionType.UNSIGNED_INTEGER ||
-					right.type == DOMPathExpressionType.NUMBER
+			
+			// Make sure we're a valid value to check against.
+			var equalityType : DOMPathExpressionType= right.type; 
+			if(right.type == DOMPathExpressionType.LOGICAL_AND)
+			{
+				equalityType = IDOMPathLeftRightNodeExpression(right).left.type;
+			}
+			
+			// For now we should be make sure we're one of the following.
+			if(	!(	equalityType == DOMPathExpressionType.STRING ||
+					equalityType == DOMPathExpressionType.INTEGER || 
+					equalityType == DOMPathExpressionType.UNSIGNED_INTEGER ||
+					equalityType == DOMPathExpressionType.NUMBER
 				))
 			{
-				// TODO : validate the value here, making sure it's a valid value?
 				DOMPathError.throwError(DOMPathError.INVALID_RIGHT_SIDE_EQUALITY);
 			}
 			

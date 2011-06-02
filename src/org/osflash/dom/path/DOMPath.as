@@ -101,6 +101,7 @@ package org.osflash.dom.path
 			var results : Array;
 			var expressions : Vector.<IDOMPathExpression>;
 			
+			var exprType : DOMPathExpressionType;
 			var nameExpr : DOMPathNameExpression;
 			var groupExpr : DOMPathGroupExpression;
 			var nameDescExpr : DOMPathNameDescendantsExpression;
@@ -293,6 +294,8 @@ package org.osflash.dom.path
 										DOMPathExpressionType.getType(expression.type.type)
 										);
 							
+							var logicalExpr : IDOMPathLeftRightNodeExpression;
+							
 							switch(expression.type)
 							{
 								case DOMPathExpressionType.ATTRIBUTE:
@@ -303,10 +306,29 @@ package org.osflash.dom.path
 									leftRightExpr = IDOMPathLeftRightNodeExpression(expression);
 									nameExpr = DOMPathNameExpression(leftRightExpr.left);
 									
+									expression = leftRightExpr.right;
+									
+									exprType = leftRightExpr.right.type;
+									if(	exprType == DOMPathExpressionType.LOGICAL_AND ||
+										exprType == DOMPathExpressionType.LOGICAL_NOT
+										)
+									{
+										logicalExpr = IDOMPathLeftRightNodeExpression(
+																				leftRightExpr.right
+																				);
+										expression = logicalExpr.left;
+									}
+									
 									domNodes = filterByEquality(	domNodes, 
 																	nameExpr, 
-																	leftRightExpr.right
+																	expression
 																	);
+									
+									if(null != logicalExpr)
+									{
+										expression = logicalExpr.right;
+										break;
+									}
 																	
 									validSubExpression = false;
 									break;
@@ -314,10 +336,29 @@ package org.osflash.dom.path
 									leftRightExpr = IDOMPathLeftRightNodeExpression(expression);
 									nameExpr = DOMPathNameExpression(leftRightExpr.left);
 									
+									expression = leftRightExpr.right;
+									
+									exprType = leftRightExpr.right.type;
+									if(	exprType == DOMPathExpressionType.LOGICAL_AND ||
+										exprType == DOMPathExpressionType.LOGICAL_NOT
+										)
+									{
+										logicalExpr = IDOMPathLeftRightNodeExpression(
+																				leftRightExpr.right
+																				);
+										expression = logicalExpr.left;
+									}
+									
 									domNodes = filterByInequality(	domNodes, 
 																	nameExpr, 
-																	leftRightExpr.right
+																	expression
 																	);
+									
+									if(null != logicalExpr)
+									{
+										expression = logicalExpr.right;
+										break;
+									}
 																	
 									validSubExpression = false;
 									break;
@@ -325,6 +366,8 @@ package org.osflash.dom.path
 									DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 									break;
 							}
+							
+							logicalExpr = null;
 							
 							if(!validSubExpression)
 								break;
