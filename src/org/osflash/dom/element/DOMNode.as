@@ -112,6 +112,7 @@ package org.osflash.dom.element
 		public function set index(value : int) : void
 		{
 			if(index == value) return;			
+			if(index < 0) throw new RangeError('Given index is out of range (index=' + index + ')');
 			
 			_index = value;
 			
