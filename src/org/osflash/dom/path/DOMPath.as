@@ -310,7 +310,7 @@ package org.osflash.dom.path
 									
 									exprType = leftRightExpr.right.type;
 									if(	exprType == DOMPathExpressionType.LOGICAL_AND ||
-										exprType == DOMPathExpressionType.LOGICAL_NOT
+										exprType == DOMPathExpressionType.LOGICAL_OR
 										)
 									{
 										logicalExpr = IDOMPathLeftRightNodeExpression(
@@ -340,7 +340,7 @@ package org.osflash.dom.path
 									
 									exprType = leftRightExpr.right.type;
 									if(	exprType == DOMPathExpressionType.LOGICAL_AND ||
-										exprType == DOMPathExpressionType.LOGICAL_NOT
+										exprType == DOMPathExpressionType.LOGICAL_OR
 										)
 									{
 										logicalExpr = IDOMPathLeftRightNodeExpression(

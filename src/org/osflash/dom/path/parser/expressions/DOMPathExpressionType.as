@@ -55,7 +55,7 @@ package org.osflash.dom.path.parser.expressions
 		public static const LOGICAL_AND : DOMPathExpressionType = 
 																new DOMPathExpressionType(0x19);
 
-		public static const LOGICAL_NOT : DOMPathExpressionType = 
+		public static const LOGICAL_OR : DOMPathExpressionType = 
 																new DOMPathExpressionType(0x20);
 
 		/**
@@ -113,8 +113,8 @@ package org.osflash.dom.path.parser.expressions
 					return 'inequality';
 				case LOGICAL_AND.type:
 					return 'logicalAnd';
-				case LOGICAL_NOT.type:
-					return 'logicalNot';
+				case LOGICAL_OR.type:
+					return 'logicalOr';
 				default:
 					throw new ArgumentError('Given argument is Unknown'); 
 			}

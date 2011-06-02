@@ -4,7 +4,7 @@ package org.osflash.dom.path.parser.expressions
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public final class DOMPathLogicalNotExpression extends DOMPathExpression
+	public final class DOMPathLogicalOrExpression extends DOMPathExpression
 													implements IDOMPathLeftRightNodeExpression
 	{
 		
@@ -18,7 +18,7 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		private var _right : IDOMPathExpression;
 
-		public function DOMPathLogicalNotExpression(	left : IDOMPathExpression, 
+		public function DOMPathLogicalOrExpression(	left : IDOMPathExpression, 
 														right : IDOMPathExpression
 														)
 		{
@@ -46,7 +46,7 @@ package org.osflash.dom.path.parser.expressions
 		 */
 		override public function get type() : DOMPathExpressionType
 		{
-			return DOMPathExpressionType.LOGICAL_NOT;
+			return DOMPathExpressionType.LOGICAL_OR;
 		}
 
 		public function get left() : IDOMPathExpression
