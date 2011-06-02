@@ -28,7 +28,6 @@ package org.osflash.dom.path.parser
 	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
 
 	import flash.utils.Dictionary;
-	import flash.utils.getDefinitionByName;
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
@@ -141,8 +140,6 @@ package org.osflash.dom.path.parser
 		{
 			var token : DOMPathToken = consume();
 			if(null == token) DOMPathError.throwError(DOMPathError.TOKEN_IS_NULL);
-			
-			getDefinitionByName('trace')(">>", token);
 			
 			const prefix : IDOMPathPrefixParselet = _prefix[token.type];
 			if(null == prefix) DOMPathError.throwError(DOMPathError.PARSER_ERROR);

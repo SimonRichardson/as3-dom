@@ -93,10 +93,10 @@ package org.osflash.dom.path
 			}
 			
 			// TODO : Remove this
-			const stream : IDOMPathOutputStream = new DOMPathByteArrayOutputStream();
-			_expression.describe(stream);
-			stream.position = 0;
-			log("Expression >", stream.toString());
+			//const stream : IDOMPathOutputStream = new DOMPathByteArrayOutputStream();
+			//_expression.describe(stream);
+			//stream.position = 0;
+			//log("Expression >", stream.toString());
 			
 			// Parsing the expressions.
 			var results : Array;
@@ -115,10 +115,10 @@ package org.osflash.dom.path
 			{
 				_context.pushContext(expression, domNodes);
 				
-				log(">", 	_context.length, 
-							expression, 
-							DOMPathExpressionType.getType(expression.type.type)
-							);
+//				log(">", 	_context.length, 
+//							expression, 
+//							DOMPathExpressionType.getType(expression.type.type)
+//							);
 				
 				switch(expression.type)
 				{
@@ -296,10 +296,10 @@ package org.osflash.dom.path
 							
 							_context.pushContext(expression, domNodes);
 				
-							log(">", 	_context.length, 
-										expression, 
-										DOMPathExpressionType.getType(expression.type.type)
-										);
+//							log(">", 	_context.length, 
+//										expression, 
+//										DOMPathExpressionType.getType(expression.type.type)
+//										);
 							
 							var logicalExpr : IDOMPathLeftRightNodeExpression;
 							switch(expression.type)

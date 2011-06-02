@@ -1,6 +1,5 @@
 package org.osflash.dom.path.parser.parselets
 {
-	import flash.utils.getDefinitionByName;
 	import org.osflash.dom.path.DOMPathError;
 	import org.osflash.dom.path.parser.DOMPathPrecedence;
 	import org.osflash.dom.path.parser.IDOMPathParser;
@@ -50,7 +49,6 @@ package org.osflash.dom.path.parser.parselets
 					equalityType == DOMPathExpressionType.NUMBER
 				))
 			{
-			getDefinitionByName('trace')(">>>>>", right);
 				DOMPathError.throwError(DOMPathError.INVALID_RIGHT_SIDE_EQUALITY);
 			}
 			
