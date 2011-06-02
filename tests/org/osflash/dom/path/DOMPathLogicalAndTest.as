@@ -476,5 +476,146 @@ package org.osflash.dom.path
 			assertEquals('Result length should be 1', 1, result.length);
 			assertEquals('Result should be node5', node5, result[0]);
 		}
+		
+		[Test]
+		public function path_select_node1_then_subnode1_and_check_name_equals_subnode1_and_value_equals_value0() : void
+		{
+			const node0 : IDOMNode = new DOMConditionalNode('node0', "value0");
+			const node1 : IDOMNode = new DOMConditionalNode('node0', "value1");
+			
+			const node2 : IDOMNode = new DOMConditionalNode('node1', "value0");
+			const node3 : IDOMNode = new DOMConditionalNode('node1', "value0");
+			const node4 : IDOMNode = new DOMConditionalNode('node1', "value1");
+			const node5 : IDOMNode = new DOMConditionalNode('node1', "value1");
+			const node6 : IDOMNode = new DOMConditionalNode('node1', "value0");
+			
+			const node7 : IDOMNode = new DOMConditionalNode('node2', "value1");
+			const node8 : IDOMNode = new DOMConditionalNode('node2', "value1");
+			
+			const subnode0 : IDOMNode = new DOMConditionalNode('subnode0', "value0");
+			const subnode1 : IDOMNode = new DOMConditionalNode('subnode0', "value1");
+			
+			const subnode2 : IDOMNode = new DOMConditionalNode('subnode1', "value0");
+			const subnode3 : IDOMNode = new DOMConditionalNode('subnode1', "value0");
+			const subnode4 : IDOMNode = new DOMConditionalNode('subnode2', "value1");
+			
+			document.add(node0);
+			document.add(node1);
+			document.add(node2);
+			document.add(node3);
+			document.add(node4);
+			document.add(node5);
+			document.add(node6);
+			document.add(node7);
+			document.add(node8);
+			
+			node0.add(subnode0);
+			node0.add(subnode1);
+			
+			node2.add(subnode2);
+			node2.add(subnode3);
+			node2.add(subnode4);
+									
+			const result : Vector.<IDOMNode> = document.select('node1/subnode1.(@name=="subnode1" && @value=="value0")');
+			assertEquals('Result length should be 2', 2, result.length);
+			assertEqualsArraysIgnoringOrder('Results should be',
+																[subnode2, subnode3],
+																[result[0], result[1]]
+																);
+		}
+		
+		[Test]
+		public function path_select_node1_then_subnode1_and_check_name_equals_subnode1_and_value_equals_value0_in_context() : void
+		{
+			const node0 : IDOMNode = new DOMConditionalNode('node0', "value0");
+			const node1 : IDOMNode = new DOMConditionalNode('node0', "value1");
+			
+			const node2 : IDOMNode = new DOMConditionalNode('node1', "value0");
+			const node3 : IDOMNode = new DOMConditionalNode('node1', "value0");
+			const node4 : IDOMNode = new DOMConditionalNode('node1', "value1");
+			const node5 : IDOMNode = new DOMConditionalNode('node1', "value1");
+			const node6 : IDOMNode = new DOMConditionalNode('node1', "value0");
+			
+			const node7 : IDOMNode = new DOMConditionalNode('node2', "value1");
+			const node8 : IDOMNode = new DOMConditionalNode('node2', "value1");
+			
+			const subnode0 : IDOMNode = new DOMConditionalNode('subnode0', "value0");
+			const subnode1 : IDOMNode = new DOMConditionalNode('subnode0', "value1");
+			
+			const subnode2 : IDOMNode = new DOMConditionalNode('subnode1', "value0");
+			const subnode3 : IDOMNode = new DOMConditionalNode('subnode1', "value0");
+			const subnode4 : IDOMNode = new DOMConditionalNode('subnode2', "value1");
+			
+			document.add(node0);
+			document.add(node1);
+			document.add(node2);
+			document.add(node3);
+			document.add(node4);
+			document.add(node5);
+			document.add(node6);
+			document.add(node7);
+			document.add(node8);
+			
+			node0.add(subnode0);
+			node0.add(subnode1);
+			
+			node2.add(subnode2);
+			node2.add(subnode3);
+			node2.add(subnode4);
+									
+			const result : Vector.<IDOMNode> = document.select('/node1/subnode1.(@name=="subnode1" && @value=="value0")');
+			assertEquals('Result length should be 2', 2, result.length);
+			assertEqualsArraysIgnoringOrder('Results should be',
+																[subnode2, subnode3],
+																[result[0], result[1]]
+																);
+		}
+		
+		[Test]
+		public function path_select_node1_then_subnode1_and_check_name_equals_subnode1_and_value_equals_value0_in_document() : void
+		{
+			const node0 : IDOMNode = new DOMConditionalNode('node0', "value0");
+			const node1 : IDOMNode = new DOMConditionalNode('node0', "value1");
+			
+			const node2 : IDOMNode = new DOMConditionalNode('node1', "value0");
+			const node3 : IDOMNode = new DOMConditionalNode('node1', "value0");
+			const node4 : IDOMNode = new DOMConditionalNode('node1', "value1");
+			const node5 : IDOMNode = new DOMConditionalNode('node1', "value1");
+			const node6 : IDOMNode = new DOMConditionalNode('node1', "value0");
+			
+			const node7 : IDOMNode = new DOMConditionalNode('node2', "value1");
+			const node8 : IDOMNode = new DOMConditionalNode('node2', "value1");
+			
+			const subnode0 : IDOMNode = new DOMConditionalNode('subnode0', "value0");
+			const subnode1 : IDOMNode = new DOMConditionalNode('subnode0', "value1");
+			
+			const subnode2 : IDOMNode = new DOMConditionalNode('subnode1', "value0");
+			const subnode3 : IDOMNode = new DOMConditionalNode('subnode1', "value0");
+			const subnode4 : IDOMNode = new DOMConditionalNode('subnode2', "value1");
+			
+			document.add(node0);
+			document.add(node1);
+			document.add(node2);
+			document.add(node3);
+			document.add(node4);
+			document.add(node5);
+			document.add(node6);
+			document.add(node7);
+			document.add(node8);
+			
+			node0.add(subnode0);
+			node0.add(subnode1);
+			
+			node2.add(subnode2);
+			node2.add(subnode3);
+			node2.add(subnode4);
+									
+			const result : Vector.<IDOMNode> = document.select('//node1/subnode1.(@name=="subnode1" && @value=="value0")');
+			assertEquals('Result length should be 2', 2, result.length);
+			assertEqualsArraysIgnoringOrder('Results should be',
+																[subnode2, subnode3],
+																[result[0], result[1]]
+																);
+		}
 	}
 }
