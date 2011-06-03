@@ -1,6 +1,5 @@
 package org.osflash.dom.path
 {
-	import flash.utils.getDefinitionByName;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
@@ -21,12 +20,13 @@ package org.osflash.dom.path
 	import org.osflash.dom.path.parser.utils.callMethodNameWithArgs;
 	import org.osflash.dom.path.parser.utils.filterAtIndexAccess;
 	import org.osflash.dom.path.parser.utils.filterByAttributeResults;
-	import org.osflash.dom.path.parser.utils.filterByEquality;
-	import org.osflash.dom.path.parser.utils.filterByInequality;
 	import org.osflash.dom.path.parser.utils.filterByName;
+	import org.osflash.dom.path.parser.utils.filterByOperator;
 	import org.osflash.dom.path.parser.utils.filterUniquely;
 	import org.osflash.dom.path.parser.utils.getContextChildren;
 	import org.osflash.dom.path.parser.utils.getDocumentChildren;
+
+	import flash.utils.getDefinitionByName;
 
 
 
@@ -93,10 +93,10 @@ package org.osflash.dom.path
 			}
 			
 			// TODO : Remove this
-			//const stream : IDOMPathOutputStream = new DOMPathByteArrayOutputStream();
-			//_expression.describe(stream);
-			//stream.position = 0;
-			//log("Expression >", stream.toString());
+			const stream : IDOMPathOutputStream = new DOMPathByteArrayOutputStream();
+			_expression.describe(stream);
+			stream.position = 0;
+			log("Expression >", stream.toString());
 			
 			// Parsing the expressions.
 			var results : Array;
@@ -115,10 +115,10 @@ package org.osflash.dom.path
 			{
 				_context.pushContext(expression, domNodes);
 				
-//				log(">", 	_context.length, 
-//							expression, 
-//							DOMPathExpressionType.getType(expression.type.type)
-//							);
+				log(">", 	_context.length, 
+							expression, 
+							DOMPathExpressionType.getType(expression.type.type)
+							);
 				
 				switch(expression.type)
 				{
@@ -296,10 +296,10 @@ package org.osflash.dom.path
 							
 							_context.pushContext(expression, domNodes);
 				
-//							log(">", 	_context.length, 
-//										expression, 
-//										DOMPathExpressionType.getType(expression.type.type)
-//										);
+							log(">", 	_context.length, 
+										expression, 
+										DOMPathExpressionType.getType(expression.type.type)
+										);
 							
 							var logicalExpr : IDOMPathLeftRightNodeExpression;
 							switch(expression.type)
@@ -310,6 +310,10 @@ package org.osflash.dom.path
 									break;
 								case DOMPathExpressionType.EQUALITY:
 								case DOMPathExpressionType.INEQUALITY:
+								case DOMPathExpressionType.LESS_THAN:
+								case DOMPathExpressionType.LESS_THAN_OR_EQUAL_TO:
+								case DOMPathExpressionType.GREATER_THAN:
+								case DOMPathExpressionType.GREATER_THAN_OR_EQUAL_TO:
 									leftRightExpr = IDOMPathLeftRightNodeExpression(expression);
 									nameExpr = DOMPathNameExpression(leftRightExpr.left);
 									
@@ -328,21 +332,12 @@ package org.osflash.dom.path
 										expression = logicalExpr.left;
 									}										
 									
-									if(leftRightExpr.type == DOMPathExpressionType.EQUALITY)
-									{
-										domNodes = filterByEquality(	domNodes, 
-																		nameExpr, 
-																		expression
-																		);
-									}
-									else
-									{
-										domNodes = filterByInequality(	domNodes, 
-																		nameExpr, 
-																		expression
-																		);
-									}
-									
+									const operator : DOMPathExpressionType = leftRightExpr.type;
+									domNodes = filterByOperator(	operator,
+																	domNodes, 
+																	nameExpr, 
+																	expression
+																	);
 									logicalDomNodes.push(domNodes);
 									
 									if(null != logicalExpr)

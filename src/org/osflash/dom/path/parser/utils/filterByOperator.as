@@ -14,7 +14,8 @@ package org.osflash.dom.path.parser.utils
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public function filterByInequality(	nodes : Vector.<IDOMNode>,
+	public function filterByOperator(	operator : DOMPathExpressionType,
+										nodes : Vector.<IDOMNode>,
 										name : DOMPathNameExpression,
 										value : IDOMPathExpression
 										) : Vector.<IDOMNode>
@@ -38,15 +39,36 @@ package org.osflash.dom.path.parser.utils
 		else 
 			DOMPathError.throwError(DOMPathError.UNEXPECTED_EXPRESSION);
 		
+		// Is valid item
+		var valid : Boolean = false;
+		
+		// Shortcut to help for a faster lookup time
 		const attribute : String = name.name;
 		
 		const total : int = nodes.length;
 		for(var i : int = 0; i<total; i++)
 		{
+			valid = false;
+			
 			const node : IDOMNode = nodes[i];
-			if(attribute in node && node[attribute] != raw)
+			if(attribute in node)
 			{
-				if (results.indexOf(node) == -1)
+				if(operator == DOMPathExpressionType.EQUALITY)
+					valid = node[attribute] == raw;
+				else if(operator == DOMPathExpressionType.INEQUALITY)
+					valid = node[attribute] != raw;
+				else if(operator == DOMPathExpressionType.LESS_THAN)
+					valid = node[attribute] < raw;
+				else if(operator == DOMPathExpressionType.LESS_THAN_OR_EQUAL_TO)
+					valid = node[attribute] <= raw;
+				else if(operator == DOMPathExpressionType.GREATER_THAN)
+					valid = node[attribute] > raw;
+				else if(operator == DOMPathExpressionType.GREATER_THAN_OR_EQUAL_TO)
+					valid = node[attribute] >= raw;
+				else 
+					DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
+				
+				if (valid && results.indexOf(node) == -1)
 					results.push(node);
 			}
 		}
