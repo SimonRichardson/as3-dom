@@ -1,5 +1,7 @@
 package org.osflash.dom.path.parser.utils
 {
+	import org.osflash.dom.path.parser.expressions.types.DOMPathNullExpression;
+	import org.osflash.dom.path.parser.expressions.types.DOMPathBooleanExpression;
 	import org.osflash.dom.element.IDOMNode;
 	import org.osflash.dom.path.DOMPathError;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
@@ -33,6 +35,10 @@ package org.osflash.dom.path.parser.utils
 				args.push(DOMPathNumberExpression(paramExpr).value);
 			else if(paramExpr.type == DOMPathExpressionType.STRING)
 				args.push(DOMPathStringExpression(paramExpr).value);
+			else if(paramExpr.type == DOMPathExpressionType.BOOLEAN)
+				args.push(DOMPathBooleanExpression(paramExpr).value);
+			else if(paramExpr.type == DOMPathExpressionType.NULL)
+				args.push(DOMPathNullExpression(paramExpr).value);
 			else 
 				DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
 		}

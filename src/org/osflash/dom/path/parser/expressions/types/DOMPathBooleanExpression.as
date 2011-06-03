@@ -16,8 +16,6 @@ package org.osflash.dom.path.parser.expressions.types
 		
 		public function DOMPathBooleanExpression(value : Boolean)
 		{
-			if(null == value) throw new ArgumentError('Given name can not be null');
-			
 			_value = value;
 		}
 		

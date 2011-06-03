@@ -29,5 +29,10 @@ package org.osflash.dom.path.parser.expressions.types
 		{
 			return DOMPathExpressionType.NULL;
 		}
+		
+		public function get value() : *
+		{
+			return null;
+		}
 	}
 }
