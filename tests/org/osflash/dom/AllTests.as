@@ -1,5 +1,6 @@
 package org.osflash.dom
 {
+	import org.osflash.dom.path.DOMPathLessThanOrEqualToTest;
 	import org.osflash.dom.element.DOMDocumentTest;
 	import org.osflash.dom.element.utils.CloneFromDisplayObjectsTest;
 	import org.osflash.dom.path.DOMPathAttributeIndexAccessTest;
@@ -31,6 +32,7 @@ package org.osflash.dom
 		public var _DOMPathEqualityTest:DOMPathEqualityTest;
 		public var _DOMPathInequalityTest:DOMPathInequalityTest;
 		public var _DOMPathLessThanTest:DOMPathLessThanTest;
+		public var _DOMPathLessThanOrEqualToTest:DOMPathLessThanOrEqualToTest;
 		public var _DOMPathLogicalAndTest:DOMPathLogicalAndTest;
 		public var _DOMPathLogicalOrTest:DOMPathLogicalOrTest;
 		public var _DOMPathNameIndexAccessTest:DOMPathNameIndexAccessTest;
