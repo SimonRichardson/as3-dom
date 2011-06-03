@@ -59,6 +59,10 @@ package org.osflash.dom.path.parser.tokens
 		
 		public static const PIPE : DOMPathTokenType = new DOMPathTokenType(0x26);
 		
+		public static const FORWARD_ARROW : DOMPathTokenType = new DOMPathTokenType(0x27);
+		
+		public static const BACK_ARROW : DOMPathTokenType = new DOMPathTokenType(0x28);
+		
 		/**
 		 * @private
 		 */
@@ -103,7 +107,9 @@ package org.osflash.dom.path.parser.tokens
 												ATTRIBUTE,
 												DOT,
 												AMPERSAND,
-												PIPE
+												PIPE,
+												FORWARD_ARROW,
+												BACK_ARROW
 											 ]);
 		}
 		
@@ -140,6 +146,8 @@ package org.osflash.dom.path.parser.tokens
 				case DOT.type: return '.';
 				case AMPERSAND.type: return '&';
 				case PIPE.type: return '|';
+				case FORWARD_ARROW.type: return '>';
+				case BACK_ARROW.type: return '<';
 				default:
 					DOMPathError.throwError(DOMPathError.UNEXPECTED_TOKEN_TYPE);
 					break;

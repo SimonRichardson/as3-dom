@@ -1,20 +1,21 @@
 package org.osflash.dom.path.parser.parselets.operators
 {
+	import org.osflash.dom.path.parser.expressions.opterators.DOMPathLessThanOrEqualToExpression;
+	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
 	import org.osflash.dom.path.DOMPathError;
 	import org.osflash.dom.path.parser.DOMPathPrecedence;
 	import org.osflash.dom.path.parser.IDOMPathParser;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathLeftRightNodeExpression;
-	import org.osflash.dom.path.parser.expressions.opterators.DOMPathInequalityExpression;
+	import org.osflash.dom.path.parser.expressions.opterators.DOMPathLessThanExpression;
 	import org.osflash.dom.path.parser.expressions.types.DOMPathNameExpression;
 	import org.osflash.dom.path.parser.parselets.IDOMPathInfixParselet;
 	import org.osflash.dom.path.parser.tokens.DOMPathToken;
-	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public class DOMPathInequalityParselet implements IDOMPathInfixParselet
+	public final class DOMPathLessThanParselet implements IDOMPathInfixParselet
 	{
 		
 		/**
@@ -24,9 +25,9 @@ package org.osflash.dom.path.parser.parselets.operators
 								expression : IDOMPathExpression, 
 								token : DOMPathToken
 								) : IDOMPathExpression
-		{
-			parser.consumeToken(DOMPathTokenType.EQUALITY);
-			
+		{		
+			const lessThanOrEqualTo : Boolean = parser.match(DOMPathTokenType.EQUALITY);	
+						
 			const name : DOMPathNameExpression = expression as DOMPathNameExpression;
 			if(null == name)
 				DOMPathError.throwError(DOMPathError.INVALID_LEFT_SIDE_EQUALITY);
@@ -55,7 +56,10 @@ package org.osflash.dom.path.parser.parselets.operators
 				DOMPathError.throwError(DOMPathError.INVALID_RIGHT_SIDE_EQUALITY);
 			}
 			
-			return new DOMPathInequalityExpression(name, right);
+			if(lessThanOrEqualTo)
+				return new DOMPathLessThanOrEqualToExpression(name, right);
+			else
+				return new DOMPathLessThanExpression(name, right);
 		}
 		
 		/**

@@ -47,7 +47,10 @@ package org.osflash.dom.path.parser.parselets.operators
 			if(	!(	equalityType == DOMPathExpressionType.STRING ||
 					equalityType == DOMPathExpressionType.INTEGER || 
 					equalityType == DOMPathExpressionType.UNSIGNED_INTEGER ||
-					equalityType == DOMPathExpressionType.NUMBER
+					equalityType == DOMPathExpressionType.NUMBER ||
+					equalityType == DOMPathExpressionType.BOOLEAN ||
+					equalityType == DOMPathExpressionType.NULL ||
+					equalityType == DOMPathExpressionType.UNDEFINED
 				))
 			{
 				DOMPathError.throwError(DOMPathError.INVALID_RIGHT_SIDE_EQUALITY);

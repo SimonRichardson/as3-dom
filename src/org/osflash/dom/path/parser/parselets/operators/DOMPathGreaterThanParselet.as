@@ -6,7 +6,8 @@ package org.osflash.dom.path.parser.parselets.operators
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathLeftRightNodeExpression;
-	import org.osflash.dom.path.parser.expressions.opterators.DOMPathInequalityExpression;
+	import org.osflash.dom.path.parser.expressions.opterators.DOMPathGreaterThanExpression;
+	import org.osflash.dom.path.parser.expressions.opterators.DOMPathGreaterThanOrEqualToExpression;
 	import org.osflash.dom.path.parser.expressions.types.DOMPathNameExpression;
 	import org.osflash.dom.path.parser.parselets.IDOMPathInfixParselet;
 	import org.osflash.dom.path.parser.tokens.DOMPathToken;
@@ -14,7 +15,7 @@ package org.osflash.dom.path.parser.parselets.operators
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public class DOMPathInequalityParselet implements IDOMPathInfixParselet
+	public final class DOMPathGreaterThanParselet implements IDOMPathInfixParselet
 	{
 		
 		/**
@@ -24,8 +25,8 @@ package org.osflash.dom.path.parser.parselets.operators
 								expression : IDOMPathExpression, 
 								token : DOMPathToken
 								) : IDOMPathExpression
-		{
-			parser.consumeToken(DOMPathTokenType.EQUALITY);
+		{			
+			const greaterThanOrEqualTo : Boolean = parser.match(DOMPathTokenType.EQUALITY);
 			
 			const name : DOMPathNameExpression = expression as DOMPathNameExpression;
 			if(null == name)
@@ -55,7 +56,10 @@ package org.osflash.dom.path.parser.parselets.operators
 				DOMPathError.throwError(DOMPathError.INVALID_RIGHT_SIDE_EQUALITY);
 			}
 			
-			return new DOMPathInequalityExpression(name, right);
+			if(greaterThanOrEqualTo)
+				return new DOMPathGreaterThanOrEqualToExpression(name, right);
+			else
+				return new DOMPathGreaterThanExpression(name, right);
 		}
 		
 		/**

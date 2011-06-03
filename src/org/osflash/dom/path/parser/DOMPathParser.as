@@ -1,6 +1,5 @@
 package org.osflash.dom.path.parser
 {
-	import flash.utils.Dictionary;
 	import org.osflash.dom.path.DOMPathError;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 	import org.osflash.dom.path.parser.parselets.DOMPathInfixAttributeParselet;
@@ -16,7 +15,9 @@ package org.osflash.dom.path.parser
 	import org.osflash.dom.path.parser.parselets.instance.DOMPathCallMethodParselet;
 	import org.osflash.dom.path.parser.parselets.instance.DOMPathGroupParselet;
 	import org.osflash.dom.path.parser.parselets.operators.DOMPathEqualityParselet;
+	import org.osflash.dom.path.parser.parselets.operators.DOMPathGreaterThanParselet;
 	import org.osflash.dom.path.parser.parselets.operators.DOMPathInequalityParselet;
+	import org.osflash.dom.path.parser.parselets.operators.DOMPathLessThanParselet;
 	import org.osflash.dom.path.parser.parselets.operators.DOMPathLogicalAndParselet;
 	import org.osflash.dom.path.parser.parselets.operators.DOMPathLogicalOrParselet;
 	import org.osflash.dom.path.parser.parselets.types.DOMPathIntegerParselet;
@@ -27,6 +28,8 @@ package org.osflash.dom.path.parser
 	import org.osflash.dom.path.parser.parselets.types.DOMPathWildcardParselet;
 	import org.osflash.dom.path.parser.tokens.DOMPathToken;
 	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
+
+	import flash.utils.Dictionary;
 
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
@@ -85,6 +88,8 @@ package org.osflash.dom.path.parser
 			registerInfix(DOMPathTokenType.ATTRIBUTE, new DOMPathInfixAttributeParselet());
 			registerInfix(DOMPathTokenType.EQUALITY, new DOMPathEqualityParselet());
 			registerInfix(DOMPathTokenType.BANG, new DOMPathInequalityParselet());
+			registerInfix(DOMPathTokenType.BACK_ARROW, new DOMPathLessThanParselet());
+			registerInfix(DOMPathTokenType.FORWARD_ARROW, new DOMPathGreaterThanParselet());
 			registerInfix(DOMPathTokenType.AMPERSAND, new DOMPathLogicalAndParselet());
 			registerInfix(DOMPathTokenType.PIPE, new DOMPathLogicalOrParselet());
 		}
