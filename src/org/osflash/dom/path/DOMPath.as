@@ -22,7 +22,7 @@ package org.osflash.dom.path
 	import org.osflash.dom.path.parser.utils.filterByAttributeResults;
 	import org.osflash.dom.path.parser.utils.filterByName;
 	import org.osflash.dom.path.parser.utils.filterByOperator;
-	import org.osflash.dom.path.parser.utils.filterUniquely;
+	import org.osflash.dom.path.parser.utils.normaliseNodes;
 	import org.osflash.dom.path.parser.utils.getContextChildren;
 	import org.osflash.dom.path.parser.utils.getDocumentChildren;
 
@@ -346,7 +346,7 @@ package org.osflash.dom.path
 											domNodes = logicalOrDomNodes;
 										
 										if(logicalPrevExprType == DOMPathExpressionType.LOGICAL_OR)
-											domNodes = filterUniquely(logicalDomNodes);
+											domNodes = normaliseNodes(logicalDomNodes);
 										
 										expression = logicalExpr.right;
 										break;
@@ -354,7 +354,7 @@ package org.osflash.dom.path
 																		
 									// Make sure we're only having the correct items here
 									if(logicalPrevExprType == DOMPathExpressionType.LOGICAL_OR)
-										domNodes = filterUniquely(logicalDomNodes);
+										domNodes = normaliseNodes(logicalDomNodes);
 									
 									logicalDomNodes.length = 0;
 									

@@ -4,7 +4,7 @@ package org.osflash.dom.path.parser.utils
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public function filterUniquely(nodes : Vector.<Vector.<IDOMNode>>) : Vector.<IDOMNode>
+	public function normaliseNodes(nodes : Vector.<Vector.<IDOMNode>>) : Vector.<IDOMNode>
 	{
 		const result : Vector.<IDOMNode> = new Vector.<IDOMNode>();
 		
