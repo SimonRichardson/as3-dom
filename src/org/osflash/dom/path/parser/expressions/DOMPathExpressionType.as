@@ -3,7 +3,7 @@ package org.osflash.dom.path.parser.expressions
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public class DOMPathExpressionType
+	public final class DOMPathExpressionType
 	{
 
 		public static const WILDCARD : DOMPathExpressionType = 	new DOMPathExpressionType(0x01);
@@ -57,6 +57,12 @@ package org.osflash.dom.path.parser.expressions
 
 		public static const LOGICAL_OR : DOMPathExpressionType = 
 																new DOMPathExpressionType(0x20);
+
+		public static const BOOLEAN : DOMPathExpressionType = 	new DOMPathExpressionType(0x21);
+		
+		public static const NULL : DOMPathExpressionType = 		new DOMPathExpressionType(0x22);
+		
+		public static const UNDEFINED : DOMPathExpressionType = new DOMPathExpressionType(0x23);
 
 		/**
 		 * @private
@@ -115,6 +121,12 @@ package org.osflash.dom.path.parser.expressions
 					return 'logicalAnd';
 				case LOGICAL_OR.type:
 					return 'logicalOr';
+				case BOOLEAN.type:
+					return 'boolean';
+				case NULL.type:
+					return 'null';
+				case UNDEFINED.type:
+					return 'undefined';
 				default:
 					throw new ArgumentError('Given argument is Unknown'); 
 			}

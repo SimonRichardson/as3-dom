@@ -1,7 +1,7 @@
 package org.osflash.dom.path.parser.utils
 {
 	import org.osflash.dom.element.IDOMNode;
-	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
+	import org.osflash.dom.path.parser.expressions.types.DOMPathNameExpression;
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */

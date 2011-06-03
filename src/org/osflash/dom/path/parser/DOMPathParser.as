@@ -1,33 +1,33 @@
 package org.osflash.dom.path.parser
 {
+	import flash.utils.Dictionary;
 	import org.osflash.dom.path.DOMPathError;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
-	import org.osflash.dom.path.parser.parselets.DOMPathAttributeParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathCallMethodParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathDescendantsParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathEqualityParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathGroupParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathIndexAccessParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathInequalityParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathInfixAttributeParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathInstanceParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathIntegerParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathLogicalAndParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathLogicalOrParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathNameDescendantsParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathNameParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathNumberParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathPostfixOperatorParselet;
 	import org.osflash.dom.path.parser.parselets.DOMPathPrefixOperatorParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathStringParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathUnsignedIntegerParselet;
-	import org.osflash.dom.path.parser.parselets.DOMPathWildcardParselet;
 	import org.osflash.dom.path.parser.parselets.IDOMPathInfixParselet;
 	import org.osflash.dom.path.parser.parselets.IDOMPathPrefixParselet;
+	import org.osflash.dom.path.parser.parselets.accessors.DOMPathDescendantsParselet;
+	import org.osflash.dom.path.parser.parselets.accessors.DOMPathIndexAccessParselet;
+	import org.osflash.dom.path.parser.parselets.accessors.DOMPathInstanceParselet;
+	import org.osflash.dom.path.parser.parselets.accessors.DOMPathNameDescendantsParselet;
+	import org.osflash.dom.path.parser.parselets.instance.DOMPathAttributeParselet;
+	import org.osflash.dom.path.parser.parselets.instance.DOMPathCallMethodParselet;
+	import org.osflash.dom.path.parser.parselets.instance.DOMPathGroupParselet;
+	import org.osflash.dom.path.parser.parselets.operators.DOMPathEqualityParselet;
+	import org.osflash.dom.path.parser.parselets.operators.DOMPathInequalityParselet;
+	import org.osflash.dom.path.parser.parselets.operators.DOMPathLogicalAndParselet;
+	import org.osflash.dom.path.parser.parselets.operators.DOMPathLogicalOrParselet;
+	import org.osflash.dom.path.parser.parselets.types.DOMPathIntegerParselet;
+	import org.osflash.dom.path.parser.parselets.types.DOMPathNameParselet;
+	import org.osflash.dom.path.parser.parselets.types.DOMPathNumberParselet;
+	import org.osflash.dom.path.parser.parselets.types.DOMPathStringParselet;
+	import org.osflash.dom.path.parser.parselets.types.DOMPathUnsignedIntegerParselet;
+	import org.osflash.dom.path.parser.parselets.types.DOMPathWildcardParselet;
 	import org.osflash.dom.path.parser.tokens.DOMPathToken;
 	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
 
-	import flash.utils.Dictionary;
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */

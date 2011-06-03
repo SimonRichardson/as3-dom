@@ -73,6 +73,20 @@ package org.osflash.dom.path.parser.stream
 		/**
 		 * @inheritDoc
 		 */
+		public function writeBoolean(value : Boolean) : void
+		{
+			const string : String = value ? 'true' : 'false';
+			
+			const parts : Array = _buffer.split('');
+			parts.splice(position, 0, string);
+			
+			_buffer = parts.join('');
+			_position += string.length;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function get position() : uint
 		{
 			return _position;

@@ -16,6 +16,8 @@ package org.osflash.dom.path.parser.stream
 		
 		public static const FLOAT : int = 3;
 		
+		public static const BOOLEAN : int = 4;
+		
 		/**
 		 * @private
 		 */
@@ -62,6 +64,12 @@ package org.osflash.dom.path.parser.stream
 			_buffer.writeFloat(value);
 		}
 		
+		public function writeBoolean(value : Boolean) : void
+		{
+			_buffer.writeByte(BOOLEAN);
+			_buffer.writeBoolean(value);
+		}
+		
 		/**
 		 * @inheritDoc
 		 */
@@ -93,6 +101,7 @@ package org.osflash.dom.path.parser.stream
 					case INT: stream.writeInt(_buffer.readInt()); break;
 					case UINT: stream.writeUnsignedInt(_buffer.readUnsignedInt()); break;
 					case FLOAT: stream.writeFloat(_buffer.readFloat()); break;
+					case BOOLEAN: stream.writeBoolean(_buffer.readBoolean()); break;
 					default: 
 						throw new IllegalOperationError();
 						break;

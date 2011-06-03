@@ -3,12 +3,12 @@ package org.osflash.dom.path.parser.utils
 	import org.osflash.dom.element.IDOMNode;
 	import org.osflash.dom.path.DOMPathError;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
-	import org.osflash.dom.path.parser.expressions.DOMPathIntegerExpression;
-	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
-	import org.osflash.dom.path.parser.expressions.DOMPathNumberExpression;
-	import org.osflash.dom.path.parser.expressions.DOMPathStringExpression;
-	import org.osflash.dom.path.parser.expressions.DOMPathUnsignedIntegerExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
+	import org.osflash.dom.path.parser.expressions.types.DOMPathIntegerExpression;
+	import org.osflash.dom.path.parser.expressions.types.DOMPathNameExpression;
+	import org.osflash.dom.path.parser.expressions.types.DOMPathNumberExpression;
+	import org.osflash.dom.path.parser.expressions.types.DOMPathStringExpression;
+	import org.osflash.dom.path.parser.expressions.types.DOMPathUnsignedIntegerExpression;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */

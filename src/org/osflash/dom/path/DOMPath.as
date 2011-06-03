@@ -1,19 +1,20 @@
 package org.osflash.dom.path
 {
+	import flash.utils.getDefinitionByName;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
-	import org.osflash.dom.path.parser.expressions.DOMPathCallMethodExpression;
-	import org.osflash.dom.path.parser.expressions.DOMPathDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
-	import org.osflash.dom.path.parser.expressions.DOMPathGroupExpression;
-	import org.osflash.dom.path.parser.expressions.DOMPathIndexAccessDescendantsExpression;
-	import org.osflash.dom.path.parser.expressions.DOMPathIndexAccessExpression;
-	import org.osflash.dom.path.parser.expressions.DOMPathNameDescendantsExpression;
-	import org.osflash.dom.path.parser.expressions.DOMPathNameExpression;
-	import org.osflash.dom.path.parser.expressions.DOMPathUnsignedIntegerExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathLeftRightNodeExpression;
+	import org.osflash.dom.path.parser.expressions.accessors.DOMPathDescendantsExpression;
+	import org.osflash.dom.path.parser.expressions.accessors.DOMPathIndexAccessDescendantsExpression;
+	import org.osflash.dom.path.parser.expressions.accessors.DOMPathIndexAccessExpression;
+	import org.osflash.dom.path.parser.expressions.accessors.DOMPathNameDescendantsExpression;
+	import org.osflash.dom.path.parser.expressions.instances.DOMPathCallMethodExpression;
+	import org.osflash.dom.path.parser.expressions.instances.DOMPathGroupExpression;
+	import org.osflash.dom.path.parser.expressions.types.DOMPathNameExpression;
+	import org.osflash.dom.path.parser.expressions.types.DOMPathUnsignedIntegerExpression;
 	import org.osflash.dom.path.parser.stream.DOMPathByteArrayOutputStream;
 	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
 	import org.osflash.dom.path.parser.utils.callAttribute;
@@ -27,7 +28,6 @@ package org.osflash.dom.path
 	import org.osflash.dom.path.parser.utils.getContextChildren;
 	import org.osflash.dom.path.parser.utils.getDocumentChildren;
 
-	import flash.utils.getDefinitionByName;
 
 
 	/**
