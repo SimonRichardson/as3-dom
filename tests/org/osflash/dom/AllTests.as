@@ -1,7 +1,5 @@
 package org.osflash.dom
 {
-	import org.osflash.dom.path.DOMPathLogicalOrTest;
-	import org.osflash.dom.path.DOMPathInequalityTest;
 	import org.osflash.dom.element.DOMDocumentTest;
 	import org.osflash.dom.element.utils.CloneFromDisplayObjectsTest;
 	import org.osflash.dom.path.DOMPathAttributeIndexAccessTest;
@@ -9,7 +7,10 @@ package org.osflash.dom
 	import org.osflash.dom.path.DOMPathBuilderTest;
 	import org.osflash.dom.path.DOMPathCallMethodTest;
 	import org.osflash.dom.path.DOMPathEqualityTest;
+	import org.osflash.dom.path.DOMPathInequalityTest;
+	import org.osflash.dom.path.DOMPathLessThanTest;
 	import org.osflash.dom.path.DOMPathLogicalAndTest;
+	import org.osflash.dom.path.DOMPathLogicalOrTest;
 	import org.osflash.dom.path.DOMPathNameIndexAccessTest;
 	import org.osflash.dom.path.DOMPathNameTest;
 	import org.osflash.dom.path.DOMPathWildcardIndexAccessTest;
@@ -29,6 +30,7 @@ package org.osflash.dom
 		public var _DOMPathCallMethodTest:DOMPathCallMethodTest;
 		public var _DOMPathEqualityTest:DOMPathEqualityTest;
 		public var _DOMPathInequalityTest:DOMPathInequalityTest;
+		public var _DOMPathLessThanTest:DOMPathLessThanTest;
 		public var _DOMPathLogicalAndTest:DOMPathLogicalAndTest;
 		public var _DOMPathLogicalOrTest:DOMPathLogicalOrTest;
 		public var _DOMPathNameIndexAccessTest:DOMPathNameIndexAccessTest;
