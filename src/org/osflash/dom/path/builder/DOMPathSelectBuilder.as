@@ -81,7 +81,7 @@ package org.osflash.dom.path.builder
 		 */
 		public function where(name : String) : IDOMPathWhereBuilder
 		{
-			return new DOMPathWhereBuilder(_stream, name);
+			return new DOMPathWhereBuilder(_stream, this, name);
 		}
 		
 		/**

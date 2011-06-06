@@ -15,8 +15,10 @@ package org.osflash.dom.element.displayadapaters
 		 */
 		private var _stage : Stage;
 		
-		public function DOMSpriteDocument(stage : Stage)
+		public function DOMSpriteDocument(stage : Stage, useCache : Boolean = false)
 		{
+			super(useCache);
+			
 			_stage = stage;
 		}
 		

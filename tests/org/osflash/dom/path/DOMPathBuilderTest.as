@@ -68,5 +68,22 @@ package org.osflash.dom.path
 			
 			assertEquals('Query should equal', '/node1.name(1,2,"hello")', query);	
 		}
+		
+		[Test]
+		public function test_select_with_where_syntax() : void
+		{
+			const query : String = new DOMPathBuilder()
+												.selectWithString('node1')
+												.where('name')
+													.equals()
+													.toUTF('node1')
+													.and('index')
+													.isLessThan()
+													.toInt(4)
+												.endWhere()
+												.toQuery();
+			
+			assertEquals('Query should equal', '/node1.(@name=="node1"&&@index<4)', query);	
+		}
 	}
 }

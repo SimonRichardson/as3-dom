@@ -1,6 +1,7 @@
 package org.osflash.dom.path.builder
 {
 	import org.osflash.dom.element.IDOMNode;
+	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
 	import org.osflash.dom.path.stream.IDOMPathOutputStream;
 
 	/**
@@ -31,9 +32,12 @@ package org.osflash.dom.path.builder
 			_stream = stream;
 			_streamPosition = _stream.position;
 			
-			_stream.writeUTF('[');
+			const opener : String = DOMPathTokenType.getType(DOMPathTokenType.LEFT_SQUARE.type);
+			const closer : String = DOMPathTokenType.getType(DOMPathTokenType.RIGHT_SQUARE.type);
+			
+			_stream.writeUTF(opener);
 			_stream.writeUnsignedInt(_index);
-			_stream.writeUTF(']');
+			_stream.writeUTF(closer);
 		}
 		
 		/**
