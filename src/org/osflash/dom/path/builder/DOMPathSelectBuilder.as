@@ -1,7 +1,7 @@
 package org.osflash.dom.path.builder
 {
 	import org.osflash.dom.path.DOMPathError;
-	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
+	import org.osflash.dom.path.stream.IDOMPathOutputStream;
 
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info

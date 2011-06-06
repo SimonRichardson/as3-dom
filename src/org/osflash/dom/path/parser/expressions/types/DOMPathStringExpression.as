@@ -2,7 +2,7 @@ package org.osflash.dom.path.parser.expressions.types
 {
 	import org.osflash.dom.path.parser.expressions.DOMPathExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
-	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
+	import org.osflash.dom.path.stream.IDOMPathOutputStream;
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */

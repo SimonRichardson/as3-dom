@@ -4,7 +4,7 @@ package org.osflash.dom.path.parser.expressions.accessors
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathLeftRightNodeExpression;
-	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
+	import org.osflash.dom.path.stream.IDOMPathOutputStream;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */

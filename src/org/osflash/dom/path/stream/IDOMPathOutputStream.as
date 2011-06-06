@@ -1,4 +1,4 @@
-package org.osflash.dom.path.parser.stream
+package org.osflash.dom.path.stream
 {
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk

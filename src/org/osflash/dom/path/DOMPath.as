@@ -1,5 +1,6 @@
 package org.osflash.dom.path
 {
+	import flash.utils.getDefinitionByName;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
@@ -14,19 +15,18 @@ package org.osflash.dom.path
 	import org.osflash.dom.path.parser.expressions.instances.DOMPathGroupExpression;
 	import org.osflash.dom.path.parser.expressions.types.DOMPathNameExpression;
 	import org.osflash.dom.path.parser.expressions.types.DOMPathUnsignedIntegerExpression;
-	import org.osflash.dom.path.parser.stream.DOMPathByteArrayOutputStream;
-	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
 	import org.osflash.dom.path.parser.utils.callAttribute;
 	import org.osflash.dom.path.parser.utils.callMethodNameWithArgs;
 	import org.osflash.dom.path.parser.utils.filterAtIndexAccess;
 	import org.osflash.dom.path.parser.utils.filterByAttributeResults;
 	import org.osflash.dom.path.parser.utils.filterByName;
 	import org.osflash.dom.path.parser.utils.filterByOperator;
-	import org.osflash.dom.path.parser.utils.normaliseNodes;
 	import org.osflash.dom.path.parser.utils.getContextChildren;
 	import org.osflash.dom.path.parser.utils.getDocumentChildren;
+	import org.osflash.dom.path.parser.utils.normaliseNodes;
+	import org.osflash.dom.path.stream.DOMPathByteArrayOutputStream;
+	import org.osflash.dom.path.stream.IDOMPathOutputStream;
 
-	import flash.utils.getDefinitionByName;
 
 
 

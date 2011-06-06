@@ -2,8 +2,8 @@ package org.osflash.dom.path.parser.expressions.instances
 {
 	import org.osflash.dom.path.parser.expressions.DOMPathExpression;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
-	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
 	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
+	import org.osflash.dom.path.stream.IDOMPathOutputStream;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */

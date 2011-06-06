@@ -1,4 +1,4 @@
-package org.osflash.dom.path.parser.stream
+package org.osflash.dom.path.stream
 {
 	import flash.errors.IllegalOperationError;
 	import flash.utils.ByteArray;
