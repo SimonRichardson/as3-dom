@@ -15,11 +15,6 @@ package org.osflash.dom.path.builder
 		/**
 		 * @private
 		 */
-		private var _value : String;
-		
-		/**
-		 * @private
-		 */
 		private var _stream : IDOMPathOutputStream;
 		
 		/**
@@ -28,27 +23,15 @@ package org.osflash.dom.path.builder
 		private var _streamPosition : int;
 		
 		public function DOMPathWhereBuilder(	stream : IDOMPathOutputStream, 
-												name : String, 
-												value : String
+												name : String
 												)
 		{
 			_name = name;
-			_value = value;
 			
 			_stream = stream;
 			_streamPosition = _stream.position;
 			
 			_stream.writeUTF(name);
-			_stream.writeUTF('==');
-			_stream.writeUTF(value);
-		}
-		
-		/**
-		 * @inheritDoc
-		 */
-		public function addwhere(name : String, value : String) : IDOMPathWhereBuilder
-		{
-			return new DOMPathWhereBuilder(_stream, name, value);
 		}
 
 		/**

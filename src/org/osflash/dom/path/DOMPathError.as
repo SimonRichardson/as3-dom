@@ -45,6 +45,10 @@ package org.osflash.dom.path
 		public static const UNEXPECTED_EXPRESSION : int = 0x19;
 		
 		public static const INVALID_LEFT_SIDE_EQUALITY : int = 0x20;
+
+		public static const UNEXPECTED_CONTEXT_TYPE : int = 0x21;
+
+		public static const UNEXPECTED_ARGUMENT : int = 0x22;
 		
 		public function DOMPathError(message : String)
 		{
@@ -101,6 +105,10 @@ package org.osflash.dom.path
 					return 'unexpectedEofToken';
 				case UNEXPECTED_EXPRESSION:
 					return 'unexpectedExpression';
+				case UNEXPECTED_CONTEXT_TYPE:
+					return 'unexpectedContextType';
+				case UNEXPECTED_ARGUMENT:
+					return 'unexpectedArgument';
 				default:
 					throw new ArgumentError('Given argument is Unknown');  
 			}
@@ -157,6 +165,10 @@ package org.osflash.dom.path
 					throw new DOMPathError('Unexpected EoF token type found');
 				case UNEXPECTED_EXPRESSION:
 					throw new DOMPathError('Unexpected expression');
+				case UNEXPECTED_CONTEXT_TYPE:
+					throw new DOMPathError('Unexpected context type');
+				case UNEXPECTED_ARGUMENT:
+					throw new DOMPathError('Unexpected argument');
 				default:
 					throw new ArgumentError('Given argument is Unknown');
 			}

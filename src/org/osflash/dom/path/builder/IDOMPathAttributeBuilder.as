@@ -8,8 +8,6 @@ package org.osflash.dom.path.builder
 		
 		function atIndex(index : uint) : IDOMPathIndexBuilder;
 		
-		function withIndex(index : uint) : IDOMPathIndexBuilder;
-		
 		function toString() : String;
 	}
 }

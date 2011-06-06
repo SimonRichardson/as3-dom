@@ -1,7 +1,7 @@
 package org.osflash.dom.path.builder
 {
-	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
 	import org.osflash.dom.path.DOMPathError;
+	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
 
 	import flash.utils.getQualifiedClassName;
 	/**
@@ -18,11 +18,6 @@ package org.osflash.dom.path.builder
 		/**
 		 * @inheritDoc
 		 */
-		private var _args : Array;
-		
-		/**
-		 * @inheritDoc
-		 */
 		private var _stream : IDOMPathOutputStream;
 		
 		/**
@@ -31,43 +26,75 @@ package org.osflash.dom.path.builder
 		private var _streamPosition : uint;
 
 		public function DOMPathMethodBuilder(	stream : IDOMPathOutputStream, 
-												name : String, 
-												args : Array
+												name : String
 												)
 		{
 			_name = name;
-			_args = args;
 			
 			_stream = stream;
 			_streamPosition = _stream.position;
 			
 			_stream.writeUTF('.');
 			_stream.writeUTF(name);
-			_stream.writeUTF('(');
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function addArguments(...args) : IDOMPathMethodBuilder
+		{
+			const values : Array = (args.length == 1 && args[0] is Array) ? args[0] : args;
 			
-			const total : int = args.length;
+			_stream.writeUTF('(');
+			const total : int = values.length;
 			for(var i : int = 0; i < total; i++)
 			{
-				const type : String = getQualifiedClassName(args[i]);
-				
-				if(type == 'uint') _stream.writeUnsignedInt(args[i]);
-				else if(type == 'int') _stream.writeInt(args[i]);
-				else if(type == 'Number') _stream.writeFloat(args[i]);
-				else if(type == 'String') 
+				const def : String = getQualifiedClassName(values[i]);
+				switch(def)
 				{
-					_stream.writeUTF('"');
-					_stream.writeUTF(args[i]);
-					_stream.writeUTF('"');
+					case 'null':
+						_stream.writeUTF('null');
+						break;
+					case 'int':
+						_stream.writeInt(values[i]);
+						break;
+					case 'uint':
+						_stream.writeUnsignedInt(values[i]);
+						break;
+					case 'Number':
+						_stream.writeFloat(values[i]);
+						break;
+					case 'Boolean':
+						_stream.writeBoolean(values[i]);
+						break;
+					case 'String':
+						_stream.writeUTF('"');
+						_stream.writeUTF(values[i]);
+						_stream.writeUTF('"');
+						break;
+					default:
+						if("toString" in args[i])
+						{
+							_stream.writeUTF('"');
+							_stream.writeUTF(values[i]['toString']());
+							_stream.writeUTF('"');
+						}
+						else 
+							DOMPathError.throwError(DOMPathError.UNEXPECTED_ARGUMENT);
 				}
-				else DOMPathError.throwError(DOMPathError.SYNTAX_ERROR);
-				
-				if(i < total - 1)
-				{
-					_stream.writeUTF(',');
-				}
+				// Add the comma
+				if(i < total - 1) _stream.writeUTF(',');
 			}
-			
 			_stream.writeUTF(')');
+			return this;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function startArguments() : IDOMPathMethodArgumentBuilder
+		{
+			return new DOMPathMethodArgumentBuilder(this);
 		}
 		
 		/**

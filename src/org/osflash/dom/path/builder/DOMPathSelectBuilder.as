@@ -1,5 +1,6 @@
 package org.osflash.dom.path.builder
 {
+	import org.osflash.dom.path.DOMPathError;
 	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
 
 	/**
@@ -11,7 +12,12 @@ package org.osflash.dom.path.builder
 		/**
 		 * @private
 		 */
-		private var _name : String;
+		private var _nodeName : String;
+
+		/**
+		 * @private
+		 */
+		private var _context : DOMPathContextType;
 
 		/**
 		 * @private
@@ -23,15 +29,27 @@ package org.osflash.dom.path.builder
 		 */
 		private var _streamPosition : int;
 
-		public function DOMPathSelectBuilder(stream : IDOMPathOutputStream, name : String)
+		public function DOMPathSelectBuilder(	stream : IDOMPathOutputStream, 
+												nodeName : String,
+												context : DOMPathContextType = null
+												)
 		{
-			_name = name;
+			_nodeName = nodeName;
 
 			_stream = stream;
 			_streamPosition = _stream.position;
 			
-			_stream.writeUTF('/');
-			_stream.writeUTF(name);
+			_context = context || DOMPathContextType.CONTEXT; 
+			if(_context == DOMPathContextType.CONTEXT)
+				_stream.writeUTF('/');
+			else if(_context == DOMPathContextType.DOCUMENT)
+			{
+				_stream.writeUTF('/');
+				_stream.writeUTF('/');
+			}
+			else DOMPathError.throwError(DOMPathError.UNEXPECTED_CONTEXT_TYPE);
+				
+			_stream.writeUTF(_nodeName);
 		}
 
 		/**
@@ -39,23 +57,7 @@ package org.osflash.dom.path.builder
 		 */
 		public function atIndex(index : uint) : IDOMPathIndexBuilder
 		{
-			return withIndex(index);
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function withIndex(index : uint) : IDOMPathIndexBuilder
-		{
 			return new DOMPathIndexBuilder(_stream, index);
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function attribute(name : String) : IDOMPathAttributeBuilder
-		{
-			return withAttribute(name);
 		}
 
 		/**
@@ -65,29 +67,21 @@ package org.osflash.dom.path.builder
 		{
 			return new DOMPathAttributeBuilder(_stream, name);
 		}
-		
-		/**
-		 * @inheritDoc
-		 */
-		public function callingMethod(name : String, ...args) : IDOMPathMethodBuilder
-		{
-			return andCallingMethod.apply(null, [name].concat(args));
-		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function andCallingMethod(name : String, ...args) : IDOMPathMethodBuilder
+		public function andCallingMethod(name : String) : IDOMPathMethodBuilder
 		{
-			return new DOMPathMethodBuilder(_stream, name, args);
+			return new DOMPathMethodBuilder(_stream, name);
 		}
 		
 		/**
 		 * @inheritDoc
 		 */
-		public function where(name : String, value : String) : IDOMPathWhereBuilder
+		public function where(name : String) : IDOMPathWhereBuilder
 		{
-			return new DOMPathWhereBuilder(_stream, name, value);
+			return new DOMPathWhereBuilder(_stream, name);
 		}
 		
 		/**

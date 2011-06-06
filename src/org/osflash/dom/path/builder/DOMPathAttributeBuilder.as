@@ -38,14 +38,6 @@ package org.osflash.dom.path.builder
 		 */
 		public function atIndex(index : uint) : IDOMPathIndexBuilder
 		{
-			return withIndex(index);
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function withIndex(index : uint) : IDOMPathIndexBuilder
-		{
 			return new DOMPathIndexBuilder(_stream, index);
 		}
 				

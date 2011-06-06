@@ -8,17 +8,11 @@ package org.osflash.dom.path.builder
 		
 		function atIndex(index : uint) : IDOMPathIndexBuilder;
 		
-		function withIndex(index : uint) : IDOMPathIndexBuilder;
-		
-		function attribute(name : String) : IDOMPathAttributeBuilder;
-		
 		function withAttribute(name : String) : IDOMPathAttributeBuilder;
 		
-		function callingMethod(name : String, ...args) : IDOMPathMethodBuilder;
+		function andCallingMethod(name : String) : IDOMPathMethodBuilder;
 		
-		function andCallingMethod(name : String, ...args) : IDOMPathMethodBuilder;
-		
-		function where(name : String, value : String) : IDOMPathWhereBuilder;
+		function where(name : String) : IDOMPathWhereBuilder;
 		
 		function toString() : String;
 	}

@@ -13,7 +13,7 @@ package org.osflash.dom.path
 		public function test_select_syntax() : void
 		{
 			const query : String = new DOMPathBuilder()
-												.select('node1')
+												.selectWithString('node1')
 												.toQuery();
 			
 			assertEquals('Query should equal', '/node1', query);	
@@ -23,8 +23,8 @@ package org.osflash.dom.path
 		public function test_select_with_index_syntax() : void
 		{
 			const query : String = new DOMPathBuilder()
-												.select('node1')
-												.withIndex(0)
+												.selectWithString('node1')
+												.atIndex(0)
 												.toQuery();
 			
 			assertEquals('Query should equal', '/node1[0]', query);	
@@ -34,8 +34,13 @@ package org.osflash.dom.path
 		public function test_select_with_method_call_syntax() : void
 		{
 			const query : String = new DOMPathBuilder()
-												.select('node1')
-												.callingMethod('name', 1, 2, "hello")
+												.selectWithString('node1')
+												.andCallingMethod('name')
+												.startArguments()
+													.addInt(1)
+													.addInt(2)
+													.addString('hello')
+												.endArguments()
 												.toQuery();
 			
 			assertEquals('Query should equal', '/node1.name(1,2,"hello")', query);	
