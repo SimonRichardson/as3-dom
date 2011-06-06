@@ -1,6 +1,8 @@
 package org.osflash.dom.path.builder
 {
 	import org.osflash.dom.path.DOMPathError;
+	import org.osflash.dom.path.parser.stream.DOMPathByteArrayOutputStream;
+	import org.osflash.dom.path.parser.stream.DOMPathStringOutputStream;
 	import org.osflash.dom.path.parser.stream.IDOMPathOutputStream;
 
 	import flash.utils.getQualifiedClassName;
@@ -36,6 +38,8 @@ package org.osflash.dom.path.builder
 			
 			_stream.writeUTF('.');
 			_stream.writeUTF(name);
+			_stream.writeUTF('(');
+			_stream.writeUTF(')');
 		}
 		
 		/**
@@ -43,9 +47,15 @@ package org.osflash.dom.path.builder
 		 */
 		public function addArguments(...args) : IDOMPathMethodBuilder
 		{
+			// Move the stream to the correct position for writting to.
+			if(_stream is DOMPathStringOutputStream)
+				_stream.position -= 1;
+			else if(_stream is DOMPathByteArrayOutputStream)
+				_stream.position -= 4;
+			else DOMPathError.throwError(DOMPathError.UNSUPPORTED_OUTPUT_STREAM);
+										
 			const values : Array = (args.length == 1 && args[0] is Array) ? args[0] : args;
 			
-			_stream.writeUTF('(');
 			const total : int = values.length;
 			for(var i : int = 0; i < total; i++)
 			{
@@ -85,7 +95,11 @@ package org.osflash.dom.path.builder
 				// Add the comma
 				if(i < total - 1) _stream.writeUTF(',');
 			}
-			_stream.writeUTF(')');
+			
+			// We don't need to add this again, as the string output stream already has one
+			if(!(_stream is DOMPathStringOutputStream))
+				_stream.writeUTF(')');
+			
 			return this;
 		}
 		

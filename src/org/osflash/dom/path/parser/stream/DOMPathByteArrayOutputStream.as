@@ -83,6 +83,7 @@ package org.osflash.dom.path.parser.stream
 		 */
 		public function set position(value : uint) : void
 		{
+			if(value < 0) throw new ArgumentError('Value can not be less than zero');
 			_buffer.position = value;
 		}
 		

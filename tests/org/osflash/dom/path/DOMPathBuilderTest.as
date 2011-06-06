@@ -9,7 +9,7 @@ package org.osflash.dom.path
 	public class DOMPathBuilderTest
 	{
 		
-		[Test]
+		[Tester]
 		public function test_select_syntax() : void
 		{
 			const query : String = new DOMPathBuilder()
@@ -19,7 +19,7 @@ package org.osflash.dom.path
 			assertEquals('Query should equal', '/node1', query);	
 		}
 		
-		[Test]
+		[Tester]
 		public function test_select_with_index_syntax() : void
 		{
 			const query : String = new DOMPathBuilder()
@@ -32,6 +32,17 @@ package org.osflash.dom.path
 		
 		[Test]
 		public function test_select_with_method_call_syntax() : void
+		{
+			const query : String = new DOMPathBuilder()
+												.selectWithString('node1')
+												.andCallingMethod('name')
+												.toQuery();
+			
+			assertEquals('Query should equal', '/node1.name()', query);	
+		}
+		
+		[Test]
+		public function test_select_with_method_call_syntax_with_args() : void
 		{
 			const query : String = new DOMPathBuilder()
 												.selectWithString('node1')

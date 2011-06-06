@@ -49,6 +49,8 @@ package org.osflash.dom.path
 		public static const UNEXPECTED_CONTEXT_TYPE : int = 0x21;
 
 		public static const UNEXPECTED_ARGUMENT : int = 0x22;
+
+		public static const UNSUPPORTED_OUTPUT_STREAM : int = 0x23;
 		
 		public function DOMPathError(message : String)
 		{
@@ -109,6 +111,8 @@ package org.osflash.dom.path
 					return 'unexpectedContextType';
 				case UNEXPECTED_ARGUMENT:
 					return 'unexpectedArgument';
+				case UNSUPPORTED_OUTPUT_STREAM:
+					return 'unsupportedOutputStream';
 				default:
 					throw new ArgumentError('Given argument is Unknown');  
 			}
@@ -169,6 +173,8 @@ package org.osflash.dom.path
 					throw new DOMPathError('Unexpected context type');
 				case UNEXPECTED_ARGUMENT:
 					throw new DOMPathError('Unexpected argument');
+				case UNSUPPORTED_OUTPUT_STREAM:
+					throw new DOMPathError('Unsupported output stream');
 				default:
 					throw new ArgumentError('Given argument is Unknown');
 			}
