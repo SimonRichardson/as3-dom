@@ -57,6 +57,14 @@ package org.osflash.dom.path.builder
 		/**
 		 * @inheritDoc
 		 */
+		public function clear() : void
+		{
+			_stream.clear();
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function toQuery() : String
 		{
 			_stream.position = 0;

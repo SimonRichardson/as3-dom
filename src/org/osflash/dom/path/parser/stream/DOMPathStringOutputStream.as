@@ -87,6 +87,15 @@ package org.osflash.dom.path.parser.stream
 		/**
 		 * @inheritDoc
 		 */
+		public function clear() : void
+		{
+			_buffer = "";
+			_position = 0;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function get position() : uint
 		{
 			return _position;

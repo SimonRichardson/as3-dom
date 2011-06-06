@@ -11,6 +11,8 @@ package org.osflash.dom.path.builder
 		
 		function selectWithString(nodeName : String) : IDOMPathSelectBuilder;
 		
+		function clear() : void;
+		
 		function toString() : String;
 	}
 }

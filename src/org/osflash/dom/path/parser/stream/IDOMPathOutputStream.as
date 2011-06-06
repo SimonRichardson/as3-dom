@@ -16,6 +16,8 @@ package org.osflash.dom.path.parser.stream
 		
 		function writeBoolean(value : Boolean) : void;
 		
+		function clear() : void;
+		
 		function get position() : uint;
 		
 		function set position(value : uint) : void;

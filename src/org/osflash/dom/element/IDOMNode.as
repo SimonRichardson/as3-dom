@@ -1,12 +1,12 @@
 package org.osflash.dom.element
 {
-	import org.osflash.dom.path.IDOMPath;
+	import org.osflash.dom.path.builder.IDOMPathBuilder;
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
 	public interface IDOMNode extends IDOMElement
 	{
-		function get path() : IDOMPath;
+		function get path() : IDOMPathBuilder;
 		
 		function get name() : String;		
 		function set name(value : String) : void;

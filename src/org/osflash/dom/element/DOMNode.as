@@ -1,11 +1,8 @@
 package org.osflash.dom.element
 {
 	import org.osflash.dom.dom_namespace;
-	import org.osflash.dom.element.DOMElement;
-	import org.osflash.dom.element.IDOMNode;
-	import org.osflash.dom.element.IDOMDocument;
-	import org.osflash.dom.element.IDOMElement;
-	import org.osflash.dom.path.IDOMPath;
+	import org.osflash.dom.path.builder.DOMPathBuilder;
+	import org.osflash.dom.path.builder.IDOMPathBuilder;
 
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
@@ -31,6 +28,12 @@ package org.osflash.dom.element
 		 * @private
 		 */
 		private var _index : int;
+				
+		/**
+		 * @private
+		 */
+		private var _path : IDOMPathBuilder;
+		
 		
 		/**
 		 * Private backing variable for parent property.
@@ -54,6 +57,8 @@ package org.osflash.dom.element
 			super();
 			
 			this.name = name;
+			
+			_path = new DOMPathBuilder();			
 		}
 		
 		/**
@@ -63,6 +68,10 @@ package org.osflash.dom.element
 		{
 			node = super.addAt(node, index);
 			node.document = document;
+			
+			if(null != document && document.useCache)
+				document.invalidated = true;
+			
 			return node;
 		}
 		
@@ -73,15 +82,19 @@ package org.osflash.dom.element
 		{
 			node = super.removeAt(node, index);
 			node.document = null;
+			
+			if(null != document && document.useCache)
+				document.invalidated = true;
+				
 			return node;
 		}
 		
 		/**
 		 * @inheritDoc
 		 */
-		public function get path() : IDOMPath
+		public function get path() : IDOMPathBuilder
 		{
-			return null;
+			return _path;
 		}
 		
 		/**
@@ -129,6 +142,9 @@ package org.osflash.dom.element
 			
 			_parent = value;
 			
+			_path.clear();
+			_path.selectWithNode(this, false);
+			
 			// TODO : send signal here.
 		}
 		
@@ -141,6 +157,9 @@ package org.osflash.dom.element
 			if(_document == value) return;
 			
 			_document = value;
+			
+			if(null != _document && _document.useCache)
+				_document.invalidated = true;
 			
 			// TODO : we should send a signal here!
 			

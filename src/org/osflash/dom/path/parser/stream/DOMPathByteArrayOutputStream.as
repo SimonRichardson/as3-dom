@@ -64,10 +64,22 @@ package org.osflash.dom.path.parser.stream
 			_buffer.writeFloat(value);
 		}
 		
+		/**
+		 * @inheritDoc
+		 */
 		public function writeBoolean(value : Boolean) : void
 		{
 			_buffer.writeByte(BOOLEAN);
 			_buffer.writeBoolean(value);
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function clear() : void
+		{
+			_buffer.clear();
+			_buffer.position = 0;
 		}
 		
 		/**
