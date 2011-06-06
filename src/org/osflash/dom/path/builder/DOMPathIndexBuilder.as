@@ -10,17 +10,17 @@ package org.osflash.dom.path.builder
 	{
 		
 		/**
-		 * @inheritDoc
+		 * @private
 		 */
 		private var _index : uint;
 		
 		/**
-		 * @inheritDoc
+		 * @private
 		 */
 		private var _stream : IDOMPathOutputStream;
 		
 		/**
-		 * @inheritDoc
+		 * @private
 		 */
 		private var _streamPosition : uint;
 

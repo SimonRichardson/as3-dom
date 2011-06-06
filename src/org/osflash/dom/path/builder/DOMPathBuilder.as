@@ -9,8 +9,14 @@ package org.osflash.dom.path.builder
 	public class DOMPathBuilder implements IDOMPathBuilder
 	{
 		
+		/**
+		 * @private
+		 */
 		private var _stream : IDOMPathOutputStream;
 		
+		/**
+		 * @private
+		 */
 		private var _context : DOMPathContextType;
 		
 		public function DOMPathBuilder(context : DOMPathContextType = null)

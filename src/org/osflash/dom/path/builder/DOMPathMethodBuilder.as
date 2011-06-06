@@ -11,17 +11,17 @@ package org.osflash.dom.path.builder
 	{
 		
 		/**
-		 * @inheritDoc
+		 * @private
 		 */
 		private var _name : String;
 		
 		/**
-		 * @inheritDoc
+		 * @private
 		 */
 		private var _stream : IDOMPathOutputStream;
 		
 		/**
-		 * @inheritDoc
+		 * @private
 		 */
 		private var _streamPosition : uint;
 

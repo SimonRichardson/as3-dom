@@ -10,6 +10,9 @@ package org.osflash.dom.path.builder
 
 		public static const CONTEXT : DOMPathContextType = new DOMPathContextType(0x01);
 
+		/**
+		 * @private
+		 */
 		private var _type : int;
 
 		public function DOMPathContextType(type : int)
@@ -17,6 +20,12 @@ package org.osflash.dom.path.builder
 			_type = type;
 		}
 		
+		/**
+		 * Get the type as a string
+		 * 
+		 *	@param type int of unique type
+		 *	@return String representation of type 
+		 */
 		public static function getType(type : int) : String
 		{
 			switch(type)
