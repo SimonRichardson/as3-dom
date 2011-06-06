@@ -42,6 +42,18 @@ package org.osflash.dom.path
 		}
 		
 		[Test]
+		public function test_select_with_method_call_syntax_with_inline_args() : void
+		{
+			const query : String = new DOMPathBuilder()
+												.selectWithString('node1')
+												.andCallingMethod('name')
+												.addArguments([1,2,"hello"])
+												.toQuery();
+			
+			assertEquals('Query should equal', '/node1.name(1,2,"hello")', query);	
+		}
+		
+		[Test]
 		public function test_select_with_method_call_syntax_with_args() : void
 		{
 			const query : String = new DOMPathBuilder()
