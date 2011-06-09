@@ -8,15 +8,15 @@ package org.osflash.dom.path.stream
 	public class DOMPathByteArrayOutputStream implements IDOMPathOutputStream
 	{
 		
-		public static const UTF : int = 0;
+		private static const UTF : int = 0;
 		
-		public static const INT : int = 1;
+		private static const INT : int = 1;
 		
-		public static const UINT : int = 2;
+		private static const UINT : int = 2;
 		
-		public static const FLOAT : int = 3;
+		private static const FLOAT : int = 3;
 		
-		public static const BOOLEAN : int = 4;
+		private static const BOOLEAN : int = 4;
 		
 		/**
 		 * @private

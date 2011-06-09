@@ -42,9 +42,9 @@ package org.osflash.dom.element.displayadapaters
 		/**
 		 * @inheritDoc
 		 */	
-		override public function removeAt(node : IDOMNode, index : int) : IDOMNode
+		override public function removeAt(index : int) : IDOMNode
 		{
-			const domNode : IDOMNode = super.removeAt(node, index);
+			const domNode : IDOMNode = super.removeAt(index);
 			
 			if(domNode is IDOMDisplayObjectNode)
 			{

@@ -78,9 +78,9 @@ package org.osflash.dom.element
 		/**
 		 * @inheritDoc
 		 */
-		override public function removeAt(node : IDOMNode, index : int) : IDOMNode
+		override public function removeAt(index : int) : IDOMNode
 		{
-			node = super.removeAt(node, index);
+			const node : IDOMNode = super.removeAt(index);
 			node.document = null;
 			
 			if(null != document && document.useCache)

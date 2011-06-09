@@ -115,13 +115,15 @@ package org.osflash.dom.element
 		 */
 		public function remove(node : IDOMNode) : IDOMNode
 		{
-			return removeAt(node, numChildren - 1);
+			const index : int = getIndex(node);
+			if(index < 0) return null;	
+			else return removeAt(index);
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function removeAt(node : IDOMNode, index : int) : IDOMNode
+		public function removeAt(index : int) : IDOMNode
 		{
 			if(null == _children) return null;
 			
@@ -129,18 +131,17 @@ package org.osflash.dom.element
 									'range (index=' + index + ', numChildren=' + numChildren + ')');
 			
 			const nodes : Vector.<IDOMNode> = _children.splice(index, 1);
-			if(nodes.length == 0) DOMElementError.throwError(DOMElementError.REMOVE_NODE_LENGTH_ZERO);
+			if(nodes.length == 0) 
+				DOMElementError.throwError(DOMElementError.REMOVE_NODE_LENGTH_ZERO);
 			
 			const domNode : IDOMNode = nodes[0];
-			if(domNode != node) DOMElementError.throwError(DOMElementError.REMOVE_NODE_MISMATCH);
+			if(null == domNode) DOMElementError.throwError(DOMElementError.REMOVE_NODE_MISMATCH);
 			
 			domNode.index = -1;
 			domNode.parent = null;
 			
 			if(numChildren == 0)
-			{
 				_children = null;
-			}
 			
 			return domNode;
 		}

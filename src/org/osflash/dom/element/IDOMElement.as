@@ -16,7 +16,7 @@ package org.osflash.dom.element
 		
 		function remove(node : IDOMNode) : IDOMNode;
 		
-		function removeAt(node : IDOMNode, index : int) : IDOMNode;
+		function removeAt(index : int) : IDOMNode;
 		
 		function contains(node : IDOMNode) : Boolean;
 		
