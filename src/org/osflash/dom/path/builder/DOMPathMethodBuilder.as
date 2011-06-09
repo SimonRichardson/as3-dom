@@ -1,10 +1,11 @@
 package org.osflash.dom.path.builder
 {
-	import flash.utils.getQualifiedClassName;
 	import org.osflash.dom.path.DOMPathError;
-	import org.osflash.dom.path.stream.DOMPathByteArrayOutputStream;
-	import org.osflash.dom.path.stream.DOMPathStringOutputStream;
-	import org.osflash.dom.path.stream.IDOMPathOutputStream;
+	import org.osflash.stream.IStreamOutput;
+	import org.osflash.stream.types.bytearray.StreamByteArrayOutput;
+	import org.osflash.stream.types.string.StreamStringOutput;
+
+	import flash.utils.getQualifiedClassName;
 
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
@@ -20,14 +21,14 @@ package org.osflash.dom.path.builder
 		/**
 		 * @private
 		 */
-		private var _stream : IDOMPathOutputStream;
+		private var _stream : IStreamOutput;
 		
 		/**
 		 * @private
 		 */
 		private var _streamPosition : uint;
 
-		public function DOMPathMethodBuilder(	stream : IDOMPathOutputStream, 
+		public function DOMPathMethodBuilder(	stream : IStreamOutput, 
 												name : String
 												)
 		{
@@ -48,9 +49,9 @@ package org.osflash.dom.path.builder
 		public function addArguments(...args) : IDOMPathMethodBuilder
 		{
 			// Move the stream to the correct position for writting to.
-			if(_stream is DOMPathStringOutputStream)
+			if(_stream is StreamStringOutput)
 				_stream.position -= 1;
-			else if(_stream is DOMPathByteArrayOutputStream)
+			else if(_stream is StreamByteArrayOutput)
 				_stream.position -= 4;
 			else DOMPathError.throwError(DOMPathError.UNSUPPORTED_OUTPUT_STREAM);
 										
@@ -97,7 +98,7 @@ package org.osflash.dom.path.builder
 			}
 			
 			// We don't need to add this again, as the string output stream already has one
-			if(!(_stream is DOMPathStringOutputStream))
+			if(!(_stream is StreamStringOutput))
 				_stream.writeUTF(')');
 			
 			return this;

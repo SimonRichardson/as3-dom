@@ -5,7 +5,7 @@ package org.osflash.dom.path.parser.expressions.accessors
 	import org.osflash.dom.path.parser.expressions.IDOMPathDescendantsExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathLeftRightNodeExpression;
-	import org.osflash.dom.path.stream.IDOMPathOutputStream;
+	import org.osflash.stream.IStreamOutput;
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
@@ -38,7 +38,7 @@ package org.osflash.dom.path.parser.expressions.accessors
 		/**
 		 * @inheritDoc
 		 */
-		override public function describe(stream : IDOMPathOutputStream) : void
+		override public function describe(stream : IStreamOutput) : void
 		{
 			_left.describe(stream);
 			

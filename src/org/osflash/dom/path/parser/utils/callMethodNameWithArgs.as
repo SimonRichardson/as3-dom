@@ -1,12 +1,12 @@
 package org.osflash.dom.path.parser.utils
 {
-	import org.osflash.dom.path.parser.expressions.types.DOMPathNullExpression;
-	import org.osflash.dom.path.parser.expressions.types.DOMPathBooleanExpression;
 	import org.osflash.dom.element.IDOMNode;
 	import org.osflash.dom.path.DOMPathError;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
+	import org.osflash.dom.path.parser.expressions.types.DOMPathBooleanExpression;
 	import org.osflash.dom.path.parser.expressions.types.DOMPathIntegerExpression;
+	import org.osflash.dom.path.parser.expressions.types.DOMPathNullExpression;
 	import org.osflash.dom.path.parser.expressions.types.DOMPathNumberExpression;
 	import org.osflash.dom.path.parser.expressions.types.DOMPathStringExpression;
 	import org.osflash.dom.path.parser.expressions.types.DOMPathUnsignedIntegerExpression;

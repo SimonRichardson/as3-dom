@@ -1,8 +1,8 @@
 package org.osflash.dom.path.builder
 {
 	import org.osflash.dom.element.IDOMNode;
-	import org.osflash.dom.path.stream.DOMPathByteArrayOutputStream;
-	import org.osflash.dom.path.stream.IDOMPathOutputStream;
+	import org.osflash.stream.IStreamOutput;
+	import org.osflash.stream.types.bytearray.StreamByteArrayOutput;
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
@@ -12,7 +12,7 @@ package org.osflash.dom.path.builder
 		/**
 		 * @private
 		 */
-		private var _stream : IDOMPathOutputStream;
+		private var _stream : IStreamOutput;
 		
 		/**
 		 * @private
@@ -21,7 +21,7 @@ package org.osflash.dom.path.builder
 		
 		public function DOMPathBuilder(context : DOMPathContextType = null)
 		{
-			_stream = new DOMPathByteArrayOutputStream();
+			_stream = new StreamByteArrayOutput();
 			
 			_context = context || DOMPathContextType.CONTEXT;
 		}

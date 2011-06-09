@@ -1,7 +1,7 @@
 package org.osflash.dom.path.builder
 {
 	import org.osflash.dom.path.DOMPathError;
-	import org.osflash.dom.path.stream.IDOMPathOutputStream;
+	import org.osflash.stream.IStreamOutput;
 
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
@@ -22,14 +22,14 @@ package org.osflash.dom.path.builder
 		/**
 		 * @private
 		 */
-		private var _stream : IDOMPathOutputStream;
+		private var _stream : IStreamOutput;
 		
 		/**
 		 * @private
 		 */
 		private var _streamPosition : int;
 
-		public function DOMPathSelectBuilder(	stream : IDOMPathOutputStream, 
+		public function DOMPathSelectBuilder(	stream : IStreamOutput, 
 												nodeName : String,
 												context : DOMPathContextType = null
 												)

@@ -1,6 +1,5 @@
 package org.osflash.dom.path
 {
-	import flash.utils.getDefinitionByName;
 	import org.osflash.dom.element.IDOMElement;
 	import org.osflash.dom.element.IDOMNode;
 	import org.osflash.dom.path.parser.expressions.DOMPathExpressionType;
@@ -24,8 +23,10 @@ package org.osflash.dom.path
 	import org.osflash.dom.path.parser.utils.getContextChildren;
 	import org.osflash.dom.path.parser.utils.getDocumentChildren;
 	import org.osflash.dom.path.parser.utils.normaliseNodes;
-	import org.osflash.dom.path.stream.DOMPathByteArrayOutputStream;
-	import org.osflash.dom.path.stream.IDOMPathOutputStream;
+	import org.osflash.stream.IStreamOutput;
+	import org.osflash.stream.types.bytearray.StreamByteArrayOutput;
+
+	import flash.utils.getDefinitionByName;
 
 
 
@@ -93,7 +94,7 @@ package org.osflash.dom.path
 			}
 			
 			// TODO : Remove this
-			const stream : IDOMPathOutputStream = new DOMPathByteArrayOutputStream();
+			const stream : IStreamOutput = new StreamByteArrayOutput();
 			_expression.describe(stream);
 			stream.position = 0;
 			log("Expression >", stream.toString());

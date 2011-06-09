@@ -1,7 +1,7 @@
 package org.osflash.dom.path.parser.utils
 {
-	import org.osflash.dom.element.utils.getDOMElementChildren;
 	import org.osflash.dom.element.IDOMNode;
+	import org.osflash.dom.element.utils.getDOMElementChildren;
 
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info

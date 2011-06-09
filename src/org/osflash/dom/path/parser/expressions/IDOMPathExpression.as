@@ -1,13 +1,13 @@
 package org.osflash.dom.path.parser.expressions
 {
-	import org.osflash.dom.path.stream.IDOMPathOutputStream;
+	import org.osflash.stream.IStreamOutput;
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
 	public interface IDOMPathExpression
 	{
 		
-		function describe(stream : IDOMPathOutputStream) : void;
+		function describe(stream : IStreamOutput) : void;
 		
 		function get type() : DOMPathExpressionType;
 	}

@@ -1,7 +1,7 @@
 package org.osflash.dom.path.parser.expressions
 {
 	import org.osflash.dom.path.DOMPathError;
-	import org.osflash.dom.path.stream.IDOMPathOutputStream;
+	import org.osflash.stream.IStreamOutput;
 
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
@@ -16,7 +16,7 @@ package org.osflash.dom.path.parser.expressions
 		/**
 		 * @inheritDoc
 		 */
-		public function describe(stream : IDOMPathOutputStream) : void
+		public function describe(stream : IStreamOutput) : void
 		{
 			DOMPathError.throwError(DOMPathError.ABSTRACT_METHOD);
 		}

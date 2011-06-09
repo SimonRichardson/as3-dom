@@ -1,6 +1,6 @@
 package org.osflash.dom.path.builder
 {
-	import org.osflash.dom.path.stream.IDOMPathOutputStream;
+	import org.osflash.stream.IStreamOutput;
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
@@ -15,14 +15,14 @@ package org.osflash.dom.path.builder
 		/**
 		 * @private
 		 */
-		private var _stream : IDOMPathOutputStream;
+		private var _stream : IStreamOutput;
 		
 		/**
 		 * @private
 		 */
 		private var _streamPosition : int;
 		
-		public function DOMPathWhereOperatorBuilder(	stream : IDOMPathOutputStream, 
+		public function DOMPathWhereOperatorBuilder(	stream : IStreamOutput, 
 														where : IDOMPathWhereBuilder,
 														operator : String
 														)

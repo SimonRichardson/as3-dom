@@ -1,7 +1,5 @@
 package org.osflash.dom.path.parser.parselets.operators
 {
-	import org.osflash.dom.path.parser.expressions.opterators.DOMPathLessThanOrEqualToExpression;
-	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
 	import org.osflash.dom.path.DOMPathError;
 	import org.osflash.dom.path.parser.DOMPathPrecedence;
 	import org.osflash.dom.path.parser.IDOMPathParser;
@@ -9,9 +7,11 @@ package org.osflash.dom.path.parser.parselets.operators
 	import org.osflash.dom.path.parser.expressions.IDOMPathExpression;
 	import org.osflash.dom.path.parser.expressions.IDOMPathLeftRightNodeExpression;
 	import org.osflash.dom.path.parser.expressions.opterators.DOMPathLessThanExpression;
+	import org.osflash.dom.path.parser.expressions.opterators.DOMPathLessThanOrEqualToExpression;
 	import org.osflash.dom.path.parser.expressions.types.DOMPathNameExpression;
 	import org.osflash.dom.path.parser.parselets.IDOMPathInfixParselet;
 	import org.osflash.dom.path.parser.tokens.DOMPathToken;
+	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */

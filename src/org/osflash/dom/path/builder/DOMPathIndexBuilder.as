@@ -2,7 +2,7 @@ package org.osflash.dom.path.builder
 {
 	import org.osflash.dom.element.IDOMNode;
 	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
-	import org.osflash.dom.path.stream.IDOMPathOutputStream;
+	import org.osflash.stream.IStreamOutput;
 
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
@@ -18,14 +18,14 @@ package org.osflash.dom.path.builder
 		/**
 		 * @private
 		 */
-		private var _stream : IDOMPathOutputStream;
+		private var _stream : IStreamOutput;
 		
 		/**
 		 * @private
 		 */
 		private var _streamPosition : uint;
 
-		public function DOMPathIndexBuilder(stream : IDOMPathOutputStream, index : uint)
+		public function DOMPathIndexBuilder(stream : IStreamOutput, index : uint)
 		{
 			_index = index;
 

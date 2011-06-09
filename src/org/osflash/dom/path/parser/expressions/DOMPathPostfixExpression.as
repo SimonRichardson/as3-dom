@@ -1,7 +1,7 @@
 package org.osflash.dom.path.parser.expressions
 {
 	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
-	import org.osflash.dom.path.stream.IDOMPathOutputStream;
+	import org.osflash.stream.IStreamOutput;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
@@ -29,7 +29,7 @@ package org.osflash.dom.path.parser.expressions
 		/**
 		 * @inheritDoc
 		 */
-		override public function describe(stream : IDOMPathOutputStream) : void
+		override public function describe(stream : IStreamOutput) : void
 		{
 			stream.writeUTF("(");
 			

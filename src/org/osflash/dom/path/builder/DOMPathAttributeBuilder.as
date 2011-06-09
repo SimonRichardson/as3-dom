@@ -1,7 +1,7 @@
 package org.osflash.dom.path.builder
 {
 	import org.osflash.dom.path.parser.tokens.DOMPathTokenType;
-	import org.osflash.dom.path.stream.IDOMPathOutputStream;
+	import org.osflash.stream.IStreamOutput;
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
@@ -16,14 +16,14 @@ package org.osflash.dom.path.builder
 		/**
 		 * @inheritDoc
 		 */
-		private var _stream : IDOMPathOutputStream;
+		private var _stream : IStreamOutput;
 		
 		/**
 		 * @inheritDoc
 		 */
 		private var _streamPosition : uint;
 
-		public function DOMPathAttributeBuilder(	stream : IDOMPathOutputStream, 
+		public function DOMPathAttributeBuilder(	stream : IStreamOutput, 
 													attributeName : String
 													)
 		{
