@@ -171,7 +171,8 @@ package org.osflash.dom.element
 			
 			if(numChildren > 0)
 			{
-				const nodes : Vector.<IDOMNode> = dom_namespace::children;
+				use namespace dom_namespace;
+				const nodes : Vector.<IDOMNode> = children;
 				var index : int = nodes.length;
 				while(--index > -1)
 				{

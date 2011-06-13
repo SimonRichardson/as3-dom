@@ -27,7 +27,8 @@ package org.osflash.dom.element.utils
 			}
 			else
 			{
-				const nodes : Vector.<IDOMNode> = domElement.dom_namespace::children;
+				use namespace dom_namespace;
+				const nodes : Vector.<IDOMNode> = domElement.children;
 				result = result.concat(nodes);
 			}
 		}

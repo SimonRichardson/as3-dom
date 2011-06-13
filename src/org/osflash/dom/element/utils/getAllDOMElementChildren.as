@@ -37,8 +37,10 @@ package org.osflash.dom.element.utils
 			}
 			else
 			{
+				use namespace dom_namespace;
+				
 				// Try and go through the fast via namespace
-				const nodes : Vector.<IDOMNode> = domElement.dom_namespace::children;
+				const nodes : Vector.<IDOMNode> = domElement.children;
 				total = nodes.length;
 				for (i = 0; i < total; i++)
 				{
