@@ -57,8 +57,6 @@ package org.osflash.dom.element
 			super();
 			
 			this.name = name;
-			
-			_path = new DOMPathBuilder();			
 		}
 		
 		/**
@@ -94,6 +92,11 @@ package org.osflash.dom.element
 		 */
 		public function get path() : IDOMPathBuilder
 		{
+			if(null == _path) 
+			{
+				_path = new DOMPathBuilder();
+				_path.selectWithNode(this, false);
+			}
 			return _path;
 		}
 		
@@ -142,8 +145,11 @@ package org.osflash.dom.element
 			
 			_parent = value;
 			
-			_path.clear();
-			_path.selectWithNode(this, false);
+			if(null != _path)
+			{
+				_path.clear();
+				_path.selectWithNode(this, false);
+			}
 			
 			// TODO : send signal here.
 		}
