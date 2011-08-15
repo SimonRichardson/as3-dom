@@ -1,8 +1,8 @@
 package org.osflash.dom.element.debug.monitor.adapters
 {
-	import org.osflash.dom.dom_namespace;
-	import org.osflash.dom.element.DOMElement;
 	import org.osflash.debug.monitor.adapters.BaseMonitorAdapter;
+	import org.osflash.dom.dom_namespace;
+	import org.osflash.dom.element.IDOMElement;
 
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
@@ -15,9 +15,9 @@ package org.osflash.dom.element.debug.monitor.adapters
 		/**
 		 * @private
 		 */
-		private var _element : DOMElement;
+		private var _element : IDOMElement;
 
-		public function DOMElementMonitorAdapter(element : DOMElement)
+		public function DOMElementMonitorAdapter(element : IDOMElement)
 		{
 			super(element);
 			
@@ -25,7 +25,6 @@ package org.osflash.dom.element.debug.monitor.adapters
 			
 			_element = element;
 		}
-		
 		
 		/**
 		 * @inheritDoc
@@ -41,6 +40,7 @@ package org.osflash.dom.element.debug.monitor.adapters
 		 * @inheritDoc
 		 */
 		override public function get length() : int { return _element.numChildren; }
-
+		
+		protected function get element() : IDOMElement { return _element; }
 	}
 }
