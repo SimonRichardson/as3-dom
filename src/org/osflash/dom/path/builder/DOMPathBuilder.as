@@ -43,6 +43,10 @@ package org.osflash.dom.path.builder
 				}
 			}
 			else path.push(node.name);
+			
+			// We terversing from bottom up, so we need to flip it!
+			path.reverse();
+			
 			return new DOMPathSelectBuilder(_stream, path.join("/"), _context);
 		}
 		
