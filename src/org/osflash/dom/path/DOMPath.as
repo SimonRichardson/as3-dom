@@ -28,9 +28,6 @@ package org.osflash.dom.path
 
 	import flash.utils.getDefinitionByName;
 
-
-
-
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
@@ -97,7 +94,6 @@ package org.osflash.dom.path
 			const stream : IStreamOutput = new StreamByteArrayOutput();
 			_expression.describe(stream);
 			stream.position = 0;
-			log("Expression >", stream.toString());
 			
 			// Parsing the expressions.
 			var results : Array;
@@ -224,9 +220,12 @@ package org.osflash.dom.path
 					
 					case DOMPathExpressionType.INSTANCE:
 						leftRightExpr = IDOMPathLeftRightNodeExpression(expression);
-						nameExpr = DOMPathNameExpression(leftRightExpr.left);
-						
-						domNodes = filterByName(domNodes, nameExpr);
+						if(leftRightExpr.left is DOMPathNameExpression)
+						{
+							nameExpr = DOMPathNameExpression(leftRightExpr.left);
+							
+							domNodes = filterByName(domNodes, nameExpr);
+						}
 						
 						expression = leftRightExpr.right;
 						break;
