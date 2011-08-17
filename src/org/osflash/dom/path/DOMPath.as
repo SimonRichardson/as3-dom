@@ -222,7 +222,7 @@ package org.osflash.dom.path
 							
 							domNodes = filterByName(domNodes, nameExpr);
 						}
-						
+												
 						expression = leftRightExpr.right;
 						break;
 										
@@ -386,7 +386,8 @@ package org.osflash.dom.path
 				callMethodExpr = null;
 			}
 			
-			return resultNodes;
+			// Always make sure we return a unique set of nodes.
+			return normaliseNodes(new <Vector.<IDOMNode>>[resultNodes]);
 		}
 	}
 }

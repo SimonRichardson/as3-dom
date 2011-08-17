@@ -17,7 +17,7 @@ package org.osflash.dom.path.parser.utils
 			{
 				const domNode : IDOMNode = domNodes[j];
 				
-				if(result.indexOf(domNode) == -1)
+				if(result.indexOf(domNode) < 0)
 					result.push(domNode);
 			}
 		}
