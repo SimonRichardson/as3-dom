@@ -23,18 +23,12 @@ package org.osflash.dom.path
 	import org.osflash.dom.path.parser.utils.getContextChildren;
 	import org.osflash.dom.path.parser.utils.getDocumentChildren;
 	import org.osflash.dom.path.parser.utils.normaliseNodes;
-	import org.osflash.stream.IStreamOutput;
-	import org.osflash.stream.types.bytearray.StreamByteArrayOutput;
-
-	import flash.utils.getDefinitionByName;
 
 	/**
 	 * @author Simon Richardson - me@simonrichardson.info
 	 */
 	public class DOMPath implements IDOMPath
 	{
-		// DEBUG for asunit which hides trace.
-		public static const log : * = getDefinitionByName('trace');
 
 		/**
 		 * @private
@@ -91,9 +85,9 @@ package org.osflash.dom.path
 			}
 			
 			// TODO : Remove this
-			const stream : IStreamOutput = new StreamByteArrayOutput();
-			_expression.describe(stream);
-			stream.position = 0;
+			// const stream : IStreamOutput = new StreamByteArrayOutput();
+			// _expression.describe(stream);
+			// stream.position = 0;
 			
 			// Parsing the expressions.
 			var results : Array;
@@ -112,10 +106,12 @@ package org.osflash.dom.path
 			{
 				_context.pushContext(expression, domNodes);
 				
-				log(">", 	_context.length, 
+				/*
+				info(">", 	_context.length, 
 							expression, 
 							DOMPathExpressionType.getType(expression.type.type)
 							);
+				 */
 				
 				switch(expression.type)
 				{
@@ -295,11 +291,13 @@ package org.osflash.dom.path
 							expression = expressions[i];
 							
 							_context.pushContext(expression, domNodes);
-				
-							log(">", 	_context.length, 
+							
+							/*			
+							info(">", 	_context.length, 
 										expression, 
 										DOMPathExpressionType.getType(expression.type.type)
 										);
+							 */
 							
 							var logicalExpr : IDOMPathLeftRightNodeExpression;
 							switch(expression.type)

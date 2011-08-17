@@ -88,29 +88,29 @@ package org.osflash.dom.path.parser.tokens
 		 */
 		public static function getTypes() : Vector.<DOMPathTokenType>
 		{
-			return Vector.<DOMPathTokenType>([	LEFT_PAREN,
-												RIGHT_PAREN,
-												COMMA,
-												EQUALITY,
-												PLUS,
-												MINUS,
-												ASTERISK,
-												BACK_SLASH,
-												FORWARD_SLASH,
-												CARET,
-												TILDE,
-												BANG,
-												QUESTION,
-												COLON,
-												LEFT_SQUARE,
-												RIGHT_SQUARE,
-												ATTRIBUTE,
-												DOT,
-												AMPERSAND,
-												PIPE,
-												FORWARD_ARROW,
-												BACK_ARROW
-											 ]);
+			return new <DOMPathTokenType>[	LEFT_PAREN,
+											RIGHT_PAREN,
+											COMMA,
+											EQUALITY,
+											PLUS,
+											MINUS,
+											ASTERISK,
+											BACK_SLASH,
+											FORWARD_SLASH,
+											CARET,
+											TILDE,
+											BANG,
+											QUESTION,
+											COLON,
+											LEFT_SQUARE,
+											RIGHT_SQUARE,
+											ATTRIBUTE,
+											DOT,
+											AMPERSAND,
+											PIPE,
+											FORWARD_ARROW,
+											BACK_ARROW
+											];
 		}
 		
 		/**
