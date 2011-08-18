@@ -20,6 +20,8 @@ package org.osflash.dom.element
 		
 		function contains(node : IDOMNode) : Boolean;
 		
+		function containsType(type : IDOMElementType) : Boolean;
+		
 		function find(id : String) : IDOMNode;
 		
 		function get numChildren() : int;

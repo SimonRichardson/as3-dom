@@ -153,6 +153,22 @@ package org.osflash.dom.element
 		{
 			return null != _children ? _children.indexOf(node) >= 0 : false;
 		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function containsType(type : IDOMElementType) : Boolean
+		{
+			if(null == _children) return false;
+			
+			var index : int = _children.length;
+			while(--index > -1)
+			{
+				const node : IDOMNode = _children[index];
+				if(node.type == type) return true;
+			}
+			return false;
+		}
 
 		/**
 		 * @inheritDoc
