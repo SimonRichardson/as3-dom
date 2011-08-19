@@ -56,6 +56,8 @@ package org.osflash.dom.element
 		{
 			super();
 			
+			_index = -1;
+			
 			this.name = name;
 		}
 		
@@ -124,17 +126,17 @@ package org.osflash.dom.element
 		/**
 		 * @inheritDoc
 		 */		
-		public function get index() : int {	return _index; }
-		public function set index(value : int) : void
+		public final function get index() : int {	return _index; }
+		public final function set index(value : int) : void
 		{
-			if(index == value) return;			
-			if(index < 0) throw new RangeError('Given index is out of range (index=' + index + ')');
+			if(index == value) return;		
+			if(value < -1) throw new RangeError('Given index is out of range (index=' + value + ')');
 			
 			_index = value;
 			
 			// TODO : send signal here.
 		}
-		
+				
 		/**
 		 * @inheritDoc
 		 */		

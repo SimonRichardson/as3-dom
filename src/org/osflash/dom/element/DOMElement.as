@@ -7,6 +7,8 @@ package org.osflash.dom.element
 	 */
 	public class DOMElement implements IDOMElement
 	{
+
+		use namespace dom_namespace;
 		
 		/**
 		 * @private
@@ -51,29 +53,28 @@ package org.osflash.dom.element
 			if(node.parent) node.parent.remove(node);
 			
 			var i : int;
+			var total : int = _children.length;
 			if(index == 0)
 			{
 				// Adding to the front
 				_children.unshift(node);
 				
-				i = _children.length;
-				while(--i > -1)
+				total = _children.length;
+				for(i = 1; i < total; i++)
 				{
 					_children[i].index = i;
 				}
 			}
-			else if(index == numChildren)
+			else if(index == total)
 			{
 				// Adding to the rear
-				node.index = numChildren;
-				
 				_children.push(node);
 			} 
 			else
 			{
 				_children.splice(index, 1, node);
 				
-				i = _children.length;
+				i = total;
 				while(--i > -1)
 				{
 					const child : IDOMNode = _children[i];
@@ -84,6 +85,7 @@ package org.osflash.dom.element
 				}
 			}
 			
+			node.index = index;
 			node.parent = this;
 			
 			return node;
@@ -145,6 +147,18 @@ package org.osflash.dom.element
 			
 			return domNode;
 		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function removeAll() : void
+		{
+			var index : int = _children.length;
+			while(--index > -1)
+			{
+				removeAt(index);
+			}
+		}
 
 		/**
 		 * @inheritDoc
@@ -189,7 +203,7 @@ package org.osflash.dom.element
 		/**
 		 * @inheritDoc
 		 */
-		public function get numChildren() : int
+		final public function get numChildren() : int
 		{
 			return null != _children ? _children.length : 0;
 		}
