@@ -8,8 +8,14 @@ package org.osflash.dom.path.parser.expressions
 	public final class DOMPathPrefixExpression extends DOMPathExpression
 	{
 
+		/**
+		 * @private
+		 */
 		private var _operator : DOMPathTokenType;
 
+		/**
+		 * @private
+		 */
 		private var _right : IDOMPathExpression;
 
 		public function DOMPathPrefixExpression(	operator : DOMPathTokenType, 
